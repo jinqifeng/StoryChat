@@ -5,9 +5,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView;
@@ -44,12 +47,15 @@ public class storyContentsAdapter extends RecyclerView.Adapter<storyContentsAdap
         public TextView person;
         public EmojiconEditText contents;
         public ImageView img;
+        public MyCustomEditTextListener myCustomEditTextListener;
 
-        public ViewHolder(View itemview) {
+        public ViewHolder(View itemview, MyCustomEditTextListener myCustomEditTextListener) {
             super(itemview);
             person = (TextView)itemview.findViewById(R.id.UserName);
             contents = (EmojiconEditText)itemview.findViewById(R.id.EditText);
             img = (ImageView)itemview.findViewById(R.id.ivImgt);
+            this.myCustomEditTextListener = myCustomEditTextListener;
+            this.contents.addTextChangedListener(myCustomEditTextListener);
         }
     }
 
@@ -62,7 +68,7 @@ public class storyContentsAdapter extends RecyclerView.Adapter<storyContentsAdap
         View v= LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.story_content_item, parent, false);
 
-        storyContentsAdapter.ViewHolder vh = new storyContentsAdapter.ViewHolder(v);
+        storyContentsAdapter.ViewHolder vh = new storyContentsAdapter.ViewHolder(v,new MyCustomEditTextListener());
         return vh;
     }
 
@@ -84,9 +90,9 @@ public class storyContentsAdapter extends RecyclerView.Adapter<storyContentsAdap
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.img);
         }
-
+        holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
         holder.person.setText(nStory.get(position).getPerson());
-        holder.contents.setText(nStory.get(position).getConv());
+        holder.contents.setText(nStory.get(holder.getAdapterPosition()).getConv());
 
     }
 
@@ -94,5 +100,32 @@ public class storyContentsAdapter extends RecyclerView.Adapter<storyContentsAdap
     @Override
     public int getItemCount() {
         return nStory.size();
+    }
+
+    // we make TextWatcher to be aware of the position it currently works with
+    // this way, once a new item is attached in onBindViewHolder, it will
+    // update current position MyCustomEditTextListener, reference to which is kept by ViewHolder
+    private class MyCustomEditTextListener implements TextWatcher {
+        private int position;
+
+        public void updatePosition(int position) {
+            switch (this.position = position) {
+            }
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            // no op
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            nStory.get(position).setConv(charSequence.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            // no op
+        }
     }
 }

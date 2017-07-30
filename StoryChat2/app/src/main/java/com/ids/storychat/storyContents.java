@@ -60,4 +60,8 @@ public class storyContents implements Parcelable {
         return conversation;
     }
     public String getUrl(){ return url;}
+
+    public void setConv(String s){
+        conversation = s;
+    }
 }

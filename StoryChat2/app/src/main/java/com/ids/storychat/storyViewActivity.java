@@ -3,6 +3,7 @@ package com.ids.storychat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -40,6 +41,9 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                 new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         // Attach the layout manager to the recycler view
         rvStorys.setLayoutManager(new LinearLayoutManager(this));
+
+        rvStorys.setItemAnimator(new DefaultItemAnimator());
+        rvStorys.setHasFixedSize(true);
 
         this.getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
