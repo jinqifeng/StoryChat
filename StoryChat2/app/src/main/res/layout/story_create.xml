@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:emojicon="http://schemas.android.com/apk/lib/com.ids.storychat.storyChatActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_view"
+    android:background="#412209"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/msgListView"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:text="hello"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:id="@+id/edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="36dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:id="@+id/messageUserName"
+            android:textSize="25dp"
+            android:layout_gravity="left"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp" />
+        <LinearLayout
+            android:id="@+id/messageEditText_bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/bubble1">
+
+            <com.ids.storychat.emoji.EmojiconEditText
+                android:id="@+id/messageEditText"
+                android:layout_width="wrap_content"
+                android:layout_weight="0"
+                android:layout_height="wrap_content"
+                android:maxHeight="100dp"
+                android:minHeight="50dp"
+                android:minWidth="100dp"
+                android:background="#faf7f7"
+                android:enabled="false"
+                android:hint="please create new user!"
+                emojicon:emojiconSize="28sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivImg"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/messageEditText"
+                android:layout_marginTop="5dp"
+                android:background="#eeeeee"/>
+            <TextView
+                android:id="@+id/imagesource"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#382401"
+        android:orientation="horizontal"
+        android:layout_marginTop="230dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+         <Button
+            android:id="@+id/user2Button"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/user2"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+
+            android:text="d" />
+
+        <Button
+            android:id="@+id/user1Button"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/user1"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+
+            android:text="d" />
+
+        <ImageButton
+            android:id="@+id/addUserButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/user_add2"
+            android:layout_gravity="center"
+            android:text="d" />
+        <!--   android:layout_alignTop="@+id/button1"
+           android:layout_toLeftOf="@+id/sendMessageButton"-->
+        <Button
+            android:id="@+id/addEmoji"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/smiley"
+            android:layout_gravity="center"
+            android:enabled="false"
+            android:text="" />
+
+
+        <Button
+            android:id="@+id/addPhoto"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/images1"
+            android:layout_gravity="center"
+            android:alpha="0.2"
+            android:enabled="false"
+            />
+
+        <Button
+            android:id="@+id/previewButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/preview1"
+            android:alpha="0.2"
+            android:enabled="false"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/form2"
+        android:layout_width="200dp"
+        android:layout_height="32dp"
+        android:background="@drawable/edit_padd_round"
+        android:orientation="horizontal"
+        android:layout_marginTop="166dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="96dp"
+        android:layout_alignParentLeft="true"
+        android:visibility="invisible"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:id="@+id/userEditText"
+            android:layout_width="145dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center"
+            android:background="#faf7f7"
+            android:layout_marginLeft="3dp"
+            android:maxHeight="80dp"/>
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:background="@drawable/edit_padd_round"
+            android:layout_gravity="center">
+            <Button
+                android:id="@+id/createUser"
+                android:layout_width="44dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"
+                android:layout_gravity="center"
+                android:text="add" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/emoji"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/submit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:src="@drawable/ic_action_send_now"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
