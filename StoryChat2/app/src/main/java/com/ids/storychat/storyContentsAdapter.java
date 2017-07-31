@@ -2,6 +2,7 @@ package com.ids.storychat;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
@@ -92,6 +93,9 @@ public class storyContentsAdapter extends RecyclerView.Adapter<storyContentsAdap
         }
         holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
         holder.person.setText(nStory.get(position).getPerson());
+        String d = nStory.get(position).getColor();
+        int ff = Integer.parseInt(d);
+        holder.person.setTextColor(ff);
         holder.contents.setText(nStory.get(holder.getAdapterPosition()).getConv());
 
     }

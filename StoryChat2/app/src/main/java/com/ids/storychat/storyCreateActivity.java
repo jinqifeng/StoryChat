@@ -326,7 +326,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             im.setImageDrawable(null);
         } else if((!str.equals(" ")) && (!str1.equals(" "))){
 
-            storyContents itm = new storyContents(txtView.getText().toString(),txt.getText().toString(),t.getText().toString());
+            storyContents itm = new storyContents(txtView.getText().toString(),Integer.toString(txtView.getCurrentTextColor()), txt.getText().toString(),t.getText().toString());
             storyCnt.add(itm);
             txt.setText(" ");
             txt.setHint(" ");
