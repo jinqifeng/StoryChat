@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:minHeight="30dp"
             android:background="@drawable/bubble1">
 
             <com.ids.storychat.emoji.EmojiconEditText
@@ -33,8 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="0"
                 android:layout_height="wrap_content"
-                android:minHeight="50dp"
-                android:background="#faf7f7"
+                android:minHeight="30dp"
+                android:background="#ffffff"
                 android:enabled="true"
                 emojicon:emojiconSize="28sp" />
 

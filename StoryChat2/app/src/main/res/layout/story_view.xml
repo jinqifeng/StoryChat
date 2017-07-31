@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/storycnt"
-        android:layout_width="373dp"
-        android:layout_height="412dp"
-        android:scrollbars="vertical" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/buttons"
+        >
 
         <Button
             android:id="@+id/contents_view_button"
@@ -30,11 +25,27 @@
             android:id="@+id/view_backbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bcak"
+            android:text="Back"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/layoutrecycle"
+        android:layout_marginBottom="95dp"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/storycnt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/back1"
+
+            android:scrollbars="vertical" />
+    </RelativeLayout>
+
 </RelativeLayout>
