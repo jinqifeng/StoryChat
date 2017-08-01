@@ -6,14 +6,14 @@ import android.os.Bundle;
 import java.util.*;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<story> storys;
-    private ImageButton mBtCreateStoryActivity;
+    private Button mBtCreateStoryActivity;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         rvStorys.setLayoutManager(gridLayoutManager);
 
 
-        mBtCreateStoryActivity = (ImageButton) findViewById(R.id.myStory);
+        mBtCreateStoryActivity = (Button) findViewById(R.id.myStory);
 
         mBtCreateStoryActivity.setOnClickListener(new View.OnClickListener() {
             @Override
