@@ -1,6 +1,7 @@
 package com.ids.storychat;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -26,6 +27,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story_view);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         story_view = new ArrayList<storyContents>();
         Intent intent = getIntent();
         story_view =  intent.getParcelableArrayListExtra("story_contents");
