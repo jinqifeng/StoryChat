@@ -8,9 +8,15 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+
 import java.util.ArrayList;
 /**
  * Created by JongWN-D on 7/24/2017.
@@ -21,8 +27,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
     ArrayList<storyContents> story_view;
     private RecyclerView rvStorys;
-    Button mBtStoryContents;
+    Button mBtStoryPublish;
     Button mBtBack;
+    private RelativeLayout relativeLayout;
+    private PopupWindow popupWindow;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +61,8 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         this.getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        mBtStoryContents = (Button) findViewById(R.id.contents_view_button);
-        mBtStoryContents.setOnClickListener(this);
+        mBtStoryPublish = (Button) findViewById(R.id.publish_button);
+        mBtStoryPublish.setOnClickListener(this);
         mBtBack= (Button) findViewById(R.id.view_backbutton);
         mBtBack.setOnClickListener(this);
 
@@ -64,8 +72,8 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.contents_view_button:
-
+            case R.id.publish_button:
+                publish();
                 break;
             case R.id.view_backbutton:
 
@@ -73,6 +81,23 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
                 break;
         }
+    }
+
+    public void publish(){
+        relativeLayout = (RelativeLayout) findViewById(R.id.view_layout);
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = layoutInflater.inflate(R.layout.publish, null);
+        popupWindow = new PopupWindow(popupView, 500, 1000);
+        popupWindow.setFocusable(true);
+        popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 640, 200);
+        final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.buttom1);
+        btnOpenPopup1.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                popupWindow.dismiss();
+            }
+        });
     }
 
 }
