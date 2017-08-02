@@ -87,10 +87,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         relativeLayout = (RelativeLayout) findViewById(R.id.view_layout);
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = layoutInflater.inflate(R.layout.publish, null);
-        popupWindow = new PopupWindow(popupView, 500, 1000);
+        popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
-        popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 640, 200);
-        final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.buttom1);
+        popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 840, 100);
+        final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.button);
         btnOpenPopup1.setOnClickListener(new Button.OnClickListener() {
 
             @Override
