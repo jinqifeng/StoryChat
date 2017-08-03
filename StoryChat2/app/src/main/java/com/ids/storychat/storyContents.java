@@ -14,9 +14,9 @@ public class storyContents implements Parcelable {
     private String personname;
     private String conversation;
     private String url;
-    private String clr;
+    private Integer clr;
 
-    public storyContents(String name, String clr_in, String cnt, String picin)
+    public storyContents(String name,String cnt ,String picin , Integer clr_in)
     {
         personname = name;
         clr = clr_in;
@@ -25,10 +25,10 @@ public class storyContents implements Parcelable {
     }
 
     private storyContents(Parcel in) {
-        personname = in.readString();
+    /*    personname = in.readString();
         clr = in.readString();
         conversation = in.readString();
-        url = in.readString();
+        url = in.readString();*/
     }
 
     @Override
@@ -39,10 +39,10 @@ public class storyContents implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(personname);
+     /*   dest.writeString(personname);
         dest.writeString(clr);
         dest.writeString(conversation);
-        dest.writeString(url);
+        dest.writeString(url);*/
     }
 
     public static final Parcelable.Creator<storyContents> CREATOR = new Parcelable.Creator<storyContents>() {
@@ -64,7 +64,7 @@ public class storyContents implements Parcelable {
         return conversation;
     }
     public String getUrl(){ return url;}
-    public String getColor(){return clr;}
+    public Integer getColor(){return clr;}
     public void setConv(String s){
         conversation = s;
     }

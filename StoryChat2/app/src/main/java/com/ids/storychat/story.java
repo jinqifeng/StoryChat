@@ -28,7 +28,7 @@ public class story {
         ArrayList<story> storys = new ArrayList<story>();
 
         for (int i = 1; i <= numContacts; i++) {
-            storys.add(new story("story" + ++lastContactId));
+            storys.add(new story("book" + ++lastContactId ));
         }
 
         return storys;

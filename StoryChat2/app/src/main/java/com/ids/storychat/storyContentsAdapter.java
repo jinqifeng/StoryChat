@@ -80,11 +80,10 @@ public class storyContentsAdapter extends RecyclerView.Adapter<storyContentsAdap
         // - replace the contents of the view with that element
         // holder.tvEmail.setText(nStory.get(position).getTitle());
         storyContents item = nStory.get(position);
-        if(!item.getUrl().isEmpty()) {
+        if((!item.getUrl().isEmpty()) && (!item.getUrl().equals("d")) ) {
             Glide.with(context)
                     .load(item.getUrl())
                     .asBitmap()
-
                     .thumbnail(0.5f)
                     .centerCrop()
                     .placeholder(R.drawable.ic_loading_thumb)
@@ -93,9 +92,9 @@ public class storyContentsAdapter extends RecyclerView.Adapter<storyContentsAdap
         }
         holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
         holder.person.setText(nStory.get(position).getPerson());
-        String d = nStory.get(position).getColor();
-        int ff = Integer.parseInt(d);
-        holder.person.setTextColor(ff);
+        Integer d = nStory.get(position).getColor();
+        //int ff = Integer.parseInt(d);
+        holder.person.setTextColor(d);
         holder.contents.setText(nStory.get(holder.getAdapterPosition()).getConv());
 
     }

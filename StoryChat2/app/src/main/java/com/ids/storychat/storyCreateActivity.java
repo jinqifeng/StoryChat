@@ -4,9 +4,10 @@ package com.ids.storychat;
  * Created by JongWN-D on 7/26/2017.
  */
 
-import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -19,7 +20,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,17 +31,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.ids.storychat.db.Constants;
+import com.ids.storychat.db.DBHelper;
 import com.ids.storychat.emoji.EmojiconEditText;
 import com.ids.storychat.emoji.EmojiconsPopup;
 import com.ids.storychat.emoji.Emojicon;
 import com.ids.storychat.emoji.EmojiconGridView;
-import android.os.AsyncTask;
-import java.io.IOException;
-import java.net.URL;
+
 import java.util.ArrayList;
 import android.content.Intent;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 
 public class storyCreateActivity extends AppCompatActivity implements View.OnClickListener  {
@@ -308,8 +306,10 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     }*/
     private void previewStory(){
 
+       // Intent intent = new Intent(this,storyViewActivity.class);
+       // intent.putParcelableArrayListExtra("story_contents", (ArrayList <storyContents>) storyCnt);
         Intent intent = new Intent(this,storyViewActivity.class);
-        intent.putParcelableArrayListExtra("story_contents", (ArrayList <storyContents>) storyCnt);
+
         startActivity(intent);
     }
 
@@ -330,16 +330,35 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             im.setImageDrawable(null);
         } else if((!str.equals(" ")) && (!str1.equals(" "))){
 
-            storyContents itm = new storyContents(txtView.getText().toString(),Integer.toString(txtView.getCurrentTextColor()), txt.getText().toString(),t.getText().toString());
-            storyCnt.add(itm);
-            txt.setText(" ");
-            txt.setHint(" ");
-            im.setImageDrawable(null);
+           // storyContents itm = new storyContents(txtView.getText().toString(),Integer.toString(txtView.getCurrentTextColor()), txt.getText().toString(),t.getText().toString());
+           // DBHelper db=new DBHelper(this);
+            SQLiteDatabase datab=openOrCreateDatabase("y_DB", Context.MODE_PRIVATE, null);
+            //OPEN DB
+            //db.openDB();
+            //COMMIT
+            //datab.execSQL("DELETE TABLE  a_TB;");
+            datab.execSQL("CREATE TABLE IF NOT EXISTS b_TB(id Integer primary key AUTOINCREMENT DEFAULT 0,name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
+
+            datab.execSQL("INSERT INTO b_TB(name, words, url, clr) VALUES('"+txtView.getText().toString()+"','"+txt.getText().toString()+"','"+t.getText().toString()+"','"+txtView.getCurrentTextColor()+"');");
+           // datab.execSQL("INSERT INTO d_TB VALUES('erew','werwrewr','eeeee',34563)");
+            datab.close();
+
+
+        //    if(result>0) {
+                txt.setText(" ");
+                txt.setHint(" ");
+                im.setImageDrawable(null);
+       /*     }else{
+                Toast toast=Toast.makeText(getApplicationContext(),"Don,t use db!",Toast.LENGTH_SHORT);
+                toast.setMargin(50,180);
+                toast.show();
+            }
+           // db.closeDB();*/
         }
 
         if(no==1){
             Button mBtUser = (Button) findViewById(R.id.user1Button);
-            txtView.setText(mBtUser.getText().toString()+":");
+            txtView.setText(mBtUser.getText().toString());
             txtView.setTextColor(Color.rgb(255, 102, 153));
             txtView.setGravity(Gravity.LEFT);
             LinearLayout ll = (LinearLayout) findViewById(R.id.messageEditText_bubble);
@@ -347,7 +366,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
         }else {
             Button mBtUser = (Button) findViewById(R.id.user2Button);
-            txtView.setText(mBtUser.getText().toString()+":");
+            txtView.setText(mBtUser.getText().toString());
             txtView.setTextColor(Color.GREEN);
             txtView.setGravity(Gravity.RIGHT);
             LinearLayout ll = (LinearLayout) findViewById(R.id.messageEditText_bubble);
@@ -369,6 +388,8 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         imBtn.setAlpha(1);
 
     }
+
+
     private void addUserName() {
 
         LinearLayout ll = (LinearLayout) findViewById(R.id.form2);

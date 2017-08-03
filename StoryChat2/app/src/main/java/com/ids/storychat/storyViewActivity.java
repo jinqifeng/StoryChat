@@ -1,9 +1,10 @@
 package com.ids.storychat;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.database.Cursor;
+import com.ids.storychat.db.DBHelper;
 
 import java.util.ArrayList;
 /**
@@ -40,9 +43,43 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         actionBar.hide();
 
         story_view = new ArrayList<storyContents>();
-        Intent intent = getIntent();
-        story_view =  intent.getParcelableArrayListExtra("story_contents");
+     //   Intent intent = getIntent();
+      //  story_view =  intent.getParcelableArrayListExtra("story_view");
 
+
+        //DBHelper db=new DBHelper(this);
+       // storyContents p = db.getContents(1);
+            //ADD TO ARRAYLIS
+       // story_view.add(p);
+        //story_view = db.getAllCotents();
+        Integer id = 1;
+        SQLiteDatabase datab=openOrCreateDatabase("y_DB", Context.MODE_PRIVATE, null);
+
+        String table = "b_TB";
+        String[] columns = {"id", "name", "words","url","clr"};
+        String selection = "id = ?";
+       // String[] selectionArgs = {"1"};
+
+       // Cursor res = datab.query(table, columns, selection, new String[] { String.valueOf(id) }, null, null, null, null);
+        //Cursor res = datab.rawQuery("select * from b_TB where id="+id+"", null);
+      //  Cursor res = datab.rawQuery("SELECT * FROM b_TB WHERE id = ?",new String[] {"'2'"});
+     //   String query = "SELECT * FROM b_TB WHERE id = "+id;
+     //   Cursor res = datab.rawQuery(query,null);
+        Cursor res = datab.rawQuery("SELECT * FROM b_TB ",null);
+        res.moveToFirst();
+        while(res.moveToNext())
+        {
+            Integer ikd = res.getInt(0);
+            String name = res.getString(1);
+            String words = res.getString(2);
+            String url = res.getString(3);
+            Integer clr = res.getInt(4);
+
+            storyContents p = new storyContents(name, words, url, clr);
+            //ADD TO ARRAYLIS
+            story_view.add(p);
+        }
+        datab.close();
         rvStorys = (RecyclerView) findViewById(R.id.storycnt);
 
         // Create adapter passing in the sample user data

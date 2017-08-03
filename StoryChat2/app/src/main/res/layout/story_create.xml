@@ -69,6 +69,7 @@
                 android:id="@+id/imagesource"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
+                android:text="d"
                 android:visibility="invisible"/>
 
         </LinearLayout>
@@ -204,22 +205,6 @@
         </LinearLayout>
     </LinearLayout>
 
- <!---   <LinearLayout
-        android:id="@+id/emoji"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/submit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:src="@drawable/ic_action_send_now"
-            />
-
-    </LinearLayout>-->
 
 </RelativeLayout>
