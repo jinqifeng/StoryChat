@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root_view"
-    android:background="@drawable/back"
+    android:background="@drawable/back2"
     android:orientation="vertical" >
 
     <ListView
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="86dp"
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -41,8 +41,9 @@
             android:minHeight="30dp"
             android:orientation="vertical"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/bubble1">
+            android:layout_alignParentStart="true">
+         <!--   android:background="@drawable/bubble1"-->
+
 
             <com.ids.storychat.emoji.EmojiconEditText
                 android:id="@+id/messageEditText"
@@ -52,7 +53,7 @@
                 android:maxHeight="100dp"
                 android:minHeight="30dp"
                 android:minWidth="100dp"
-                android:background="#ffffff"
+                android:background="#f8d184"
                 android:enabled="false"
                 android:hint="please create new user!"
                 emojicon:emojiconSize="28sp" />
@@ -80,45 +81,23 @@
         android:id="@+id/form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#382401"
+        android:background="#bf6e19"
         android:orientation="horizontal"
         android:layout_marginBottom="38dp"
+
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-         <Button
-            android:id="@+id/user2Button"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/user2"
-            android:visibility="invisible"
-            android:layout_gravity="center"
 
-             />
-
-        <Button
-            android:id="@+id/user1Button"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/user1"
-            android:visibility="invisible"
-            android:layout_gravity="center"
-
-             />
 
         <ImageButton
             android:id="@+id/addUserButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
+            android:layout_marginLeft="25dp"
             android:background="@drawable/user_add2"
             android:layout_gravity="center"
              />
@@ -126,8 +105,8 @@
            android:layout_toLeftOf="@+id/sendMessageButton"-->
         <Button
             android:id="@+id/addEmoji"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
@@ -139,8 +118,8 @@
 
         <Button
             android:id="@+id/addPhoto"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
@@ -152,8 +131,8 @@
 
         <Button
             android:id="@+id/previewButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
@@ -162,47 +141,75 @@
             android:enabled="false"
             android:layout_gravity="center"
             />
+        <Button
+            android:id="@+id/user2Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:textColor="#6e3e0b"
+            android:background="#bf6f1b"
+            android:visibility="visible"
+            android:layout_gravity="center"
+
+            />
+
+        <Button
+            android:id="@+id/user1Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:text="xzfd"
+            android:textColor="#ffffff"
+            android:background="#bf6f1b"
+            android:visibility="visible" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/form2"
-        android:layout_width="200dp"
+        android:layout_width="fill_parent"
         android:layout_height="32dp"
-        android:background="@drawable/edit_padd_round"
+
         android:orientation="horizontal"
-        android:layout_marginTop="300dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="96dp"
-        android:layout_alignParentLeft="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
         android:visibility="invisible"
-        android:layout_alignParentStart="true">
+        android:layout_alignTop="@+id/edit"
+        android:layout_alignLeft="@+id/edit"
+        android:layout_alignStart="@+id/edit"
+        >
 
         <EditText
             android:id="@+id/userEditText"
-            android:layout_width="145dp"
+            android:layout_width="fill_parent"
             android:layout_height="26dp"
             android:layout_gravity="center"
+
             android:background="#faf7f7"
             android:layout_marginLeft="3dp"
-            android:maxHeight="80dp"/>
-        <LinearLayout
-            android:layout_width="50dp"
+            android:layout_marginRight="5dp"
+            android:maxHeight="80dp"
+            android:layout_weight="0.59" />
+
+        <Button
+            android:id="@+id/createUser"
+            android:layout_width="wrap_content"
             android:layout_height="26dp"
-            android:background="@drawable/edit_padd_round"
-            android:layout_gravity="center">
-            <Button
-                android:id="@+id/createUser"
-                android:layout_width="44dp"
-                android:layout_height="19dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/colorPrimary"
-                android:textColor="#ffffff"
-                android:layout_gravity="center"
-                android:text="add" />
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="1dp"
+            android:background="#cecccc"
+            android:text="add"
+            android:textColor="#000000" />
+
     </LinearLayout>
 
 

@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:id="@+id/view_layout"
+    android:background="@drawable/back2"
     android:layout_height="wrap_content">
 
     <RelativeLayout
@@ -11,22 +12,49 @@
         android:orientation="vertical"
         android:id="@+id/buttons"
         >
-
         <Button
-            android:id="@+id/publish_button"
+            android:id="@+id/next_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Publish"
-            android:layout_above="@+id/view_backbutton"
+            android:text="Next"
+            android:background="#33bcfc"
+            android:textColor="#ffffff"
+            android:textSize="25dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_above="@+id/publish_button"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
         <Button
+            android:id="@+id/publish_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Publish"
+            android:background="#33bcfc"
+            android:textColor="#ffffff"
+            android:textSize="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_above="@+id/view_backbutton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
             android:id="@+id/view_backbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Back"
+            android:background="#33bcfc"
+            android:textColor="#ffffff"
+            android:textSize="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -38,15 +66,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/layoutrecycle"
-        android:layout_marginBottom="95dp"
+        android:layout_marginBottom="180dp"
         >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/storycnt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/back"
-
             android:scrollbars="vertical" />
     </RelativeLayout>
+
+
 
 </RelativeLayout>

@@ -4,6 +4,7 @@ package com.ids.storychat;
  * Created by JongWN-D on 7/26/2017.
  */
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -50,7 +51,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     private Button mBtUser2;
     private Button mBtSendMsg;
     private Button mBtEmoji;
-
+    private Intent intent;
     ArrayList<storyContents> storyCnt;
 
     private EmojiconEditText emojiconEditText;
@@ -304,13 +305,16 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     }
    /*
     }*/
+
     private void previewStory(){
 
        // Intent intent = new Intent(this,storyViewActivity.class);
        // intent.putParcelableArrayListExtra("story_contents", (ArrayList <storyContents>) storyCnt);
-        Intent intent = new Intent(this,storyViewActivity.class);
+        if(intent==null)
+        intent = new Intent(this,storyViewActivity.class);
 
         startActivity(intent);
+
     }
 
     private void inputText(int no){
@@ -359,18 +363,18 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         if(no==1){
             Button mBtUser = (Button) findViewById(R.id.user1Button);
             txtView.setText(mBtUser.getText().toString());
-            txtView.setTextColor(Color.rgb(255, 102, 153));
+            txtView.setTextColor(Color.parseColor("#ffffff"));
             txtView.setGravity(Gravity.LEFT);
             LinearLayout ll = (LinearLayout) findViewById(R.id.messageEditText_bubble);
-            ll.setBackgroundResource(R.drawable.bubble1);
+          //  ll.setBackgroundResource(R.drawable.bubble1);
 
         }else {
             Button mBtUser = (Button) findViewById(R.id.user2Button);
             txtView.setText(mBtUser.getText().toString());
-            txtView.setTextColor(Color.GREEN);
+            txtView.setTextColor(Color.parseColor("#6e3e0b"));
             txtView.setGravity(Gravity.RIGHT);
             LinearLayout ll = (LinearLayout) findViewById(R.id.messageEditText_bubble);
-            ll.setBackgroundResource(R.drawable.bubble2);
+         //   ll.setBackgroundResource(R.drawable.bubble2);
 
         }
 

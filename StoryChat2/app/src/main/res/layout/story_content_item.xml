@@ -7,7 +7,7 @@
         android:id="@+id/cntitem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_marginTop="6dp"
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
@@ -16,9 +16,10 @@
         android:layout_alignParentStart="true">
         <TextView
             android:id="@+id/UserName"
-            android:textSize="25dp"
+            android:textSize="15dp"
             android:layout_gravity="left"
             android:layout_width="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_height="35dp" />
         <LinearLayout
             android:id="@+id/EditText_bubble"
@@ -27,28 +28,31 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:minHeight="30dp"
-            android:background="@drawable/bubble1">
+            >
 
             <com.ids.storychat.emoji.EmojiconEditText
                 android:id="@+id/EditText"
-                android:layout_width="wrap_content"
+                android:layout_width="500dp"
                 android:layout_weight="0"
                 android:layout_height="wrap_content"
                 android:minHeight="30dp"
                 android:background="#ffffff"
                 android:enabled="true"
-                emojicon:emojiconSize="28sp" />
+                android:paddingLeft="10dp"
+                emojicon:emojiconSize="15dp" />
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ivImgt"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/EditText_bubble"
-            android:layout_marginTop="5dp"
-            android:background="#eeeeee"
-            />
+
     </LinearLayout>
+
+    <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ivImgt"
+    android:layout_centerHorizontal="true"
+    android:layout_below="@+id/EditText_bubble"
+    android:layout_marginTop="5dp"
+    android:background="#eeeeee"
+    />
 </LinearLayout>

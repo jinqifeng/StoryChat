@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".storyCreateActivity"></activity>
         <activity android:name=".storyViewActivity"></activity>
+        <activity android:name=".storyOneViewActivity"></activity>
+
         <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     </application>
 

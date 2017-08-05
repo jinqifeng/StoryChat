@@ -5,6 +5,8 @@ package com.ids.storychat;
  */
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Toast;
 
 
 import java.util.List;
@@ -51,9 +54,10 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
         public ImageView story1;
         public ImageView story2;
         ItemClickListener itemClickListener;
-
-        public ViewHolder(View itemview) {
+        private Context context;
+        public ViewHolder(Context context, View itemview) {
             super(itemview);
+            this.context = context;
             story1 = (ImageView)itemview.findViewById(R.id.story1);
             story2 = (ImageView)itemview.findViewById(R.id.story2);
             itemview.setOnClickListener(this);
@@ -64,6 +68,7 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
             this.itemClickListener.onItemClick(v,getLayoutPosition());
             System.out.println("onClick");
             Log.d(TAG, "onChhgjlick " );
+            Toast.makeText(context, "Sorry, Disconnected to Server !. ", Toast.LENGTH_SHORT).show();
         }
         public void setItemClickListener(ItemClickListener ic)
         {
@@ -79,7 +84,7 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
         // create a new view
         View v= LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.story_item, parent, false);
-        ViewHolder vh = new ViewHolder(v);
+        ViewHolder vh = new ViewHolder(context,v);
         return vh;
     }
 
@@ -179,6 +184,11 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
              @Override
              public void onItemClick(View v, int pos) {
 
+                if(pos==3){
+                    Intent it = new Intent(v.getContext(), storyOneViewActivity.class);
+
+                    v.getContext().startActivity(it);
+                }
              }
 
 

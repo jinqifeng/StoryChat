@@ -1,6 +1,7 @@
 package com.ids.storychat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -32,9 +33,12 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     private RecyclerView rvStorys;
     Button mBtStoryPublish;
     Button mBtBack;
+    Button mBtNext;
     private RelativeLayout relativeLayout;
     private PopupWindow popupWindow;
-
+    SQLiteDatabase datab;
+    Cursor res;
+    Integer position_recycle = 0;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story_view);
@@ -53,21 +57,12 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
        // story_view.add(p);
         //story_view = db.getAllCotents();
         Integer id = 1;
-        SQLiteDatabase datab=openOrCreateDatabase("y_DB", Context.MODE_PRIVATE, null);
+        datab=openOrCreateDatabase("y_DB", Context.MODE_PRIVATE, null);
 
-        String table = "b_TB";
-        String[] columns = {"id", "name", "words","url","clr"};
-        String selection = "id = ?";
-       // String[] selectionArgs = {"1"};
-
-       // Cursor res = datab.query(table, columns, selection, new String[] { String.valueOf(id) }, null, null, null, null);
-        //Cursor res = datab.rawQuery("select * from b_TB where id="+id+"", null);
-      //  Cursor res = datab.rawQuery("SELECT * FROM b_TB WHERE id = ?",new String[] {"'2'"});
-     //   String query = "SELECT * FROM b_TB WHERE id = "+id;
-     //   Cursor res = datab.rawQuery(query,null);
-        Cursor res = datab.rawQuery("SELECT * FROM b_TB ",null);
+        res = datab.rawQuery("SELECT * FROM b_TB ",null);
         res.moveToFirst();
-        while(res.moveToNext())
+
+        if(res.moveToNext())
         {
             Integer ikd = res.getInt(0);
             String name = res.getString(1);
@@ -78,8 +73,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             storyContents p = new storyContents(name, words, url, clr);
             //ADD TO ARRAYLIS
             story_view.add(p);
+
+            position_recycle++;
         }
-        datab.close();
+       // datab.close();
         rvStorys = (RecyclerView) findViewById(R.id.storycnt);
 
         // Create adapter passing in the sample user data
@@ -102,6 +99,9 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         mBtStoryPublish.setOnClickListener(this);
         mBtBack= (Button) findViewById(R.id.view_backbutton);
         mBtBack.setOnClickListener(this);
+        mBtNext= (Button) findViewById(R.id.next_view);
+        mBtNext.setOnClickListener(this);
+
 
 
     }
@@ -114,12 +114,100 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.view_backbutton:
 
-                super.onBackPressed();
+               super.onBackPressed();
+
+                break;
+            case R.id.next_view:
+
+                onNext();
 
                 break;
         }
     }
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    /*    Log.i(TAG, "onSaveInstanceState");
 
+        final EditText textBox =
+                (EditText) findViewById(R.id.editText1);
+        CharSequence userText = textBox.getText();
+        outState.putCharSequence("savedText", userText);*/
+        Integer cusor = res.getPosition();
+        outState.putInt("cusor",cusor);
+
+    }
+    protected void onRestoreInstanceState(Bundle savedState) {
+     /*   Log.i(TAG, "onRestoreInstanceState");
+
+        final EditText textBox =
+                (EditText) findViewById(R.id.editText1);
+
+        CharSequence userText =
+                savedState.getCharSequence("savedText");
+
+        textBox.setText(userText);*/
+        Integer id = savedState.getInt("cusor");
+        Integer k=0;
+        res.moveToFirst();
+        while(k<=id)
+        {
+
+            Integer ikd = res.getInt(0);
+            String name = res.getString(1);
+            String words = res.getString(2);
+            String url = res.getString(3);
+            Integer clr = res.getInt(4);
+
+            storyContents p = new storyContents(name, words, url, clr);
+            //ADD TO ARRAYLIS
+            story_view.add(p);
+            res.moveToNext();
+            k++;
+        }
+        // datab.close();
+        rvStorys = (RecyclerView) findViewById(R.id.storycnt);
+
+        // Create adapter passing in the sample user data
+        storyContentsAdapter adapter = new storyContentsAdapter(this,story_view);
+        // Attach the adapter to the recyclerview to populate items
+        rvStorys.setAdapter(adapter);
+        // Set layout manager to position the items
+        rvStorys.setLayoutManager(new LinearLayoutManager(this));
+
+        rvStorys.setItemAnimator(new DefaultItemAnimator());
+        rvStorys.setHasFixedSize(true);
+    }
+    public void onNext(){
+
+
+        if(res.moveToNext())
+        {
+            Integer ikd = res.getInt(0);
+            String name = res.getString(1);
+            String words = res.getString(2);
+            String url = res.getString(3);
+            Integer clr = res.getInt(4);
+
+            storyContents p = new storyContents(name, words, url, clr);
+            //ADD TO ARRAYLIS
+            story_view.add(p);
+
+            storyContentsAdapter adapter = new storyContentsAdapter(this,story_view);
+            // Attach the adapter to the recyclerview to populate items
+            rvStorys.setAdapter(adapter);
+            StaggeredGridLayoutManager gridLayoutManager =
+                    new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+            // Attach the layout manager to the recycler view
+            rvStorys.setLayoutManager(gridLayoutManager);
+
+            rvStorys.setItemAnimator(new DefaultItemAnimator());
+            rvStorys.setHasFixedSize(true);
+            rvStorys.scrollToPosition(position_recycle);
+            rvStorys.refreshDrawableState();
+            position_recycle++;
+
+        }
+    }
     public void publish(){
         relativeLayout = (RelativeLayout) findViewById(R.id.view_layout);
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
