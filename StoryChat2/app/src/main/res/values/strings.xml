@@ -2,6 +2,7 @@
     <string name="app_name">StoryChat</string>
     <string name="button">Button</string>
     <string name="name">Name</string>
+    <string name="category_prompt">Choose a category</string>
     <string-array name="brew_array">
         <item>love story</item>
         <item>episod</item>
