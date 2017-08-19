@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "326772925716",
+    "firebase_url": "https://storychat-cf935.firebaseio.com",
+    "project_id": "storychat-cf935",
+    "storage_bucket": "storychat-cf935.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326772925716:android:d21b848d45786785",
+        "android_client_info": {
+          "package_name": "com.ids.storychat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "326772925716-0vstaks9qhbrvdgu0587anvn0ill1o46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAowDH3bkj7KBEwDcSx0didgeoW1JF5Rf0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
