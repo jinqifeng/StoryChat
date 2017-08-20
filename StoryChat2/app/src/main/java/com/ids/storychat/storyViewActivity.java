@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -49,7 +50,9 @@ import com.ids.storychat.db.DBHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Hashtable;
 
 import static com.ids.storychat.R.id.addPhoto;
@@ -73,7 +76,15 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     Cursor res;
     Integer position_recycle = 0;
     Bitmap bitmap;
-    private StorageReference mStorageRef;
+    Uri image;
+    FirebaseDatabase database;
+    FirebaseStorage storage;
+    StorageReference mStorageRef;
+    String imageurl;
+
+    View popupView;
+    String titstr;
+
     public static final String PREFS_NAME = "PrefsFile1";
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +93,11 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-        FirebaseDatabase database2 = FirebaseDatabase.getInstance();
+
+
+        database = FirebaseDatabase.getInstance();
+        storage = FirebaseStorage.getInstance();
+
         story_view = new ArrayList<storyContents>();
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         Integer cusor_num = settings.getInt("cusor", 0);
@@ -111,26 +126,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             k++;
         }
 
-  /*      } else {
 
-            res.moveToFirst();
-
-            if(res.moveToNext())
-            {
-                Integer ikd = res.getInt(0);
-                String name = res.getString(1);
-                String words = res.getString(2);
-                String url = res.getString(3);
-                Integer clr = res.getInt(4);
-
-                storyContents p = new storyContents(name, words, url, clr);
-                //ADD TO ARRAYLIS
-                story_view.add(p);
-
-                position_recycle++;
-            }
-
-        }*/
         rvStorys = (RecyclerView) findViewById(R.id.storycnt);
 
         // Create adapter passing in the sample user data
@@ -235,62 +231,60 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     public void publish(){
         relativeLayout = (RelativeLayout) findViewById(R.id.view_layout);
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.publish, null);
+        popupView = layoutInflater.inflate(R.layout.publish, null);
         popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         popupWindow.setFocusable(true);
         popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
-        EditText title = (EditText) popupView.findViewById(R.id.editTextTitle);
-        final String titstr = title.getText().toString();
-        EditText author = (EditText) popupView.findViewById(R.id.editTextAuthor);
-        final String autstr = author.getText().toString();
-        EditText date = (EditText) popupView.findViewById(R.id.editDate);
-        final String datestr = date.getText().toString();
-        Spinner categr = (Spinner)popupView.findViewById(R.id.spinner);
-        categr.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected (AdapterView < ? > arg0, View arg1,
-                                        int pos, long id){
 
-                String workRequestType = arg0.getItemAtPosition(pos)
-                        .toString();
-
-                if (pos != 0)
-                    Toast.makeText(getApplicationContext(), "dsds",
-                            Toast.LENGTH_LONG).show();
-            }
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-        String catstr = categr.getSelectedItem().toString();
         final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.button);
-
-
 
         btnOpenPopup1.setOnClickListener(new Button.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("story").child(titstr);
+                EditText title = (EditText) popupView.findViewById(R.id.editTextTitle);
+                titstr = title.getText().toString();
+                EditText author = (EditText) popupView.findViewById(R.id.editTextAuthor);
+                final String autstr = author.getText().toString();
+                EditText date = (EditText) popupView.findViewById(R.id.editDate);
+                final String datestr = date.getText().toString();
+                Spinner categr = (Spinner)popupView.findViewById(R.id.spinner);
+                categr.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+                    @Override
+                    public void onItemSelected (AdapterView < ? > arg0, View arg1,
+                                                int pos, long id){
 
-                Hashtable<String,String> summary=new Hashtable<String,String>();
-                summary.put("personname","hhh");
-                summary.put("conversation","jkjhkl");
-                summary.put("url","hhhhh");
-                myRef.setValue(summary);
+                        String workRequestType = arg0.getItemAtPosition(pos)
+                                .toString();
 
-                FirebaseStorage storage = FirebaseStorage.getInstance();
+                        if (pos != 0)
+                            Toast.makeText(getApplicationContext(), "dsds",
+                                    Toast.LENGTH_LONG).show();
+                    }
+
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> arg0) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
+                final String catstr = categr.getSelectedItem().toString();
+                if(titstr.isEmpty()){
+                    Toast toast=Toast.makeText(getApplicationContext(),"Please Input Title!",Toast.LENGTH_SHORT);
+                    toast.setMargin(50,180);
+                    toast.show();
+                    return;
+                }
+
                 mStorageRef = storage.getReference();
-
                 StorageReference mountainsRef = mStorageRef.child("cover").child(titstr+".jpg");
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 Log.d("Uir", "here-------3");
+                if(image==null)
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.book2);
+
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 Log.d("Uir", "here-------4");
                 byte[] data = baos.toByteArray();
@@ -310,13 +304,14 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
                         Log.d("Uir", String.valueOf(downloadUrl));
                         String photoUri=String.valueOf(downloadUrl);
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myRef = database.getReference("search").child(titstr);
+
+                        DatabaseReference myRef = database.getReference().child("search").child(titstr);
 
                         Hashtable<String,String> summary=new Hashtable<String,String>();
                         summary.put("author",autstr);
                         summary.put("date",datestr);
                         summary.put("photo",photoUri);
+                        summary.put("category",catstr);
                         myRef.setValue(summary);
                         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -324,7 +319,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                                 String s=dataSnapshot.getValue().toString();
                                 Log.d("Profile",s);
                                 if(dataSnapshot !=null){
-                                    Toast.makeText(getApplicationContext(), "Ok, Photo Upload", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Ok, Publish succeced ", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -337,7 +332,61 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                     }
                 });
 
+                Integer l=0;
 
+                while(l<story_view.size()){
+                    String str1 = story_view.get(l).getPerson();
+                    String str2 = story_view.get(l).getConv();
+                    String str3 = story_view.get(l).getUrl();
+                    Integer str4 = story_view.get(l).getColor();
+
+                    Calendar c=Calendar.getInstance();
+                    SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String formattedDate=df.format(c.getTime());
+
+                    DatabaseReference myRef2 = database.getReference("story").child(titstr).child(Integer.toString(l));
+                    Hashtable<String,String> summary=new Hashtable<String,String>();
+                    summary.put("person",str1);
+                    summary.put("conv",str2);
+                    summary.put("clr",Integer.toString(str4));
+
+                    if(!str3.equals("d")){
+
+                        StorageReference imageRef = mStorageRef.child("image").child(titstr+".jpg");
+                        ByteArrayOutputStream bytestrm = new ByteArrayOutputStream();
+                        Log.d("Uir", "here-------3");
+                        if(image==null)
+                            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.book2);
+
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        Log.d("Uir", "here-------4");
+                        byte[] data2 = bytestrm.toByteArray();
+                        Log.d("Uir", "here-------5");
+                        UploadTask upload = imageRef.putBytes(data2);
+                        Log.d("Uir", "here-------6");
+                        upload.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle unsuccessful uploads
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @SuppressWarnings("VisibleForTests")
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                Log.d("Uir", String.valueOf(downloadUrl));
+                                String photoUri=String.valueOf(downloadUrl);
+                                imageurl = photoUri;
+                            }
+                        });
+                    }else{
+                        imageurl = "d";
+                    }
+                    summary.put("photourl",imageurl);
+                    myRef2.setValue(summary);
+                    l++;
+                }
 
                 popupWindow.dismiss();
             }
@@ -351,6 +400,9 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             }
         });
     }
+    private void validate(){
+
+    }
     private void addPhoto(){
 
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -362,8 +414,8 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Uri image = data.getData();
-        ImageView ivGif = (ImageView) findViewById(R.id.coverImage);
+        image = data.getData();
+        ImageView ivGif = (ImageView) popupView.findViewById(R.id.coverImage);
         Glide.with(this)
                 .load(image)
                 .asBitmap()

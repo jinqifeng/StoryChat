@@ -7,7 +7,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvStory_one"
         android:layout_width="match_parent"
-        android:layout_height="683dp"
+        android:layout_height="653dp"
         android:layout_weight="1.06"
         android:focusable="false" />
 
@@ -15,11 +15,17 @@
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#33bcfc"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff"
         android:text="Next" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#33bcfc"
+        android:textColor="#ffffff"
         android:text="Back" />
 </LinearLayout>

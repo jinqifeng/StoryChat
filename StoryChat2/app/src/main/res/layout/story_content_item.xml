@@ -18,7 +18,7 @@
             android:id="@+id/UserName"
             android:textSize="15dp"
             android:layout_gravity="left"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_marginRight="10dp"
             android:layout_height="35dp" />
         <LinearLayout
@@ -32,12 +32,13 @@
 
             <com.ids.storychat.emoji.EmojiconEditText
                 android:id="@+id/EditText"
-                android:layout_width="500dp"
+                android:layout_width="320dp"
                 android:layout_weight="0"
                 android:layout_height="wrap_content"
                 android:minHeight="30dp"
                 android:background="#ffffff"
                 android:enabled="true"
+                android:layout_marginRight="10dp"
                 android:paddingLeft="10dp"
                 emojicon:emojiconSize="15dp" />
 

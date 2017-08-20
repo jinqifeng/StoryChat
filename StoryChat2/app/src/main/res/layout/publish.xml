@@ -93,7 +93,7 @@
     <ImageView
         android:id="@+id/coverImage"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:layout_marginTop="5dp"
         android:layout_weight="0.04"
         android:clickable="true"
@@ -106,6 +106,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.04"
+        android:background="#33bcfc"
+        android:textColor="#ffffff"
         android:text="Submit" />
 
 </LinearLayout>
