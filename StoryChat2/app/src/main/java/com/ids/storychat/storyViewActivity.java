@@ -383,7 +383,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
                     storyContents cnt = story_view.get(l);
                     cnt.setUrl(imageurl);
-                    myRef2.push().setValue(cnt);
+                    myRef2.push().setValue(summary);
                     l++;
                 }
 

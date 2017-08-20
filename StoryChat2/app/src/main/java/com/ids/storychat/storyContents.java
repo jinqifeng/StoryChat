@@ -16,6 +16,8 @@ public class storyContents implements Parcelable {
     private String c_imageurl;
     private Integer d_clr;
 
+    public storyContents(){}
+
     public storyContents(String name,String cnt ,String picin , Integer clr_in)
     {
         a_personname = name;
