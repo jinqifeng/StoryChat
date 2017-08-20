@@ -11,17 +11,17 @@ import android.content.Context;
 
 public class storyContents implements Parcelable {
 
-    private String personname;
-    private String conversation;
-    private String url;
-    private Integer clr;
+    private String a_personname;
+    private String b_conversation;
+    private String c_imageurl;
+    private Integer d_clr;
 
     public storyContents(String name,String cnt ,String picin , Integer clr_in)
     {
-        personname = name;
-        clr = clr_in;
-        conversation = cnt;
-        url = picin;
+        a_personname = name;
+        b_conversation = cnt;
+        c_imageurl = picin;
+        d_clr = clr_in;
     }
 
     private storyContents(Parcel in) {
@@ -58,14 +58,17 @@ public class storyContents implements Parcelable {
 
     // all get , set method
     public String getPerson(){
-        return personname;
+        return a_personname;
     }
     public String getConv(){
-        return conversation;
+        return b_conversation;
     }
-    public String getUrl(){ return url;}
-    public Integer getColor(){return clr;}
+    public String getUrl(){ return c_imageurl;}
+    public Integer getColor(){return d_clr;}
     public void setConv(String s){
-        conversation = s;
+        b_conversation = s;
+    }
+    public void setUrl(String in_url){
+        c_imageurl=in_url;
     }
 }

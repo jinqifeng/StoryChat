@@ -336,15 +336,15 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
            // storyContents itm = new storyContents(txtView.getText().toString(),Integer.toString(txtView.getCurrentTextColor()), txt.getText().toString(),t.getText().toString());
            // DBHelper db=new DBHelper(this);
-            SQLiteDatabase datab=openOrCreateDatabase("y_DB", Context.MODE_PRIVATE, null);
+            SQLiteDatabase datab=openOrCreateDatabase("x_DB", Context.MODE_PRIVATE, null);
             //OPEN DB
             //db.openDB();
             //COMMIT
             //datab.execSQL("DELETE TABLE  a_TB;");
-            datab.execSQL("CREATE TABLE IF NOT EXISTS b_TB(id Integer primary key AUTOINCREMENT DEFAULT 0,name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
+            datab.execSQL("CREATE TABLE IF NOT EXISTS q_TB(name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
 
-            datab.execSQL("INSERT INTO b_TB(name, words, url, clr) VALUES('"+txtView.getText().toString()+"','"+txt.getText().toString()+"','"+t.getText().toString()+"','"+txtView.getCurrentTextColor()+"');");
-           // datab.execSQL("INSERT INTO d_TB VALUES('erew','werwrewr','eeeee',34563)");
+            datab.execSQL("INSERT INTO q_TB(name, words, url, clr) VALUES('"+txtView.getText().toString()+"','"+txt.getText().toString()+"','"+t.getText().toString()+"','"+txtView.getCurrentTextColor()+"');");
+
             datab.close();
 
 

@@ -1,5 +1,6 @@
 package com.ids.storychat;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<story> storys;
     private Button mBtCreateStoryActivity;
+    public static final String PREFS_NAME = "Prefs2";
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,13 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        Integer cusor_num = settings.getInt("cusor", 0);
+        if(cusor_num!=0){
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt("cusor", 0);
+            editor.commit();
+        }
         RecyclerView rvStorys = (RecyclerView) findViewById(R.id.storyList);
 
         // Initialize list

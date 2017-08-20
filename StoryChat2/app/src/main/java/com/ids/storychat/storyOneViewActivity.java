@@ -8,11 +8,19 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -31,8 +39,8 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
     private RecyclerView rvStorys;
     Integer position_recycle = 0;
     SQLiteDatabase datab;
-
-
+    FirebaseDatabase database;
+    storyContentsAdapter adapter;
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -48,33 +56,41 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
         mBtBack.setOnClickListener(this);
         mBtNext.setOnClickListener(this);
 
-        datab=openOrCreateDatabase("y_DB", Context.MODE_PRIVATE, null);
-        datab.execSQL("CREATE TABLE IF NOT EXISTS b_TB(id Integer primary key AUTOINCREMENT DEFAULT 0,name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
-        res = datab.rawQuery("SELECT * FROM b_TB ",null);
-
-        res.moveToFirst();
-        if(res.moveToNext())
-        {
-            Integer ikd = res.getInt(0);
-            String name = res.getString(1);
-            String words = res.getString(2);
-            String url = res.getString(3);
-            Integer clr = res.getInt(4);
-
-            storyContents p = new storyContents(name, words, url, clr);
-            //ADD TO ARRAYLIS
-            story_view.add(p);
-
-            position_recycle++;
-        }
-        // datab.close();
         rvStorys = (RecyclerView) findViewById(R.id.rvStory_one);
 
         // Create adapter passing in the sample user data
-        storyContentsAdapter adapter = new storyContentsAdapter(this,story_view);
+        adapter = new storyContentsAdapter(this,story_view);
         // Attach the adapter to the recyclerview to populate items
         rvStorys.setAdapter(adapter);
         // Set layout manager to position the items
+
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("story").child("ttt");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        // TODO: handle the post
+                        Log.d("jmrTAG", "onChildAdded:" + postSnapshot.getKey());
+                        storyContents chat = postSnapshot.getValue(storyContents.class);
+                        story_view.add(chat);
+                        rvStorys.scrollToPosition(story_view.size()-1);
+                        adapter.notifyItemInserted(story_view.size() - 1);
+                    }
+
+                } else {
+                    Log.e("ddddd", "Not found: " );
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+
         StaggeredGridLayoutManager gridLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         // Attach the layout manager to the recycler view
@@ -106,11 +122,11 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
 
         if(res.moveToNext())
         {
-            Integer ikd = res.getInt(0);
-            String name = res.getString(1);
-            String words = res.getString(2);
-            String url = res.getString(3);
-            Integer clr = res.getInt(4);
+
+            String name = res.getString(0);
+            String words = res.getString(1);
+            String url = res.getString(2);
+            Integer clr = res.getInt(3);
 
             storyContents p = new storyContents(name, words, url, clr);
             //ADD TO ARRAYLIS

@@ -85,7 +85,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     View popupView;
     String titstr;
 
-    public static final String PREFS_NAME = "PrefsFile1";
+    public static final String PREFS_NAME = "Prefs2";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,9 +102,9 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         Integer cusor_num = settings.getInt("cusor", 0);
 
-        datab=openOrCreateDatabase("y_DB", Context.MODE_PRIVATE, null);
-        datab.execSQL("CREATE TABLE IF NOT EXISTS b_TB(id Integer primary key AUTOINCREMENT DEFAULT 0,name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
-        res = datab.rawQuery("SELECT * FROM b_TB ",null);
+        datab=openOrCreateDatabase("x_DB", Context.MODE_PRIVATE, null);
+        datab.execSQL("CREATE TABLE IF NOT EXISTS q_TB(name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
+        res = datab.rawQuery("SELECT * FROM q_TB ",null);
 
 
 
@@ -113,11 +113,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         while(k<=cusor_num && res.moveToNext())
         {
 
-            Integer ikd = res.getInt(0);
-            String name = res.getString(1);
-            String words = res.getString(2);
-            String url = res.getString(3);
-            Integer clr = res.getInt(4);
+            String name = res.getString(0);
+            String words = res.getString(1);
+            String url = res.getString(2);
+            Integer clr = res.getInt(3);
 
             storyContents p = new storyContents(name, words, url, clr);
             //ADD TO ARRAYLIS
@@ -202,11 +201,11 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
         if(res.moveToNext())
         {
-            Integer ikd = res.getInt(0);
-            String name = res.getString(1);
-            String words = res.getString(2);
-            String url = res.getString(3);
-            Integer clr = res.getInt(4);
+
+            String name = res.getString(0);
+            String words = res.getString(1);
+            String url = res.getString(2);
+            Integer clr = res.getInt(3);
 
             storyContents p = new storyContents(name, words, url, clr);
             //ADD TO ARRAYLIS
@@ -340,15 +339,11 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                     String str3 = story_view.get(l).getUrl();
                     Integer str4 = story_view.get(l).getColor();
 
-                    Calendar c=Calendar.getInstance();
-                    SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String formattedDate=df.format(c.getTime());
-
-                    DatabaseReference myRef2 = database.getReference("story").child(titstr).child(Integer.toString(l));
+                    DatabaseReference myRef2 = database.getReference("story").child(titstr);
                     Hashtable<String,String> summary=new Hashtable<String,String>();
-                    summary.put("person",str1);
-                    summary.put("conv",str2);
-                    summary.put("clr",Integer.toString(str4));
+                    summary.put("a_personname",str1);
+                    summary.put("b_conversation",str2);
+
 
                     if(!str3.equals("d")){
 
@@ -383,8 +378,12 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                     }else{
                         imageurl = "d";
                     }
-                    summary.put("photourl",imageurl);
-                    myRef2.setValue(summary);
+                    summary.put("c_imageurl",imageurl);
+                    summary.put("d_clr",Integer.toString(str4));
+
+                    storyContents cnt = story_view.get(l);
+                    cnt.setUrl(imageurl);
+                    myRef2.push().setValue(cnt);
                     l++;
                 }
 
