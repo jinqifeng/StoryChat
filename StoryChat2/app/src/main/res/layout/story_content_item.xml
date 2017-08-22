@@ -30,7 +30,7 @@
             android:minHeight="30dp"
             >
 
-            <com.ids.storychat.emoji.EmojiconEditText
+            <com.jwn.storychat.emoji.EmojiconEditText
                 android:id="@+id/EditText"
                 android:layout_width="320dp"
                 android:layout_weight="0"

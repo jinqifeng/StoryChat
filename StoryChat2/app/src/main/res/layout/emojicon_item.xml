@@ -5,7 +5,7 @@
         xmlns:emojicon="http://schemas.android.com/apk/lib/com.ids.storychat.storyChatActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    <com.ids.storychat.emoji.EmojiconTextView
+    <com.jwn.storychat.emoji.EmojiconTextView
             android:layout_gravity="center"
             android:id="@+id/emojicon_icon"
             android:layout_width="36dip"

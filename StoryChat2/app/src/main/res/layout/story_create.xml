@@ -45,7 +45,7 @@
          <!--   android:background="@drawable/bubble1"-->
 
 
-            <com.ids.storychat.emoji.EmojiconEditText
+            <com.jwn.storychat.emoji.EmojiconEditText
                 android:id="@+id/messageEditText"
                 android:layout_width="wrap_content"
                 android:layout_weight="0"
