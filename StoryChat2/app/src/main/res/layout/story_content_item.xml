@@ -32,7 +32,7 @@
 
             <com.jwn.storychat.emoji.EmojiconEditText
                 android:id="@+id/EditText"
-                android:layout_width="320dp"
+                android:layout_width="300dp"
                 android:layout_weight="0"
                 android:layout_height="wrap_content"
                 android:minHeight="30dp"
@@ -48,8 +48,8 @@
     </LinearLayout>
 
     <ImageView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
     android:id="@+id/ivImgt"
     android:layout_centerHorizontal="true"
     android:layout_below="@+id/EditText_bubble"

@@ -1,9 +1,12 @@
 package com.jwn.storychat;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -21,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.jwn.storychat.MainActivity.PREFS_NAME;
+
 /**
  * Created by JongWN-D on 8/4/2017.
  */
@@ -31,20 +36,30 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
     Button mBtNext;
     Cursor res;
     ArrayList<chatContents> story_view;
+    ArrayList<chatContents> story_temp;
     private RecyclerView rvStorys;
     Integer position_recycle = 0;
     SQLiteDatabase datab;
     FirebaseDatabase database;
     chatContentsAdapter adapter;
+    String titlename;
+    Integer read_num;
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story_one_view);
 
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if(bundle != null){
+            titlename = bundle.getString("title");
+        }
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
         story_view = new ArrayList<chatContents>();
+        story_temp = new ArrayList<chatContents>();
 
         mBtBack = (Button) findViewById(R.id.button3);
         mBtNext = (Button) findViewById(R.id.button2);
@@ -52,16 +67,22 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
         mBtNext.setOnClickListener(this);
 
         rvStorys = (RecyclerView) findViewById(R.id.rvStory_one);
-
         // Create adapter passing in the sample user data
         adapter = new chatContentsAdapter(this,story_view);
         // Attach the adapter to the recyclerview to populate items
         rvStorys.setAdapter(adapter);
-        // Set layout manager to position the items
+
+        StaggeredGridLayoutManager gridLayoutManager =
+                new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        // Attach the layout manager to the recycler view
+        rvStorys.setLayoutManager(new LinearLayoutManager(this));
+        rvStorys.setItemAnimator(new DefaultItemAnimator());
+        rvStorys.setHasFixedSize(true);
+
 
         database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("story").child("ttt");
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference myRef = database.getReference("story").child(titlename);
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -69,11 +90,17 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
                         // TODO: handle the post
                         Log.d("jmrTAG", "onChildAdded:" + postSnapshot.getKey());
                         chatContents chat = postSnapshot.getValue(chatContents.class);
-                        story_view.add(chat);
-                        rvStorys.scrollToPosition(story_view.size()-1);
-                        adapter.notifyItemInserted(story_view.size() - 1);
-                    }
+                        story_temp.add(chat);
+                      //  adapter.notifyItemInserted(story_temp.size()-1);
+                     //   rvStorys.scrollToPosition(story_view.size()-1);
 
+                    }
+                    // to read first item
+                    chatContents ct = story_temp.get(0);
+                    story_view.add(ct);
+                    adapter.notifyItemInserted(story_temp.size()-1);
+
+                    //
                 } else {
                     Log.e("ddddd", "Not found: " );
                 }
@@ -86,13 +113,8 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
 
         });
 
-        StaggeredGridLayoutManager gridLayoutManager =
-                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        // Attach the layout manager to the recycler view
-        rvStorys.setLayoutManager(gridLayoutManager);
-
-        rvStorys.setItemAnimator(new DefaultItemAnimator());
-        rvStorys.setHasFixedSize(true);
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        read_num = settings.getInt("readnum", 0);
 
 
     }
@@ -102,7 +124,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
 
             case R.id.button3:
 
-                super.onBackPressed();
+                onBackPressed();
 
                 break;
             case R.id.button2:
@@ -112,18 +134,28 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
                 break;
         }
     }
+    public void onBackPressed(){
+        // to register last number so that reader can last item when reader who had read fully  re-open book
+        if(read_num>=story_temp.size()){
+            read_num = story_temp.size()-1;
+        }
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("readnum", read_num);
+        editor.commit();
+        Boolean isNewStory = false;
+        editor.putBoolean("isnewstory", isNewStory);
+        editor.commit();
+
+        super.onBackPressed();
+    }
     public void onNext(){
 
 
-        if(res.moveToNext())
+        if(read_num<story_temp.size())
         {
 
-            String name = res.getString(0);
-            String words = res.getString(1);
-            String url = res.getString(2);
-            Integer clr = res.getInt(3);
-
-            chatContents p = new chatContents(clr,words,name,url);
+            chatContents p = story_temp.get(read_num);
             //ADD TO ARRAYLIS
             story_view.add(p);
 
@@ -140,6 +172,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
             rvStorys.scrollToPosition(position_recycle);
             rvStorys.refreshDrawableState();
             position_recycle++;
+            read_num++;
 
         }
     }

@@ -148,9 +148,9 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
-            android:textColor="#6e3e0b"
+            android:textColor="#0b206e"
             android:background="#bf6f1b"
-            android:visibility="visible"
+            android:enabled="false"
             android:layout_gravity="center"
 
             />
@@ -163,10 +163,22 @@
             android:layout_alignParentLeft="true"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
-            android:text="xzfd"
+            android:text=""
             android:textColor="#ffffff"
             android:background="#bf6f1b"
-            android:visibility="visible" />
+            android:enabled="false" />
+        <Button
+            android:id="@+id/user3Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:text=""
+            android:textColor="#ffffff"
+            android:background="#bf6f1b"
+            android:enabled="false" />
 
     </LinearLayout>
 

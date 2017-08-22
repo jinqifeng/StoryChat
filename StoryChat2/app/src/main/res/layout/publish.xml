@@ -3,11 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="550dp"
     android:orientation="vertical"
     android:weightSum="1"
     android:background="#fdfbe9"
     >
+    <Button
+        android:id="@+id/button"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"
+        android:background="#33bcfc"
+        android:textColor="#ffffff"
+        android:text="Submit" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -93,21 +102,13 @@
     <ImageView
         android:id="@+id/coverImage"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="220dp"
         android:layout_marginTop="5dp"
         android:layout_weight="0.04"
         android:clickable="true"
         android:text=""
         android:src="@drawable/book2" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.04"
-        android:background="#33bcfc"
-        android:textColor="#ffffff"
-        android:text="Submit" />
+
 
 </LinearLayout>

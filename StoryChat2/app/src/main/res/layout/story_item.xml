@@ -9,13 +9,91 @@
         android:layout_height="200dp"
         android:id="@+id/story1"
         android:layout_marginTop="10dp"
-
         />
+    <TextView
+        android:id="@+id/textTitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/story1"
+        android:layout_alignTop="@id/story1"
+        android:layout_alignRight="@id/story1"
+        android:layout_alignBottom="@id/story1"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text=""
+        android:paddingBottom="50dp"
+        android:textColor="#000000" />
+    <TextView
+        android:id="@+id/textAuthor1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/story1"
+        android:layout_alignTop="@id/story1"
+        android:layout_alignRight="@id/story1"
+        android:layout_alignBottom="@id/story1"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#000000" />
+    <TextView
+        android:id="@+id/textDate1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/story1"
+        android:layout_alignTop="@id/story1"
+        android:layout_alignRight="@id/story1"
+        android:layout_alignBottom="@id/story1"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text=""
+        android:paddingTop="50dp"
+        android:textColor="#000000" />
+
     <ImageView
         android:layout_marginTop="10dp"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:id="@+id/story2"
         />
+    <TextView
+        android:id="@+id/textTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/story2"
+        android:layout_alignTop="@id/story2"
+        android:layout_alignRight="@id/story2"
+        android:layout_alignBottom="@id/story2"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text=""
+        android:paddingBottom="50dp"
+        android:textColor="#000000" />
+    <TextView
+        android:id="@+id/textAuthor2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/story2"
+        android:layout_alignTop="@id/story2"
+        android:layout_alignRight="@id/story2"
+        android:layout_alignBottom="@id/story2"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#000000" />
+        <TextView
+        android:id="@+id/textDate2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/story2"
+        android:layout_alignTop="@id/story2"
+        android:layout_alignRight="@id/story2"
+        android:layout_alignBottom="@id/story2"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text=""
+        android:paddingTop="50dp"
+        android:textColor="#000000" />
+
+
 
 </RelativeLayout>

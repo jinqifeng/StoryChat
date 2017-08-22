@@ -14,10 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import java.util.List;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
@@ -50,6 +54,12 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
 
         public ImageView story1;
         public ImageView story2;
+        public TextView Pub_date1;
+        public TextView Author1;
+        public TextView Title1;
+        public TextView Pub_date2;
+        public TextView Author2;
+        public TextView Title2;
         ItemClickListener itemClickListener;
         private Context context;
         public ViewHolder(Context context, View itemview) {
@@ -57,6 +67,12 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
             this.context = context;
             story1 = (ImageView)itemview.findViewById(R.id.story1);
             story2 = (ImageView)itemview.findViewById(R.id.story2);
+            Pub_date1 = (TextView)itemview.findViewById(R.id.textDate1);
+            Author1 = (TextView)itemview.findViewById(R.id.textAuthor1);
+            Title1 = (TextView)itemview.findViewById(R.id.textTitle1);
+            Pub_date2 = (TextView)itemview.findViewById(R.id.textDate2);
+            Author2 = (TextView)itemview.findViewById(R.id.textAuthor2);
+            Title2 = (TextView)itemview.findViewById(R.id.textTitle2);
             itemview.setOnClickListener(this);
         }
 
@@ -66,6 +82,21 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
             System.out.println("onClick");
             Log.d(TAG, "onChhgjlick " );
             Toast.makeText(context, "Sorry, Disconnected to Server !. ", Toast.LENGTH_SHORT).show();
+            Integer t = getAdapterPosition();  String t2= String.valueOf(getLayoutPosition());
+            if( (t % 2)==0) {
+
+                String t3 = Title1.getText().toString();
+                Intent it = new Intent(v.getContext(), storyOneViewActivity.class);
+                it.putExtra("title",t3);
+                v.getContext().startActivity(it);
+
+            }else {
+                String t4 = Title2.getText().toString();
+                Intent it = new Intent(v.getContext(), storyOneViewActivity.class);
+                it.putExtra("title",t4);
+                v.getContext().startActivity(it);
+            }
+
         }
         public void setItemClickListener(ItemClickListener ic)
         {
@@ -89,86 +120,38 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-       // holder.tvEmail.setText(nStory.get(position).getTitle());
 
-
-        if (!nStory.get(position).getTitle().isEmpty()) {
-            Uri uri =  nStory.get(position).getPhoto();
-
-       /*     if( (position % 2)==0) {
-                Picasso.with(context)
-                        .load(uri)
-                        .fit()
-                        .centerInside()
+        if((!nStory.get(position).getPhoto().isEmpty()) && (!nStory.get(position).getPhoto().equals("d")) ) {
+            if( (position % 2)==0) {
+                Glide.with(context)
+                        .load(nStory.get(position).getPhoto())
+                        .asBitmap()
+                        .thumbnail(0.5f)
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_loading_thumb)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(holder.story1);
+                holder.Author1.setText(nStory.get(position).getAuthor());
+                holder.Pub_date1.setText(nStory.get(position).getDate());
+                holder.Title1.setText(nStory.get(position).getTitle());
             }else{
-                Picasso.with(context)
-                        .load(R.drawable.story1)
-                        .fit()
-                        .centerInside()
+                Glide.with(context)
+                        .load(nStory.get(position).getPhoto())
+                        .asBitmap()
+                        .thumbnail(0.5f)
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_loading_thumb)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(holder.story2);
-            }*/
-           switch(position){
-               case 0:
-               Picasso.with(context)
-                       .load(R.drawable.book1)
-                       .fit()
-                       .centerInside()
-                       .into(holder.story1);
-                   break;
-               case 1:
-                   Picasso.with(context)
-                           .load(R.drawable.book2)
-                           .fit()
-                           .centerInside()
-                           .into(holder.story2);
-                   break;
-               case 2:
-                   Picasso.with(context)
-                           .load(R.drawable.book3)
-                           .fit()
-                           .centerInside()
-                           .into(holder.story1);
-                   break;
-               case 3:
-                   Picasso.with(context)
-                           .load(R.drawable.book4)
-                           .fit()
-                           .centerInside()
-                           .into(holder.story2);
-                   break;
-               case 4:
-                   Picasso.with(context)
-                           .load(R.drawable.book5)
-                           .fit()
-                           .centerInside()
-                           .into(holder.story1);
-                   break;
-               case 5:
-                   Picasso.with(context)
-                           .load(R.drawable.book6)
-                           .fit()
-                           .centerInside()
-                           .into(holder.story2);
-                   break;
-               case 6:
-                   Picasso.with(context)
-                           .load(R.drawable.book7)
-                           .fit()
-                           .centerInside()
-                           .into(holder.story1);
-                   break;
-               case 7:
-                   Picasso.with(context)
-                           .load(R.drawable.book8)
-                           .fit()
-                           .centerInside()
-                           .into(holder.story2);
-                   break;
+                holder.Author2.setText(nStory.get(position).getAuthor());
+                holder.Pub_date2.setText(nStory.get(position).getDate());
+                story d = nStory.get(position);
+                String t = d.getTitle();
+                holder.Title2.setText(t);
+            }
+
+
            }
-        }
         else
         {
 

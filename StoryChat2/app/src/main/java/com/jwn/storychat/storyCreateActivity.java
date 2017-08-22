@@ -4,6 +4,7 @@ package com.jwn.storychat;
  * Created by JongWN-D on 7/26/2017.
  */
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -50,9 +51,12 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     private Button mBtUser2;
     private Button mBtSendMsg;
     private Button mBtEmoji;
+    private Button mBtphoto;
     private Intent intent;
+    SQLiteDatabase datab;
     String tablename;
-    ArrayList<chatContents> storyCnt;
+    Boolean isNewStory;
+
 
     private EmojiconEditText emojiconEditText;
     private View rootView;
@@ -99,7 +103,22 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         String str = settings.getString("table", " ");
         if(str.equals(" "))
         tablename = "table";
-        storyCnt = new ArrayList<chatContents>();
+
+        init();
+
+    }
+    public void init(){
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        isNewStory = settings.getBoolean("isnewStory", true);
+        datab=openOrCreateDatabase("S_DB", Context.MODE_PRIVATE, null);
+        //OPEN DB
+        //db.openDB();
+        //COMMIT
+        //datab.execSQL("DELETE TABLE  a_TB;");
+        datab.execSQL("CREATE TABLE IF NOT EXISTS chattable (name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
+        datab.close();
+
 
         mBtAddUser = (ImageButton) findViewById(R.id.addUserButton);
         mBtAddUser.setOnClickListener(this);
@@ -119,15 +138,20 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         mBtEmoji = (Button) findViewById(R.id.addEmoji);
         mBtEmoji.setOnClickListener(this);
 
-        mBtEmoji = (Button) findViewById(R.id.addPhoto);
-        mBtEmoji.setOnClickListener(this);
+        mBtphoto = (Button) findViewById(R.id.addPhoto);
+        mBtphoto.setOnClickListener(this);
 
-
-        emojiconEditText = (EmojiconEditText) findViewById(R.id.messageEditText);
         rootView = findViewById(R.id.root_view);
 
-      //  emojiButton = (ImageView) findViewById(R.id.emoji_btn);
-      //  submitButton = (ImageView) findViewById(R.id.submit_btn);
+        emojiSetting();
+        isNewStory = true;
+
+    }
+
+    public void emojiSetting(){
+        emojiconEditText = (EmojiconEditText) findViewById(R.id.messageEditText);
+         //  emojiButton = (ImageView) findViewById(R.id.emoji_btn);
+        //  submitButton = (ImageView) findViewById(R.id.submit_btn);
 
         popup = new EmojiconsPopup(rootView, this);
         //Will automatically set size according to the soft keyboard size
@@ -138,7 +162,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onDismiss() {
-       //         changeEmojiKeyboardIcon(emojiButton, R.drawable.smiley);
+                //         changeEmojiKeyboardIcon(emojiButton, R.drawable.smiley);
             }
         });
 
@@ -190,6 +214,19 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
                 emojiconEditText.dispatchKeyEvent(event);
             }
         });
+    }
+    @Override
+    public void onResume(){
+        super.onResume(); // Always call the superclass method first
+        // consider case when comming back after publish. if publish has done , re create db table and new story.
+        if(!isNewStory){
+
+            mBtUser1.setEnabled(false);
+            mBtUser2.setEnabled(false);
+            mBtSendMsg.setEnabled(false);
+            mBtphoto.setEnabled(false);
+            mBtEmoji.setEnabled(false);
+          }
 
     }
     @Override
@@ -312,9 +349,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
     private void previewStory(){
 
-       // Intent intent = new Intent(this,storyViewActivity.class);
-       // intent.putParcelableArrayListExtra("story_contents", (ArrayList <chatContents>) storyCnt);
-        if(intent==null)
+       if(intent==null)
         intent = new Intent(this,storyViewActivity.class);
 
         startActivity(intent);
@@ -340,32 +375,22 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
            // chatContents itm = new chatContents(txtView.getText().toString(),Integer.toString(txtView.getCurrentTextColor()), txt.getText().toString(),t.getText().toString());
            // DBHelper db=new DBHelper(this);
-            SQLiteDatabase datab=openOrCreateDatabase("S_DB", Context.MODE_PRIVATE, null);
-            //OPEN DB
-            //db.openDB();
-            //COMMIT
-            //datab.execSQL("DELETE TABLE  a_TB;");
+            datab=openOrCreateDatabase("S_DB", Context.MODE_PRIVATE, null);
             datab.execSQL("CREATE TABLE IF NOT EXISTS chattable (name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
-
             datab.execSQL("INSERT INTO chattable (name, words, url, clr) VALUES('"+txtView.getCurrentTextColor()+"','"+txt.getText().toString()+"','"+txtView.getText().toString()+"','"+t.getText().toString()+"');");
-
             datab.close();
 
+            txt.setText(" ");
+            txt.setHint(" ");
+            im.setImageDrawable(null);
 
-        //    if(result>0) {
-                txt.setText(" ");
-                txt.setHint(" ");
-                im.setImageDrawable(null);
-       /*     }else{
-                Toast toast=Toast.makeText(getApplicationContext(),"Don,t use db!",Toast.LENGTH_SHORT);
-                toast.setMargin(50,180);
-                toast.show();
-            }
-           // db.closeDB();*/
         }
 
         if(no==1){
             Button mBtUser = (Button) findViewById(R.id.user1Button);
+            Button mBtUser2 = (Button) findViewById(R.id.user2Button);
+            mBtUser.setAlpha((float)1);
+            mBtUser2.setAlpha((float)0.5);
             txtView.setText(mBtUser.getText().toString());
             txtView.setTextColor(Color.parseColor("#ffffff"));
             txtView.setGravity(Gravity.LEFT);
@@ -374,6 +399,9 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
         }else {
             Button mBtUser = (Button) findViewById(R.id.user2Button);
+            Button mBtUser1 = (Button) findViewById(R.id.user1Button);
+            mBtUser1.setAlpha((float)0.5);
+            mBtUser.setAlpha((float)1);
             txtView.setText(mBtUser.getText().toString());
             txtView.setTextColor(Color.parseColor("#6e3e0b"));
             txtView.setGravity(Gravity.RIGHT);
@@ -442,10 +470,12 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         if(userNumber==0) {
             mBtUser = (Button) findViewById(R.id.user1Button);
             mBtUser.setVisibility(View.VISIBLE);
+            mBtUser.setEnabled(true);
             userNumber++;
         }else{
             mBtUser = (Button) findViewById(R.id.user2Button);
             mBtUser.setVisibility(View.VISIBLE);
+            mBtUser.setEnabled(true);
             userNumber--;
         }
 
