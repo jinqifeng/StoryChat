@@ -55,6 +55,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import static com.jwn.storychat.MainActivity.PREFS_NAME;
+
 /**
  * Created by JongWN-D on 7/24/2017.
  */

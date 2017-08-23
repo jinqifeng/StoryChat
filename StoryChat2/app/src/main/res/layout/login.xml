@@ -41,7 +41,7 @@
         android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="240dp"
         android:layout_marginLeft="100dp"
         android:gravity="center"
         android:text="Register" />
@@ -49,9 +49,17 @@
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="240dp"
         android:layout_marginLeft="230dp"
         android:gravity="center"
         android:text="cancel" />
+    <TextView
+        android:id="@+id/tvReset"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="290dp"
+        android:text="Do you lost password?" />
+
 
 </RelativeLayout>

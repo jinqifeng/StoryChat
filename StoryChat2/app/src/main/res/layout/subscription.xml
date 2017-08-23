@@ -6,15 +6,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:onClick="onClick">
 
         <Button
             android:id="@+id/free"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="150dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="150dp"
             android:text="7 Days Free" />
 
         <TextView
@@ -29,18 +30,18 @@
             android:id="@+id/month"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="250dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="250dp"
             android:text="1 month for $7.99" />
 
         <Button
             android:id="@+id/year"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="350dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="350dp"
             android:text="1 year for $39.99" />
 
         <TextView
