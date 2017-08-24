@@ -1,5 +1,6 @@
 package com.jwn.storychat;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -113,7 +114,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                         // TODO: handle the post
-                        Log.d("jmrTAG", "onChildAdded:" + postSnapshot.getKey());
+
                         chatContents chat = postSnapshot.getValue(chatContents.class);
                         story_temp.add(chat);
                       //  adapter.notifyItemInserted(story_temp.size()-1);
@@ -140,6 +141,10 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         read_num = settings.getInt("readnum", 0);
+        String prev_read_title = settings.getString("title", " ");
+        if(!prev_read_title.equals(titlename)){
+            read_num = 0;
+        }
 
 
     }
@@ -168,8 +173,8 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("readnum", read_num);
         editor.commit();
-        Boolean isNewStory = false;
-        editor.putBoolean("isnewstory", isNewStory);
+        editor.commit();
+        editor.putString("title",titlename);
         editor.commit();
 
         super.onBackPressed();
@@ -266,9 +271,10 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
 
 
 
-        final EditText inputEmail = (EditText) findViewById(R.id.email);
+        final EditText inputEmail = (EditText) findViewById(R.id.emailaddress);
         final EditText inputPassword = (EditText) findViewById(R.id.password);
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading");
 
 
         btnOpenPopup1.setOnClickListener(new Button.OnClickListener() {
@@ -294,14 +300,14 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+                progressDialog.show();
                 //create user
                 auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(storyOneViewActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Toast.makeText(storyOneViewActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
+                                progressDialog.dismiss();
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
@@ -340,9 +346,10 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
         final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.submit);
         final Button btnOpenPopup2 = (Button) popupView.findViewById(R.id.cancel);
         final TextView tvResetPassword = (TextView) popupView.findViewById(R.id.tvReset);
-        final EditText inputEmail = (EditText) popupView.findViewById(R.id.email);
+        final EditText inputEmail = (EditText) popupView.findViewById(R.id.username);
         final EditText inputPassword = (EditText) popupView.findViewById(R.id.password);
-        final ProgressBar progressBar = (ProgressBar) popupView.findViewById(R.id.progressBar);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading");
 
 
         btnOpenPopup1.setOnClickListener(new Button.OnClickListener() {
@@ -363,7 +370,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+                progressDialog.show();
 
                 //authenticate user
                 auth.signInWithEmailAndPassword(email, password)
@@ -373,7 +380,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
+                                progressDialog.dismiss();
                                 if (!task.isSuccessful()) {
                                     // there was an error
                                     if (password.length() < 6) {
@@ -382,10 +389,8 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
                                         Toast.makeText(storyOneViewActivity.this, "login failled", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    is_possible_read = true;
-                                    Intent intent = new Intent(storyOneViewActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    afterLogin();
+
                                 }
                             }
                         });
@@ -408,5 +413,12 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
             }
 
         });
+    }
+    public  void afterLogin(){
+        is_possible_read = true;
+        Intent intent = new Intent(storyOneViewActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 }

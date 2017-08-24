@@ -4,34 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="550dp"
+    android:background="@android:color/holo_blue_bright"
     android:orientation="vertical"
-    android:weightSum="1"
-    android:background="#fdfbe9"
-    >
+    android:weightSum="1">
+
     <Button
         android:id="@+id/button"
-        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:layout_weight="0.04"
         android:background="#33bcfc"
-        android:textColor="#ffffff"
-        android:text="Submit" />
+        android:text="Submit"
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.04"
         android:layout_marginTop="5dp"
-        android:text="Title Of Story" />
+        android:layout_weight="0.04"
+        android:text="Title Of Story"
+        android:textColor="#000000" />
 
     <EditText
         android:id="@+id/editTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.04"
         android:layout_marginTop="5dp"
+        android:layout_weight="0.04"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName" />
@@ -42,18 +43,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_weight="0.04"
-        android:text="Category" />
+        android:text="Category"
+        android:textAllCaps="false"
+        android:textColor="#000000" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_weight="0.04"
         android:layout_marginTop="5dp"
+        android:layout_weight="0.04"
         android:contextClickable="true"
         android:entries="@array/brew_array"
-        android:prompt="@string/category_prompt"
         android:minHeight="30dp"
+        android:prompt="@string/category_prompt"
         android:visibility="visible" />
 
     <TextView
@@ -62,7 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_weight="0.07"
-        android:text="Author" />
+        android:text="Author"
+        android:textColor="#000000" />
 
     <EditText
         android:id="@+id/editTextAuthor"
@@ -80,24 +84,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_weight="0.04"
-        android:text="Publish Date" />
+        android:text="Publish Date"
+        android:textColor="#000000" />
 
     <EditText
         android:id="@+id/editDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_weight="0.04"
         android:ems="10"
-        android:layout_marginTop="5dp"
         android:inputType="date" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.04"
         android:layout_marginTop="5dp"
-        android:text="Cover Image(Please Click picture to select other!)" />
+        android:layout_weight="0.04"
+        android:text="Cover Image(Please Click picture to select other!)"
+        android:textColor="#000000" />
 
     <ImageView
         android:id="@+id/coverImage"
@@ -105,10 +111,10 @@
         android:layout_height="220dp"
         android:layout_marginTop="5dp"
         android:layout_weight="0.04"
+        android:background="@android:color/holo_blue_bright"
         android:clickable="true"
-        android:text=""
-        android:src="@drawable/book2" />
-
+        android:src="@drawable/book2"
+        android:text="" />
 
 
 </LinearLayout>

@@ -52,6 +52,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/ivImgt"
     android:layout_centerHorizontal="true"
+    android:layout_gravity="center"
     android:layout_below="@+id/EditText_bubble"
     android:layout_marginTop="5dp"
     android:background="#eeeeee"

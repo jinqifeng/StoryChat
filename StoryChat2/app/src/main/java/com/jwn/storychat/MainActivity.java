@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      //  ActionBar actionBar = getSupportActionBar();
-      //  actionBar.hide();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         Integer cusor_num = settings.getInt("cusor", 0);
@@ -70,12 +70,10 @@ public class MainActivity extends AppCompatActivity {
                         //   rvStorys.scrollToPosition(story_view.size()-1);
                         adapter.notifyItemInserted(storys.size() - 1);
                     }
-                    progressDialog.dismiss();
 
-                } else {
-                    Log.e("ddddd", "Not found: " );
+
                 }
-
+                progressDialog.dismiss();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

@@ -99,18 +99,12 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        String str = settings.getString("table", " ");
-        if(str.equals(" "))
-        tablename = "table";
-
         init();
 
     }
     public void init(){
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        isNewStory = settings.getBoolean("isnewStory", true);
+
         datab=openOrCreateDatabase("S_DB", Context.MODE_PRIVATE, null);
         //OPEN DB
         //db.openDB();
@@ -144,7 +138,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         rootView = findViewById(R.id.root_view);
 
         emojiSetting();
-        isNewStory = true;
+
 
     }
 
@@ -219,14 +213,6 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     public void onResume(){
         super.onResume(); // Always call the superclass method first
         // consider case when comming back after publish. if publish has done , re create db table and new story.
-        if(!isNewStory){
-
-            mBtUser1.setEnabled(false);
-            mBtUser2.setEnabled(false);
-            mBtSendMsg.setEnabled(false);
-            mBtphoto.setEnabled(false);
-            mBtEmoji.setEnabled(false);
-          }
 
     }
     @Override
@@ -383,6 +369,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             txt.setText(" ");
             txt.setHint(" ");
             im.setImageDrawable(null);
+            t.setText("d");
 
         }
 

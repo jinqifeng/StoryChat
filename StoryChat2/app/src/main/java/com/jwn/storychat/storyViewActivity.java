@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import static com.jwn.storychat.MainActivity.PREFS_NAME;
 
+
 /**
  * Created by JongWN-D on 7/24/2017.
  */
@@ -167,10 +168,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         Integer cusor = res.getPosition();
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("cusor", cusor);
 
-        // Commit the edits!
+        editor.putInt("cusor", cusor_num);
         editor.commit();
+
         if(res!=null)
          res = null;
         datab.close();
@@ -211,7 +212,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             rvStorys.scrollToPosition(position_recycle);
             rvStorys.refreshDrawableState();
             position_recycle++;
-
+            cusor_num++;
         }
     }
     public void upload(){
@@ -294,7 +295,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String s=dataSnapshot.getValue().toString();
-                        Log.d("Profile",s);
+
                         if(dataSnapshot !=null){
 
 
@@ -328,7 +329,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                            Log.d("Uir", String.valueOf(downloadUrl));
+
                                             String photoUri=String.valueOf(downloadUrl);
                                             imageurl = photoUri;
                                             b = true;
@@ -367,24 +368,26 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("table", " ");
         editor.putInt("cusor",0);
+        editor.commit();
+
         cusor_num = 0;
-
-
         datab.execSQL("DROP TABLE IF EXISTS chattable");
         story_view.clear();
 
         //datab.execSQL("DROP TABLE IF EXISTS chattable");
         getApplicationContext().deleteDatabase("S_DB");
-        editor.commit();
+
 
         popupWindow.dismiss();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void publish(){
         relativeLayout = (RelativeLayout) findViewById(R.id.view_layout);
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         popupView = layoutInflater.inflate(R.layout.publish, null);
-        popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, 1000);
+        popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         popupWindow.setFocusable(true);
         popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
 
@@ -399,13 +402,13 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
         });
 
-      /*  ImageView cover = (ImageView) popupView.findViewById(R.id.coverImage);
-     //   cover.setOnClickListener(new View.OnClickListener(){
+        ImageView cover = (ImageView) popupView.findViewById(R.id.coverImage);
+        cover.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View arg0) {
                 addPhoto();
             }
-        });*/
+        });
     }
     private void validate(){
 
