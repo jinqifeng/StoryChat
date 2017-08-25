@@ -1,4 +1,4 @@
-package com.sourcey.materiallogindemo;
+package com.jwn.storychat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";

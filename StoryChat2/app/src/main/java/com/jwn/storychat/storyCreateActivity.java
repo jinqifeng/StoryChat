@@ -54,8 +54,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     private Button mBtphoto;
     private Intent intent;
     SQLiteDatabase datab;
-    String tablename;
-    Boolean isNewStory;
+
 
 
     private EmojiconEditText emojiconEditText;
@@ -239,7 +238,11 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             // permissions this app might request
         }
     }
-
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
     @Override
     public void onClick(View v) {
         // default method for handling onClick Events..

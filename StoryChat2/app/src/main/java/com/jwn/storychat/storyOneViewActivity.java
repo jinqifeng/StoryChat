@@ -69,7 +69,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
     View popupView;
     private PopupWindow popupWindow;
     Integer subscrition_level;
-    private FirebaseAuth auth;
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -181,7 +181,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
     }
     public void onNext(){
 
-        if(read_num >= limit && !is_possible_read){
+        if(read_num >= (story_temp.size()/2) && !is_possible_read){
             subscript();
         }
         if(read_num<story_temp.size())
@@ -226,7 +226,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
             @Override
             public void onClick(View arg0) {
                 subscrition_level = 0;
-                openRegister();
+
             }
 
         });
@@ -234,7 +234,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
             @Override
             public void onClick(View arg0) {
                 subscrition_level = 1;
-                openRegister();
+
             }
 
 
@@ -244,176 +244,21 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
             @Override
             public void onClick(View arg0) {
                 subscrition_level = 2;
-                openRegister();
+
             }
         });
         tvLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                subscrition_level = 2;
-                openLogin();
+
+                Intent it = new Intent(storyOneViewActivity.this, loginActivity.class);
+                startActivity(it);
             }
         });
 
     }
-    public void openRegister(){
-        relativeLayout = (RelativeLayout) findViewById(R.id.view_layout);
-        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        popupView = layoutInflater.inflate(R.layout.register, null);
-        popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, 1000);
-        popupWindow.setFocusable(true);
-        popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
 
-        Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.submit);
-        Button btnOpenPopup2 = (Button) popupView.findViewById(R.id.cancel);
-        auth = FirebaseAuth.getInstance();
-
-
-
-        final EditText inputEmail = (EditText) findViewById(R.id.emailaddress);
-        final EditText inputPassword = (EditText) findViewById(R.id.password);
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading");
-
-
-        btnOpenPopup1.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                //Get Firebase auth instance
-
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                progressDialog.show();
-                //create user
-                auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(storyOneViewActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(storyOneViewActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                progressDialog.dismiss();
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(storyOneViewActivity.this, "Authentication failed." + task.getException(),
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-
-                                    Intent intent = new Intent(storyOneViewActivity.this, paymentActivity.class);
-                                    intent.putExtra("subscriptionlevel",subscrition_level);
-                                    startActivity(intent);
-
-                                }
-                            }
-                        });
-            }
-
-
-
-        });
-        btnOpenPopup2.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                popupWindow.dismiss();
-            }
-        });
-    }
-    public void openLogin(){
-        relativeLayout = (RelativeLayout) findViewById(R.id.view_layout);
-        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        popupView = layoutInflater.inflate(R.layout.login, null);
-        popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, 1000);
-        popupWindow.setFocusable(true);
-        popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
-
-        final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.submit);
-        final Button btnOpenPopup2 = (Button) popupView.findViewById(R.id.cancel);
-        final TextView tvResetPassword = (TextView) popupView.findViewById(R.id.tvReset);
-        final EditText inputEmail = (EditText) popupView.findViewById(R.id.username);
-        final EditText inputPassword = (EditText) popupView.findViewById(R.id.password);
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading");
-
-
-        btnOpenPopup1.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-
-
-                String email = inputEmail.getText().toString();
-                final String password = inputPassword.getText().toString();
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                progressDialog.show();
-
-                //authenticate user
-                auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(storyOneViewActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                progressDialog.dismiss();
-                                if (!task.isSuccessful()) {
-                                    // there was an error
-                                    if (password.length() < 6) {
-                                        inputPassword.setError("please re-input password");
-                                    } else {
-                                        Toast.makeText(storyOneViewActivity.this, "login failled", Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    afterLogin();
-
-                                }
-                            }
-                        });
-            }
-
-
-        });
-        btnOpenPopup2.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                popupWindow.dismiss();
-            }
-
-        });
-
-        tvResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-
-            }
-
-        });
-    }
     public  void afterLogin(){
         is_possible_read = true;
         Intent intent = new Intent(storyOneViewActivity.this, MainActivity.class);

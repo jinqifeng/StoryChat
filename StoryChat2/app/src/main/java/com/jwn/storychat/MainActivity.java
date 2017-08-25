@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     storyAdapter adapter;
     private Button mBtCreateStoryActivity;
     public static final String PREFS_NAME = "Prefs";
-    @Override
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchActivity() {
 
-        Intent intent = new Intent(this, storyCreateActivity.class);
+        Intent intent = new Intent(this, loginActivity.class);
         startActivity(intent);
     }
 }
