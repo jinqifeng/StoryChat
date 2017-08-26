@@ -69,11 +69,14 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
     ArrayList<chatContents> story_view;
     private RecyclerView rvStorys;
-    Button mBtStoryPublish;
-    Button mBtBack;
-    Button mBtNext;
+    //Button mBtStoryPublish;
+    //Button mBtBack;
+    //Button mBtNext;
+    //Button mBtSave;
+    String user1,user2;
     private RelativeLayout relativeLayout;
     private PopupWindow popupWindow;
+    View popupView;
     SQLiteDatabase datab;
     Cursor res;
     Integer position_recycle = 0;
@@ -82,8 +85,9 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     FirebaseDatabase database;
     FirebaseStorage storage;
     StorageReference mStorageRef;
-    String imageurl;
-    View popupView;
+    DatabaseReference myRef2;
+    Integer l,f;
+    String imageurl,imageurl2;
     String titstr;
     Integer cusor_num;
     Boolean b ;
@@ -95,6 +99,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
+        Intent intent = getIntent();
+        user1 = intent.getExtras().getString("user1");
+        user2 = intent.getExtras().getString("user2");
 
 
         b = false;
@@ -138,12 +146,14 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         this.getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        mBtStoryPublish = (Button) findViewById(R.id.publish_button);
+        Button mBtStoryPublish = (Button) findViewById(R.id.publish_button);
         mBtStoryPublish.setOnClickListener(this);
-        mBtBack= (Button) findViewById(R.id.view_backbutton);
+        Button mBtBack= (Button) findViewById(R.id.view_backbutton);
         mBtBack.setOnClickListener(this);
-        mBtNext= (Button) findViewById(R.id.next_view);
+        Button mBtNext= (Button) findViewById(R.id.next_view);
         mBtNext.setOnClickListener(this);
+        Button mBtSave= (Button) findViewById(R.id.view_save);
+        mBtSave.setOnClickListener(this);
 
     }
     @Override
@@ -154,14 +164,27 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                 publish();
                 break;
             case R.id.view_backbutton:
-                   onBackPressed();
+                onBackPressed();
                 break;
             case R.id.next_view:
-
                 onNext();
-
+                break;
+            case R.id.view_save:
+                onSave();
+                break;
+            default:
                 break;
         }
+    }
+    public void onSave(){
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("user1", user1);
+        editor.commit();
+        editor.putString("user2", user2);
+        editor.commit();
+       // editor.putInt("user3", cusor_num);
+        editor.commit();
     }
     @Override
     public void onBackPressed(){
@@ -171,7 +194,6 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         Integer cusor = res.getPosition();
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-
         editor.putInt("cusor", cusor_num);
         editor.commit();
 
@@ -192,7 +214,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
     }
     public void onNext(){
-
+        if(story_view.isEmpty()){
+            Toast.makeText(this, "There is not story to view", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if(res.moveToNext())
         {
@@ -332,36 +357,23 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                         if (dataSnapshot != null) {
 
 
-                            Integer l = 0;
-                            DatabaseReference myRef2 = database.getReference("story").child(titstr);
+                            l = 0;
+                            myRef2 = database.getReference("story").child(titstr);
                             while (l < story_view.size()) {
 
                                 String str3 = story_view.get(l).getUrl();
                                 Uri imageuri = Uri.parse(str3);
 
                                 if (!str3.equals("d")) {
-
-                                    StorageReference imageRef = mStorageRef.child("image").child(titstr).child(Integer.toString(l) + ".jpg");
-                                    ByteArrayOutputStream bytestrm = new ByteArrayOutputStream();
-
-                                    try {
-                                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageuri);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytestrm);
-                                    File imagefile = new File(imageuri.getLastPathSegment());
-                                    InputStream stream2 = null;
-                                    try {
-                                        stream2 = new FileInputStream(imagefile);
-                                    } catch (FileNotFoundException e) {
-                                        e.printStackTrace();
-                                    }
-                                    UploadTask upload = imageRef.putStream(stream2);
+                                    f = l;
+                                    b=true;
+                                    StorageReference imageRef = mStorageRef.child("image").child(titstr).child(Integer.toString(f) + ".jpg");
+                                    UploadTask upload = imageRef.putFile(imageuri);
                                     upload.addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception exception) {
-                                            // Handle unsuccessful uploads
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getApplicationContext(), "Failed to publish ", Toast.LENGTH_SHORT).show();
                                         }
                                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                         @SuppressWarnings("VisibleForTests")
@@ -369,42 +381,42 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
-
                                             String photoUri = String.valueOf(downloadUrl);
-                                            imageurl = photoUri;
+                                            imageurl2 = photoUri;
+                                            chatContents cnt = story_view.get(f);
+                                            cnt.setUrl(imageurl2);
+                                            myRef2.push().setValue(cnt);
+                                            b = false;
 
                                         }
                                     });
                                 } else {
                                     imageurl = "d";
+
+                                    chatContents cnt = story_view.get(l);
+                                    cnt.setUrl(imageurl);
+                                    myRef2.push().setValue(cnt);
+
                                 }
+                                while(b){
 
-
-                                chatContents cnt = story_view.get(l);
-                                cnt.setUrl(imageurl);
-                                myRef2.push().setValue(cnt);
+                                }
                                 l++;
-
+                                b = false;
 
                             }
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Ok, Publish succeced ", Toast.LENGTH_SHORT).show();
-                            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putString("table", " ");
-                            editor.putInt("cusor", 0);
+                            SharedPreferences pref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.clear();
                             editor.commit();
                             b = true;
                             cusor_num = 0;
                             datab.execSQL("DROP TABLE IF EXISTS chattable");
                             story_view.clear();
-
-                            //datab.execSQL("DROP TABLE IF EXISTS chattable");
                             getApplicationContext().deleteDatabase("S_DB");
-
-
                             popupWindow.dismiss();
-
                         }
                     }
 
@@ -431,6 +443,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void publish(){
+        if(story_view.isEmpty()){
+            Toast.makeText(this, "There is not story to publish", Toast.LENGTH_SHORT).show();
+            return;
+        }
         relativeLayout = (RelativeLayout) findViewById(R.id.view_layout);
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         popupView = layoutInflater.inflate(R.layout.publish, null);

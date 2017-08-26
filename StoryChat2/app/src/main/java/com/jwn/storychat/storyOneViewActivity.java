@@ -51,19 +51,16 @@ import static com.jwn.storychat.MainActivity.PREFS_NAME;
 
 public class storyOneViewActivity extends AppCompatActivity implements OnClickListener{
 
-    Button mBtBack;
-    Button mBtNext;
-    Cursor res;
+
+
     ArrayList<chatContents> story_view;
     ArrayList<chatContents> story_temp;
     private RecyclerView rvStorys;
     Integer position_recycle = 0;
-    SQLiteDatabase datab;
     FirebaseDatabase database;
     chatContentsAdapter adapter;
     String titlename;
     Integer read_num;
-    Integer limit;
     Boolean is_possible_read;
     RelativeLayout relativeLayout;
     View popupView;
@@ -87,8 +84,8 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
         story_view = new ArrayList<chatContents>();
         story_temp = new ArrayList<chatContents>();
 
-        mBtBack = (Button) findViewById(R.id.button3);
-        mBtNext = (Button) findViewById(R.id.button2);
+        Button mBtBack = (Button) findViewById(R.id.button3);
+        Button mBtNext = (Button) findViewById(R.id.button2);
         mBtBack.setOnClickListener(this);
         mBtNext.setOnClickListener(this);
 
@@ -143,9 +140,9 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
         read_num = settings.getInt("readnum", 0);
         String prev_read_title = settings.getString("title", " ");
         if(!prev_read_title.equals(titlename)){
-            read_num = 0;
+            read_num = 1;
         }
-
+        is_possible_read = false;
 
     }
     public void onClick(View v) {
@@ -209,13 +206,14 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
         }
     }
     public void subscript(){
-
-        relativeLayout = (RelativeLayout) findViewById(R.id.view_layout);
+        relativeLayout = (RelativeLayout) findViewById(R.id.publish_layout);
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         popupView = layoutInflater.inflate(R.layout.subscription, null);
-        popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, 1000);
+        popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         popupWindow.setFocusable(true);
-        popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
+      //  popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
+        popupWindow.setAnimationStyle(R.style.AppTheme_popup);
+        popupWindow.showAsDropDown(popupView);
 
         final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.free);
         final Button btnOpenPopup2 = (Button) popupView.findViewById(R.id.month);
@@ -226,7 +224,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
             @Override
             public void onClick(View arg0) {
                 subscrition_level = 0;
-
+                Toast.makeText(storyOneViewActivity.this, "Current is working for payment system!!!", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -234,7 +232,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
             @Override
             public void onClick(View arg0) {
                 subscrition_level = 1;
-
+                Toast.makeText(storyOneViewActivity.this, "Current is working for payment system!!!", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -244,18 +242,18 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
             @Override
             public void onClick(View arg0) {
                 subscrition_level = 2;
-
+                Toast.makeText(storyOneViewActivity.this, "Current is working for payment system!!!", Toast.LENGTH_SHORT).show();
             }
         });
-        tvLogin.setOnClickListener(new View.OnClickListener() {
+     /*   tvLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
 
-                Intent it = new Intent(storyOneViewActivity.this, loginActivity.class);
+                Intent it = new Intent(storyOneViewActivity.this, LoginActivity.class);
                 startActivity(it);
             }
-        });
+        });*/
 
     }
 

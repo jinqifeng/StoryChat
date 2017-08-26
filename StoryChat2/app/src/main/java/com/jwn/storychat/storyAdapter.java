@@ -78,7 +78,7 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
             this.itemClickListener.onItemClick(v,getLayoutPosition());
             System.out.println("onClick");
 
-            Toast.makeText(context, "Sorry, Disconnected to Server !. ", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, "Sorry, Disconnected to Server !. ", Toast.LENGTH_SHORT).show();
             Integer t = getAdapterPosition();  String t2= String.valueOf(getLayoutPosition());
             if( (t % 2)==0) {
 
@@ -151,7 +151,7 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
            }
         else
         {
-            holder.story1.setImageResource(R.drawable.story1);
+            holder.story1.setImageResource(R.drawable.book1);
             holder.story2.setImageResource(R.drawable.story2);
         }
          holder.setItemClickListener(new ItemClickListener(){

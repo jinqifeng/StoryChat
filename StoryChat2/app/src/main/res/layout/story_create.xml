@@ -3,20 +3,11 @@
     xmlns:emojicon="http://schemas.android.com/apk/lib/com.ids.storychat.storyChatActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_view"
-    android:background="@drawable/back2"
-    android:orientation="vertical" >
+    android:background="#5a80da"
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/msgListView"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:text="hello"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
     <LinearLayout
         android:id="@+id/edit"
         android:layout_width="match_parent"
@@ -34,46 +25,55 @@
             android:layout_gravity="left"
             android:layout_width="wrap_content"
             android:layout_height="35dp" />
-        <LinearLayout
-            android:id="@+id/messageEditText_bubble"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="30dp"
+        <android.support.v7.widget.CardView
             android:orientation="vertical"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-         <!--   android:background="@drawable/bubble1"-->
-
-
-            <com.jwn.storychat.emoji.EmojiconEditText
-                android:id="@+id/messageEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardCornerRadius="8dp"
+            android:layout_marginBottom="16dp"
+            >
+            <LinearLayout
+                android:id="@+id/messageEditText_bubble"
                 android:layout_width="wrap_content"
-                android:layout_weight="0"
                 android:layout_height="wrap_content"
-                android:maxHeight="100dp"
                 android:minHeight="30dp"
-                android:minWidth="100dp"
-                android:background="#f8d184"
-                android:enabled="false"
-                android:hint="please create new user!"
-                emojicon:emojiconSize="28sp" />
+                android:orientation="vertical"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+             <!--   android:background="@drawable/bubble1"-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivImg"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/messageEditText"
-                android:layout_marginTop="5dp"
-                android:background="#eeeeee"/>
-            <TextView
-                android:id="@+id/imagesource"
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:text="d"
-                android:visibility="invisible"/>
 
-        </LinearLayout>
+                <com.jwn.storychat.emoji.EmojiconEditText
+                    android:id="@+id/messageEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="0"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="100dp"
+                    android:minHeight="30dp"
+                    android:minWidth="100dp"
+
+                    android:enabled="false"
+                    android:hint="please create new user!"
+                    emojicon:emojiconSize="28sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ivImg"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/messageEditText"
+                    android:layout_marginTop="5dp"
+                    android:background="#eeeeee"/>
+                <TextView
+                    android:id="@+id/imagesource"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:text="d"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 
@@ -81,7 +81,7 @@
         android:id="@+id/form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#bf6e19"
+        android:background="#3f0942c4"
         android:orientation="horizontal"
         android:layout_marginBottom="38dp"
 
@@ -97,7 +97,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/user_add2"
             android:layout_gravity="center"
              />
@@ -110,9 +110,10 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/smiley"
+            android:background="@drawable/emoji1"
             android:layout_gravity="center"
             android:enabled="false"
+            android:alpha="0.2"
             android:text="" />
 
 
@@ -143,13 +144,13 @@
             />
         <Button
             android:id="@+id/user2Button"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
-            android:textColor="#0b206e"
-            android:background="#bf6f1b"
+            android:textColor="#6e3e0b"
+            android:background="#110942c4"
             android:enabled="false"
             android:layout_gravity="center"
 
@@ -157,7 +158,7 @@
 
         <Button
             android:id="@+id/user1Button"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
@@ -165,65 +166,72 @@
             android:layout_marginRight="10dp"
             android:text=""
             android:textColor="#ffffff"
-            android:background="#bf6f1b"
+            android:background="#3f0942c4"
             android:enabled="false" />
         <Button
-            android:id="@+id/user3Button"
-            android:layout_width="wrap_content"
+            android:id="@+id/commant"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
-            android:text=""
-            android:textColor="#ffffff"
-            android:background="#bf6f1b"
+            android:text="Commant"
+            android:textColor="#ef6b6b"
+            android:background="#3f0942c4"
             android:enabled="false" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/form2"
-        android:layout_width="fill_parent"
-        android:layout_height="32dp"
-
-        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="86dp"
         android:layout_gravity="center"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentLeft="true"
         android:visibility="invisible"
-        android:layout_alignTop="@+id/edit"
-        android:layout_alignLeft="@+id/edit"
-        android:layout_alignStart="@+id/edit"
+        android:layout_alignParentStart="true"
         >
+        <android.support.v7.widget.CardView
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardCornerRadius="8dp"
+            android:layout_marginBottom="16dp"
+            >
+        <com.jwn.storychat.emoji.EmojiconEditText
+                android:id="@+id/userEditText"
+                android:layout_width="wrap_content"
+                android:layout_weight="0"
+                android:layout_height="wrap_content"
+                android:maxHeight="100dp"
+                android:minHeight="30dp"
+                android:minWidth="100dp"
+                android:enabled="true"
+                android:hint="please create new user!"
+                emojicon:emojiconSize="28sp" />
 
-        <EditText
-            android:id="@+id/userEditText"
-            android:layout_width="fill_parent"
-            android:layout_height="26dp"
-            android:layout_gravity="center"
-
-            android:background="#faf7f7"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="5dp"
-            android:maxHeight="80dp"
-            android:layout_weight="0.59" />
+        </android.support.v7.widget.CardView>
 
         <Button
             android:id="@+id/createUser"
-            android:layout_width="wrap_content"
-            android:layout_height="26dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="1dp"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="1dp"
-            android:background="#cecccc"
+
             android:text="add"
-            android:textColor="#000000" />
+            android:background="@drawable/btn_blue" style="@style/ButtonText"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#223365"
+    android:id="@+id/publish_layout"
     android:weightSum="1">
 
         <android.support.v7.widget.RecyclerView
@@ -17,8 +18,8 @@
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#33bcfc"
-        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_blue" style="@style/ButtonText"
+        android:layout_below="@+id/rvStory_one"
         android:textColor="#ffffff"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
@@ -29,9 +30,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="#33bcfc"
+        android:background="@drawable/btn_blue" style="@style/ButtonText"
         android:textColor="#ffffff"
-        android:layout_marginRight="10dp"
+        android:layout_below="@+id/button2"
         android:layout_marginLeft="10dp"
         android:text="Back" />
-</LinearLayout>
+</RelativeLayout>

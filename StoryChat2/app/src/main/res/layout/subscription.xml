@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ad86bbed"
+    android:layout_weight="0.2">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,6 +18,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="150dp"
+            android:background="#10a4f4"
+            android:textColor="#ffffff"
             android:text="7 Days Free" />
 
         <TextView
@@ -33,6 +37,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="250dp"
+            android:background="#10a4f4"
+            android:textColor="#ffffff"
             android:text="1 month for $7.99" />
 
         <Button
@@ -42,6 +48,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="350dp"
+            android:background="#10a4f4"
+            android:textColor="#ffffff"
             android:text="1 year for $39.99" />
 
         <TextView
@@ -50,6 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/year"
             android:gravity="center_horizontal"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
             android:text="I already have subscripted plan " />
     </RelativeLayout>
 
