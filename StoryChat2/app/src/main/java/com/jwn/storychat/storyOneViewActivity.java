@@ -142,7 +142,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
         if(!prev_read_title.equals(titlename)){
             read_num = 1;
         }
-        is_possible_read = false;
+        is_possible_read = settings.getBoolean("is_possible_read", false);;
 
     }
     public void onClick(View v) {
