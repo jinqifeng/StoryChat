@@ -389,6 +389,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         if(no==3){
             txtcolor = Color.parseColor("#FFC40A0A");
             username = " ";
+            txtView.setText(" ");
         }
 
         if(!txt.isEnabled()){
@@ -396,7 +397,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             txt.setHint(" ");
             txt.setText(" ");
             im.setImageDrawable(null);
-        } else if((!str.equals(" ")) && (!str1.equals(" "))){
+        } else if(!(str.equals(" ") && str1.equals(" "))){
 
            // chatContents itm = new chatContents(txtView.getText().toString(),Integer.toString(txtView.getCurrentTextColor()), txt.getText().toString(),t.getText().toString());
            // DBHelper db=new DBHelper(this);

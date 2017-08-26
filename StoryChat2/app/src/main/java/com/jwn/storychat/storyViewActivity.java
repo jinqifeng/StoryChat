@@ -57,6 +57,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
+
 import static com.jwn.storychat.MainActivity.PREFS_NAME;
 
 
@@ -68,11 +70,8 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
 
     ArrayList<chatContents> story_view;
+    ArrayList<chatContents> story_temp;
     private RecyclerView rvStorys;
-    //Button mBtStoryPublish;
-    //Button mBtBack;
-    //Button mBtNext;
-    //Button mBtSave;
     String user1,user2;
     private RelativeLayout relativeLayout;
     private PopupWindow popupWindow;
@@ -80,14 +79,14 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     SQLiteDatabase datab;
     Cursor res;
     Integer position_recycle = 0;
-    Bitmap bitmap;
-    Uri image;
     FirebaseDatabase database;
     FirebaseStorage storage;
     StorageReference mStorageRef;
     DatabaseReference myRef2;
-    Integer l,f;
-    String imageurl,imageurl2;
+    Integer l;
+    Integer index=0;
+    List<String> imageurl2;
+    ProgressDialog progressDialog;
     String titstr;
     Integer cusor_num;
     Boolean b ;
@@ -110,6 +109,9 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         storage = FirebaseStorage.getInstance();
 
         story_view = new ArrayList<chatContents>();
+        imageurl2 = new ArrayList<String>();
+        story_temp = new ArrayList<chatContents>();
+
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         cusor_num = settings.getInt("cusor", 0);
 
@@ -247,23 +249,9 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             cusor_num++;
         }
     }
-    private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
-    }
-    public void upload() {
 
-        EditText title = (EditText) popupView.findViewById(R.id.editTextTitle);
-        titstr = title.getText().toString();
+    public void titleUpload(){
+
         EditText author = (EditText) popupView.findViewById(R.id.editTextAuthor);
         final String autstr = author.getText().toString();
         EditText date = (EditText) popupView.findViewById(R.id.editDate);
@@ -294,43 +282,29 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             Toast toast = Toast.makeText(getApplicationContext(), "Please Input Title!", Toast.LENGTH_SHORT);
             toast.setMargin(50, 180);
             toast.show();
-            return;
+            return ;
         }
 
-        mStorageRef = storage.getReference();
+
         StorageReference mref = mStorageRef.child("cover");
         StorageReference mountainsRef = mref.child(titstr);
 
 
         InputStream stream = null;
 
-        if (image == null) {
-          //  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.book2);
+      /*  if (image == null) {
+            //  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.book2);
             image = Uri.parse("android.resource://com.jwn.storychat/" + R.drawable.book2);
 
-        }
+        }*/
         ImageView imv = (ImageView) popupView.findViewById(R.id.coverImage);
-        Bitmap bmp = bitmap = ((BitmapDrawable)imv.getDrawable()).getBitmap();
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading");
-        progressDialog.show();
+        Bitmap bmp =  ((BitmapDrawable)imv.getDrawable()).getBitmap();
 
-
-       /*   //File coverImagefile=new File(stream);
-        try {
-            stream = new FileInputStream(getRealPathFromURI(image));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-       //InputStream inputStream = this.getContentResolver().openInputStream(image);
-        Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
-        StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
-        uploadTask = riversRef.putFile(file);*/
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
-       // UploadTask uploadTask = mountainsRef.putBytes(data);
+        // UploadTask uploadTask = mountainsRef.putBytes(data);
 
         mountainsRef.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @SuppressWarnings("VisibleForTests")
@@ -355,68 +329,8 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                         String s = dataSnapshot.getValue().toString();
 
                         if (dataSnapshot != null) {
+                            return ;
 
-
-                            l = 0;
-                            myRef2 = database.getReference("story").child(titstr);
-                            while (l < story_view.size()) {
-
-                                String str3 = story_view.get(l).getUrl();
-                                Uri imageuri = Uri.parse(str3);
-
-                                if (!str3.equals("d")) {
-                                    f = l;
-                                    b=true;
-                                    StorageReference imageRef = mStorageRef.child("image").child(titstr).child(Integer.toString(f) + ".jpg");
-                                    UploadTask upload = imageRef.putFile(imageuri);
-                                    upload.addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception exception) {
-                                            progressDialog.dismiss();
-                                            Toast.makeText(getApplicationContext(), "Failed to publish ", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                        @SuppressWarnings("VisibleForTests")
-                                        @Override
-                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                            String photoUri = String.valueOf(downloadUrl);
-                                            imageurl2 = photoUri;
-                                            chatContents cnt = story_view.get(f);
-                                            cnt.setUrl(imageurl2);
-                                            myRef2.push().setValue(cnt);
-                                            b = false;
-
-                                        }
-                                    });
-                                } else {
-                                    imageurl = "d";
-
-                                    chatContents cnt = story_view.get(l);
-                                    cnt.setUrl(imageurl);
-                                    myRef2.push().setValue(cnt);
-
-                                }
-                                while(b){
-
-                                }
-                                l++;
-                                b = false;
-
-                            }
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Ok, Publish succeced ", Toast.LENGTH_SHORT).show();
-                            SharedPreferences pref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-                            SharedPreferences.Editor editor = pref.edit();
-                            editor.clear();
-                            editor.commit();
-                            b = true;
-                            cusor_num = 0;
-                            datab.execSQL("DROP TABLE IF EXISTS chattable");
-                            story_view.clear();
-                            getApplicationContext().deleteDatabase("S_DB");
-                            popupWindow.dismiss();
                         }
                     }
 
@@ -431,17 +345,102 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
-                progressDialog.dismiss();
+
                 Toast.makeText(getApplicationContext(), "Wow??, Publish failed. network is busy ", Toast.LENGTH_SHORT).show();
+                return ;
             }
         });
 
+    }
+    public void upload() {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading");
+        progressDialog.show();
+
+        EditText title = (EditText) popupView.findViewById(R.id.editTextTitle);
+        titstr = title.getText().toString();// in order to do first contentupload.
+        mStorageRef = storage.getReference();
+
+        contentUpload();
+        titleUpload(); // upload title after success uploading content
 
 
 
+        Toast.makeText(getApplicationContext(), "Ok, Publish succeced ", Toast.LENGTH_SHORT).show();
+        SharedPreferences pref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.commit();
+        b = true;
+        cusor_num = 0;
+        datab.execSQL("DROP TABLE IF EXISTS chattable");
+        story_view.clear();
+        getApplicationContext().deleteDatabase("S_DB");
+        popupWindow.dismiss();
 
     }
+    public void contentUpload() {
 
+        l = 0;
+        myRef2 = database.getReference("story").child(titstr);
+        while (l < story_view.size()) {
+
+            String str3 = story_view.get(l).getUrl();
+            Uri imageuri = Uri.parse(str3);
+
+            chatContents cnt = story_view.get(l);
+           // cnt.setUrl("d");
+            DatabaseReference child = myRef2.push();
+            child.setValue(cnt);
+            String key = child.getKey();
+            if (!str3.equals("d")) {
+
+                imageurl2.add(key);
+                story_temp.add(story_view.get(l));
+                StorageReference imageRef = mStorageRef.child("image").child(titstr).child(Integer.toString(l) + ".jpg");
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageuri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
+
+                UploadTask upload = imageRef.putBytes(data);
+                upload.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Failed to publish ", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @SuppressWarnings("VisibleForTests")
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        String photoUri = String.valueOf(downloadUrl);
+                        chatContents tmp = story_temp.get(index);
+                        tmp.setUrl(photoUri);
+                        String read_key = imageurl2.get(index);
+                        myRef2.child(read_key).setValue(tmp);
+                        index++;
+                        if(imageurl2.size()==index){
+                            progressDialog.dismiss();
+                        }
+                    }
+                });
+            }
+
+
+
+            l++;
+        }
+
+    }
     public void publish(){
         if(story_view.isEmpty()){
             Toast.makeText(this, "There is not story to publish", Toast.LENGTH_SHORT).show();
@@ -473,9 +472,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             }
         });
     }
-    private void validate(){
 
-    }
     private void addPhoto(){
 
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -488,13 +485,9 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        image = data.getData();
-        final Uri urlimg = image;
-        try {
-            is = getContentResolver().openInputStream(data.getData());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+       // image = data.getData();
+        final Uri urlimg = data.getData();
+
         ImageView ivGif = (ImageView) popupView.findViewById(R.id.coverImage);
    /*     Glide.with(this)
                 .load(urlimg)
@@ -506,7 +499,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                 .into(ivGif);*/
 
         try {
-            bitmap=MediaStore.Images.Media.getBitmap(getContentResolver(),urlimg);
+            Bitmap bitmap=MediaStore.Images.Media.getBitmap(getContentResolver(),urlimg);
             ivGif.setImageBitmap(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
