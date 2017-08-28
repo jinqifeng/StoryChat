@@ -74,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
                         //   rvStorys.scrollToPosition(story_view.size()-1);
                         adapter.notifyItemInserted(storys.size() - 1);
                     }
-
-
                 }
                 progressDialog.dismiss();
             }

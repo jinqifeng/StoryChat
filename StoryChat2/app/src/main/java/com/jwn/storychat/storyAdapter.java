@@ -79,18 +79,28 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
             System.out.println("onClick");
 
            // Toast.makeText(context, "Sorry, Disconnected to Server !. ", Toast.LENGTH_SHORT).show();
-            Integer t = getAdapterPosition();  String t2= String.valueOf(getLayoutPosition());
+            Integer t = getAdapterPosition();
             if( (t % 2)==0) {
 
-                String t3 = Title1.getText().toString();
+                String t1 = Title1.getText().toString();
+                String t2 = Author1.getText().toString();
+                String t3 = Pub_date1.getText().toString();
+               // String t4 = nStory.getText().toString();
+
                 Intent it = new Intent(v.getContext(), storyOneViewActivity.class);
-                it.putExtra("title",t3);
+                it.putExtra("title",t1);
+                it.putExtra("author",t2);
+                it.putExtra("date",t3);
                 v.getContext().startActivity(it);
 
             }else {
-                String t4 = Title2.getText().toString();
+                String t1 = Title2.getText().toString();
+                String t2 = Author2.getText().toString();
+                String t3 = Pub_date2.getText().toString();
                 Intent it = new Intent(v.getContext(), storyOneViewActivity.class);
-                it.putExtra("title",t4);
+                it.putExtra("title",t1);
+                it.putExtra("author",t2);
+                it.putExtra("date",t3);
                 v.getContext().startActivity(it);
             }
 
@@ -160,8 +170,6 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
              public void onItemClick(View v, int pos) {
 
              }
-
-
 
           });
     }

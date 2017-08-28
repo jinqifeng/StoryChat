@@ -24,7 +24,7 @@
         android:textSize="25dp"
         android:textStyle="bold"
         android:paddingBottom="50dp"
-        android:textColor="#000000" />
+        android:textColor="#ffffff" />
     <TextView
         android:id="@+id/textAuthor1"
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
         android:gravity="center"
         android:textSize="20dp"
         android:textStyle="italic"
-        android:textColor="#000000" />
+        android:textColor="#ffffff" />
     <TextView
         android:id="@+id/textDate1"
         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
         android:gravity="center"
         android:textSize="18dp"
         android:paddingTop="50dp"
-        android:textColor="#000000" />
+        android:textColor="#ffffff" />
 
     <ImageView
         android:layout_marginTop="10dp"
@@ -71,7 +71,7 @@
         android:textSize="25dp"
         android:textStyle="bold"
         android:paddingBottom="50dp"
-        android:textColor="#000000" />
+        android:textColor="#ffffff" />
     <TextView
         android:id="@+id/textAuthor2"
         android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
         android:gravity="center"
         android:textSize="20dp"
         android:textStyle="italic"
-        android:textColor="#000000" />
+        android:textColor="#ffffff" />
     <TextView
         android:id="@+id/textDate2"
         android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
         android:text=""
         android:textSize="18dp"
         android:paddingTop="50dp"
-        android:textColor="#000000" />
+        android:textColor="#ffffff" />
 
 
 
