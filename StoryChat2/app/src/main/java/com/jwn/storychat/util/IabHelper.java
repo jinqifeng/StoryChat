@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.example.android.trivialdrivesample.util;
+package com.jwn.storychat.util;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -393,18 +393,18 @@ public class IabHelper {
     }
 
     public void launchPurchaseFlow(Activity act, String sku, int requestCode,
-            OnIabPurchaseFinishedListener listener, String extraData)
+                                   OnIabPurchaseFinishedListener listener, String extraData)
         throws IabAsyncInProgressException {
         launchPurchaseFlow(act, sku, ITEM_TYPE_INAPP, null, requestCode, listener, extraData);
     }
 
     public void launchSubscriptionPurchaseFlow(Activity act, String sku, int requestCode,
-            OnIabPurchaseFinishedListener listener) throws IabAsyncInProgressException {
+                                               OnIabPurchaseFinishedListener listener) throws IabAsyncInProgressException {
         launchSubscriptionPurchaseFlow(act, sku, requestCode, listener, "");
     }
 
     public void launchSubscriptionPurchaseFlow(Activity act, String sku, int requestCode,
-            OnIabPurchaseFinishedListener listener, String extraData)
+                                               OnIabPurchaseFinishedListener listener, String extraData)
         throws IabAsyncInProgressException {
         launchPurchaseFlow(act, sku, ITEM_TYPE_SUBS, null, requestCode, listener, extraData);
     }
@@ -430,7 +430,7 @@ public class IabHelper {
      *      purchase and will always be returned when the purchase is queried.
      */
     public void launchPurchaseFlow(Activity act, String sku, String itemType, List<String> oldSkus,
-            int requestCode, OnIabPurchaseFinishedListener listener, String extraData)
+                                   int requestCode, OnIabPurchaseFinishedListener listener, String extraData)
         throws IabAsyncInProgressException {
         checkNotDisposed();
         checkSetupDone("launchPurchaseFlow");
@@ -684,7 +684,7 @@ public class IabHelper {
      * @param listener The listener to notify when the refresh operation completes.
      */
     public void queryInventoryAsync(final boolean querySkuDetails, final List<String> moreItemSkus,
-            final List<String> moreSubsSkus, final QueryInventoryFinishedListener listener)
+                                    final List<String> moreSubsSkus, final QueryInventoryFinishedListener listener)
         throws IabAsyncInProgressException {
         final Handler handler = new Handler();
         checkNotDisposed();

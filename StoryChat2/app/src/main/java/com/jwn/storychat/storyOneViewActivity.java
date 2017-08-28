@@ -173,7 +173,6 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
         editor.commit();
         editor.putString("title",titlename);
         editor.commit();
-
         super.onBackPressed();
     }
     public void onNext(){
