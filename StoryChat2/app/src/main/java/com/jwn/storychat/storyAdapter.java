@@ -22,9 +22,6 @@ import java.util.List;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.squareup.picasso.Picasso;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
 /**
@@ -80,8 +77,8 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
         public void onClick(View v) {
             this.itemClickListener.onItemClick(v,getLayoutPosition());
             System.out.println("onClick");
-            Log.d(TAG, "onChhgjlick " );
-            Toast.makeText(context, "Sorry, Disconnected to Server !. ", Toast.LENGTH_SHORT).show();
+
+           // Toast.makeText(context, "Sorry, Disconnected to Server !. ", Toast.LENGTH_SHORT).show();
             Integer t = getAdapterPosition();  String t2= String.valueOf(getLayoutPosition());
             if( (t % 2)==0) {
 
@@ -154,21 +151,14 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
            }
         else
         {
-
-            holder.story1.setImageResource(R.drawable.story1);
+            holder.story1.setImageResource(R.drawable.book1);
             holder.story2.setImageResource(R.drawable.story2);
-
         }
          holder.setItemClickListener(new ItemClickListener(){
 
              @Override
              public void onItemClick(View v, int pos) {
 
-                if(pos==3){
-                    Intent it = new Intent(v.getContext(), storyOneViewActivity.class);
-
-                    v.getContext().startActivity(it);
-                }
              }
 
 

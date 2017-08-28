@@ -26,16 +26,15 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<story> storys;
     FirebaseDatabase database;
     storyAdapter adapter;
-    private Button mBtCreateStoryActivity;
     public static final String PREFS_NAME = "Prefs";
-    @Override
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      //  ActionBar actionBar = getSupportActionBar();
-      //  actionBar.hide();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         Integer cusor_num = settings.getInt("cusor", 0);
@@ -51,8 +50,13 @@ public class MainActivity extends AppCompatActivity {
         // Attach the adapter to the recyclerview to populate items
         rvStorys.setAdapter(adapter);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+       /* final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("loading");
+        progressDialog.show();*/
+        final ProgressDialog progressDialog = new ProgressDialog(this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("loading storys...");
         progressDialog.show();
         database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("search");
@@ -70,12 +74,10 @@ public class MainActivity extends AppCompatActivity {
                         //   rvStorys.scrollToPosition(story_view.size()-1);
                         adapter.notifyItemInserted(storys.size() - 1);
                     }
-                    progressDialog.dismiss();
 
-                } else {
-                    Log.e("ddddd", "Not found: " );
+
                 }
-
+                progressDialog.dismiss();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         rvStorys.setLayoutManager(gridLayoutManager);
 
 
-        mBtCreateStoryActivity = (Button) findViewById(R.id.myStory);
+        Button mBtCreateStoryActivity = (Button) findViewById(R.id.myStory);
 
         mBtCreateStoryActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,8 +107,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchActivity() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        Boolean is_possible_read = settings.getBoolean("is_possible_read", false);
+        if(!is_possible_read){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, storyCreateActivity.class);
+            startActivity(intent);
+        }
 
-        Intent intent = new Intent(this, storyCreateActivity.class);
-        startActivity(intent);
     }
 }

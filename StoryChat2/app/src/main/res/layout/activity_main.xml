@@ -10,41 +10,36 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/back3"
+        android:layout_height="match_parent"
+        android:background="#5599de"
         android:orientation="vertical"
         >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/storyList"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="550dp"
+            android:layout_marginTop="5dp"
+            android:background="#5599de"
             android:scrollbars="vertical"
-            android:background="@drawable/back3"
-            android:layout_marginTop="30dp"
 
             />
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            >
 
-            <Button
-                android:id="@+id/myStory"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:background="@drawable/btn"
-                android:clickable="true"
-                android:onClick=""
-                android:text="Create My Stosy"
-                android:gravity="center"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:visibility="visible" />
-        </LinearLayout>
+
+        <Button
+            android:id="@+id/myStory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_blue" style="@style/ButtonText"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick=""
+            android:text="Create My Stosy"
+            android:textColor="@android:color/background_light"
+            android:visibility="visible" />
+
 
     </LinearLayout>
 
