@@ -35,17 +35,18 @@
             android:text="#ererer"
             android:layout_height="35dp" />
 
-            <com.jwn.storychat.emoji.EmojiconEditText
-                android:id="@+id/EditText"
-                android:layout_width="wrap_content"
-                android:layout_weight="0"
-                android:layout_height="wrap_content"
-                android:minHeight="30dp"
-                android:background="#ffffff"
-                android:enabled="true"
-                android:layout_marginRight="10dp"
-                android:paddingLeft="10dp"
-                emojicon:emojiconSize="15dp" />
+        <com.jwn.storychat.emoji.EmojiconEditText
+            android:id="@+id/EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0"
+            android:background="#ffffff"
+
+            android:enabled="true"
+            android:minHeight="30dp"
+            android:paddingLeft="10dp"
+            emojicon:emojiconSize="15dp" />
     </LinearLayout>
         <ImageView
             android:layout_width="300dp"

@@ -2,6 +2,7 @@ package com.jwn.storychat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.jwn.storychat.MainActivity.PREFS_NAME;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -106,7 +109,13 @@ public class SignupActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                     Toast.LENGTH_SHORT).show();
+                            _signupButton.setEnabled(true);
+
                         } else {
+                            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putBoolean("is_possible_read", true);
+                            editor.commit();
                             startActivity(new Intent(SignupActivity.this, storyCreateActivity.class));
                             finish();
                         }

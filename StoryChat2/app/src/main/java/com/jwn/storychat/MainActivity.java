@@ -107,8 +107,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchActivity() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        Boolean is_possible_read = settings.getBoolean("is_possible_read", false);
+        if(!is_possible_read){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, storyCreateActivity.class);
+            startActivity(intent);
+        }
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 }

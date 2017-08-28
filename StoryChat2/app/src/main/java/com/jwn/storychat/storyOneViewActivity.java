@@ -58,7 +58,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
     private RecyclerView rvStorys;
     Integer position_recycle = 0;
     FirebaseDatabase database;
-    chatContentsAdapter adapter;
+    storyViewAdapter adapter;
     String titlename;
     Integer read_num;
     Boolean is_possible_read;
@@ -91,7 +91,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
 
         rvStorys = (RecyclerView) findViewById(R.id.rvStory_one);
         // Create adapter passing in the sample user data
-        adapter = new chatContentsAdapter(this,story_view);
+        adapter = new storyViewAdapter(this,story_view);
         // Attach the adapter to the recyclerview to populate items
         rvStorys.setAdapter(adapter);
 
@@ -188,7 +188,7 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
             //ADD TO ARRAYLIS
             story_view.add(p);
 
-            chatContentsAdapter adapter = new chatContentsAdapter(this,story_view);
+            storyViewAdapter adapter = new storyViewAdapter(this,story_view);
             // Attach the adapter to the recyclerview to populate items
             rvStorys.setAdapter(adapter);
             StaggeredGridLayoutManager gridLayoutManager =
@@ -257,11 +257,5 @@ public class storyOneViewActivity extends AppCompatActivity implements OnClickLi
 
     }
 
-    public  void afterLogin(){
-        is_possible_read = true;
-        Intent intent = new Intent(storyOneViewActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
 
-    }
 }
