@@ -124,6 +124,9 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         Button  mBtSendMsg = (Button) findViewById(R.id.previewButton);
         mBtSendMsg.setOnClickListener(this);
 
+        Button  mBtUser3 = (Button) findViewById(R.id.commant);
+        mBtUser3.setOnClickListener(this);
+
         mBtEmoji = (Button) findViewById(R.id.addEmoji);
         mBtEmoji.setOnClickListener(this);
 
@@ -147,7 +150,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
                 mBtUser1.setEnabled(true);
                 userNumber++;
                 mBtUser1.setText(user1);
-
+                mBtUser3.setEnabled(true);
 
         }
         if(!user2.equals(" ")) {
@@ -161,6 +164,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             mBtUser2.setEnabled(true);
             userNumber++;
             mBtUser2.setText(user2);
+            mBtUser3.setEnabled(true);
         }
 
 
@@ -414,25 +418,37 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         }
 
         if(no==1){
-            Button mBtUser = (Button) findViewById(R.id.user1Button);
+            Button mBtUser1 = (Button) findViewById(R.id.user1Button);
             Button mBtUser2 = (Button) findViewById(R.id.user2Button);
-            mBtUser.setAlpha((float)1);
+            Button mBtUser3 = (Button) findViewById(R.id.commant);
+            mBtUser1.setAlpha((float)1);
             mBtUser2.setAlpha((float)0.3);
-            txtView.setText(mBtUser.getText().toString());
+            mBtUser3.setAlpha((float)0.3);
+            txtView.setText(mBtUser1.getText().toString());
             txtView.setTextColor(Color.parseColor("#33bcfc"));
             txtView.setGravity(Gravity.LEFT);
 
-
-        }else {
-            Button mBtUser = (Button) findViewById(R.id.user2Button);
+        }else if(no==2){
+            Button mBtUser2 = (Button) findViewById(R.id.user2Button);
             Button mBtUser1 = (Button) findViewById(R.id.user1Button);
+            Button mBtUser3 = (Button) findViewById(R.id.commant);
             mBtUser1.setAlpha((float)0.3);
-            mBtUser.setAlpha((float)1);
-            txtView.setText(mBtUser.getText().toString());
+            mBtUser3.setAlpha((float)0.3);
+            mBtUser2.setAlpha((float)1);
+            txtView.setText(mBtUser2.getText().toString());
             txtView.setTextColor(Color.parseColor("#6e3e0b"));
             txtView.setGravity(Gravity.RIGHT);
 
-
+        }else{
+            Button mBtUser = (Button) findViewById(R.id.user1Button);
+            Button mBtUser2 = (Button) findViewById(R.id.user2Button);
+            Button mBtUser3 = (Button) findViewById(R.id.commant);
+            mBtUser.setAlpha((float)0.3);
+            mBtUser2.setAlpha((float)0.3);
+            mBtUser3.setAlpha((float)1);
+            txtView.setText(mBtUser3.getText().toString());
+            txtView.setTextColor(Color.parseColor("#ef6b6b"));
+            txtView.setGravity(Gravity.LEFT);
         }
 
 
@@ -453,7 +469,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
     private void addUserName() {
 
-        if(userNumber>=3){
+        if(userNumber>=2){
             Toast.makeText(this, "Can not add user more two", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -485,7 +501,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
     }
     private void createUserName() {
-        Button mBtUser;
+        Button mBtUser,mBtUser3;
         EditText txt;
 
         txt = (EditText) findViewById(R.id.userEditText);
@@ -522,5 +538,8 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         txt = (EditText) findViewById(R.id.messageEditText);
         txt.setHint("Please Selcet User!");
 
+        mBtUser3 = (Button) findViewById(R.id.commant);
+        mBtUser3.setVisibility(View.VISIBLE);
+        mBtUser3.setEnabled(true);
     }
 }
