@@ -1,6 +1,7 @@
 package com.jwn.storychat;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,15 +19,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+import com.mindorks.placeholderview.SwipeDecor;
+import com.mindorks.placeholderview.SwipePlaceHolderView;
 
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<story> storys;
     FirebaseDatabase database;
-    storyAdapter adapter;
+  //  storyAdapter adapter;
     public static final String PREFS_NAME = "Prefs";
+
+    private SwipePlaceHolderView mSwipeView;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +48,23 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("cusor", 0);
             editor.commit();
         }
-        RecyclerView rvStorys = (RecyclerView) findViewById(R.id.storyList);
-        storys = new ArrayList<story>();
+      //  RecyclerView rvStorys = (RecyclerView) findViewById(R.id.storyList);
+       // storys = new ArrayList<story>();
         // Create adapter passing in the sample user data
-        adapter = new storyAdapter(this,storys);
+      //  adapter = new storyAdapter(this,storys);
         // Attach the adapter to the recyclerview to populate items
-        rvStorys.setAdapter(adapter);
+     //   rvStorys.setAdapter(adapter);
+
+        mSwipeView = (SwipePlaceHolderView)findViewById(R.id.swipeView);
+        mContext = getApplicationContext();
+
+        mSwipeView.getBuilder()
+                .setDisplayViewCount(3)
+                .setSwipeDecor(new SwipeDecor()
+                        .setPaddingTop(20)
+                        .setRelativeScale(0.01f)
+                        .setSwipeInMsgLayoutId(R.layout.tinder_swipe_in_msg_view)
+                        .setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
 
        /* final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("loading");
@@ -70,9 +86,10 @@ public class MainActivity extends AppCompatActivity {
                         String name = postSnapshot.getKey();
                         story chat = postSnapshot.getValue(story.class);
                         chat.setTitle(name);
-                        storys.add(chat);
+                        mSwipeView.addView(new TinderCard(mContext, chat, mSwipeView));
+                        //storys.add(chat);
                         //   rvStorys.scrollToPosition(story_view.size()-1);
-                        adapter.notifyItemInserted(storys.size() - 1);
+                      //  adapter.notifyItemInserted(storys.size() - 1);
                     }
                 }
                 progressDialog.dismiss();
@@ -84,12 +101,26 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+/*
+        findViewById(R.id.rejectBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSwipeView.doSwipe(false);
+            }
+        });
 
+        findViewById(R.id.acceptBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSwipeView.doSwipe(true);
+            }
+        });
+*/
         // Set layout manager to position the items
-        StaggeredGridLayoutManager gridLayoutManager =
-                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+   //     StaggeredGridLayoutManager gridLayoutManager =
+    //            new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 // Attach the layout manager to the recycler view
-        rvStorys.setLayoutManager(gridLayoutManager);
+       // rvStorys.setLayoutManager(gridLayoutManager);
 
 
         Button mBtCreateStoryActivity = (Button) findViewById(R.id.myStory);
@@ -101,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
                 launchActivity();
             }
         });
+
+
 
     }
 

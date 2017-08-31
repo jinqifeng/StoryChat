@@ -7,41 +7,42 @@
     tools:context="com.jwn.storychat.MainActivity">
 
 
-
-    <LinearLayout
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#5599de"
-        android:orientation="vertical"
-        >
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/storyList"
+        android:background="#49a1e4">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="450dp"
-            android:layout_marginTop="5dp"
-            android:background="#5599de"
-            android:scrollbars="vertical"
-
-            />
-
-
-        <Button
-            android:id="@+id/myStory"
-            android:layout_width="match_parent"
-            android:layout_height="145dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_blue" style="@style/ButtonText"
-            android:clickable="true"
+            android:layout_height="140dp"
+            android:layout_gravity="bottom"
             android:gravity="center"
-            android:onClick=""
-            android:text="Create My Stosy"
-            android:textColor="@android:color/background_light"
-            android:visibility="visible" />
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/myStory"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="500dp"
+                android:background="@drawable/btn_blue" style="@style/ButtonText"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick=""
+                android:text="Create My Stosy"
+                android:textColor="@android:color/background_light"
+                android:visibility="visible" />
+
+        </LinearLayout>
+        <com.mindorks.placeholderview.SwipePlaceHolderView
+            android:id="@+id/swipeView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
 
 
-    </LinearLayout>
+
 
 
 </RelativeLayout>
