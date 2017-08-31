@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import com.jwn.storychat.util.IabBroadcastReceiver;
 import com.jwn.storychat.util.IabBroadcastReceiver.IabBroadcastListener;
 import com.jwn.storychat.util.IabHelper;
@@ -51,9 +54,10 @@ import com.jwn.storychat.util.IabHelper.IabAsyncInProgressException;
 import com.jwn.storychat.util.IabResult;
 import com.jwn.storychat.util.Inventory;
 import com.jwn.storychat.util.Purchase;
-
+import android.os.CountDownTimer;
 
 import static com.jwn.storychat.MainActivity.PREFS_NAME;
+
 
 /**
  * Created by JongWN-D on 8/4/2017.
@@ -71,6 +75,7 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
     storyViewAdapter adapter;
     String titlename;
     Integer read_num;
+    Integer next_num;
     Boolean is_possible_read;
     RelativeLayout relativeLayout;
     View popupView;
@@ -101,6 +106,19 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
 
     // Current amount of gas in tank, in units
     int mTank;
+
+    TextView editTextMinute;
+    TextView textViewTime;
+    ProgressBar progressBarCircle;
+    private long timeCountInMilliSeconds = 1 * 60000;
+
+    private enum TimerStatus {
+        STARTED,
+        STOPPED
+    }
+
+    private TimerStatus timerStatus = TimerStatus.STOPPED;
+    private CountDownTimer countDownTimer;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -178,7 +196,7 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
             read_num = 1;
         }
         is_possible_read = settings.getBoolean("is_possible_read", false);
-
+        next_num = 0;
 
     }
     public void setPaymentSystem(){
@@ -446,10 +464,147 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
         editor.commit();
         super.onBackPressed();
     }
+    /**
+     * method to start and stop count down timer
+     */
+    private void startStop() {
+        if (timerStatus == TimerStatus.STOPPED) {
+
+            // call to initialize the timer values
+            setTimerValues();
+            // call to initialize the progress bar values
+            setProgressBarValues();
+
+            // changing the timer status to started
+            timerStatus = TimerStatus.STARTED;
+            // call to start the count down timer
+            startCountDownTimer();
+
+        } else {
+
+
+            // changing the timer status to stopped
+            timerStatus = TimerStatus.STOPPED;
+            stopCountDownTimer();
+
+        }
+
+    }
+
+    /**
+     * method to initialize the values for count down timer
+     */
+    private void setTimerValues() {
+        int time = 0;
+        if (!editTextMinute.getText().toString().isEmpty()) {
+            // fetching value from edit text and type cast to integer
+            time = Integer.parseInt(editTextMinute.getText().toString().trim());
+        } else {
+            // toast message to fill edit text
+            Toast.makeText(getApplicationContext(), "Please Enter Minutes...", Toast.LENGTH_LONG).show();
+        }
+        // assigning values after converting to milliseconds
+        timeCountInMilliSeconds = time * 60 * 1000;
+    }
+
+    /**
+     * method to start count down timer
+     */
+    private void startCountDownTimer() {
+
+        countDownTimer = new CountDownTimer(timeCountInMilliSeconds, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                textViewTime.setText(hmsTimeFormatter(millisUntilFinished));
+
+                progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                textViewTime.setText(hmsTimeFormatter(timeCountInMilliSeconds));
+                // call to initialize the progress bar values
+                setProgressBarValues();
+                // changing the timer status to stopped
+                timerStatus = TimerStatus.STOPPED;
+
+                popupWindow.dismiss();
+                next_num = 0;
+            }
+
+        }.start();
+        countDownTimer.start();
+    }
+
+    /**
+     * method to stop count down timer
+     */
+    private void stopCountDownTimer() {
+        countDownTimer.cancel();
+    }
+
+    /**
+     * method to set circular progress bar values
+     */
+    private void setProgressBarValues() {
+
+        progressBarCircle.setMax((int) timeCountInMilliSeconds / 1000);
+        progressBarCircle.setProgress((int) timeCountInMilliSeconds / 1000);
+    }
+
+
+    /**
+     * method to convert millisecond to time format
+     *
+     * @param milliSeconds
+     * @return HH:mm:ss time formatted string
+     */
+    private String hmsTimeFormatter(long milliSeconds) {
+
+        String hms = String.format("%02d:%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(milliSeconds),
+                TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
+                TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
+        return hms;
+    }
+    public void limitdialog(){
+
+        relativeLayout = (RelativeLayout) findViewById(R.id.publish_layout);
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        popupView = layoutInflater.inflate(R.layout.limitdialog, null);
+        Integer heigit = relativeLayout.getHeight()/2;
+        popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindow.setFocusable(true);
+        //
+        popupWindow.setAnimationStyle(R.style.AppTheme_popup);
+        popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
+
+        progressBarCircle = (ProgressBar) popupView.findViewById(R.id.progressBarCircle);
+        editTextMinute = (TextView) popupView.findViewById(R.id.editTextMinute);
+        textViewTime = (TextView) popupView.findViewById(R.id.textViewTime);
+
+
+       final ImageView imageViewUnlimited = (ImageView) popupView.findViewById(R.id.imageViewUnlimited);
+
+        imageViewUnlimited.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                timerStatus = TimerStatus.STOPPED;
+                stopCountDownTimer();
+                popupWindow.dismiss();
+                subscript();
+            }
+        });
+        startStop();
+    }
     public void onNext(){
 
-        if(read_num >= (story_temp.size()/2) && !is_possible_read){
-            subscript();
+        if(next_num >= 5 && !is_possible_read){
+            limitdialog();
         }
         if(read_num<story_temp.size())
         {
@@ -472,24 +627,34 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
             rvStorys.refreshDrawableState();
             position_recycle++;
             read_num++;
+            next_num++;
 
         }
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        is_possible_read = settings.getBoolean("is_possible_read", false);
+
+    }
     public void subscript(){
-        setPaymentSystem();
+      //  setPaymentSystem();
         relativeLayout = (RelativeLayout) findViewById(R.id.publish_layout);
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         popupView = layoutInflater.inflate(R.layout.subscription, null);
         popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         popupWindow.setFocusable(true);
-      //  popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
-        popupWindow.setAnimationStyle(R.style.AppTheme_popup);
-        popupWindow.showAsDropDown(popupView);
+
+     //   popupWindow.setAnimationStyle(R.style.AppTheme_popup);
+        popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
+   //     popupWindow.showAsDropDown(popupView);
 
         final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.free);
         final Button btnOpenPopup2 = (Button) popupView.findViewById(R.id.month);
         final Button btnOpenPopup3 = (Button) popupView.findViewById(R.id.year);
         final TextView tvLogin = (TextView) popupView.findViewById(R.id.textView3);
+        final TextView tvBack = (TextView) popupView.findViewById(R.id.textView8);
 
         btnOpenPopup1.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -520,9 +685,20 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
 
             @Override
             public void onClick(View arg0) {
-
+                popupWindow.dismiss();
                 Intent it = new Intent(storyOneViewActivity.this, LoginActivity.class);
+                it.putExtra("for",1);
+                it.putExtra("titlename",titlename);
                 startActivity(it);
+            }
+        });
+        tvBack.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                popupWindow.dismiss();
+                limitdialog();
+
             }
         });
 

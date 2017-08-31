@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         Boolean is_possible_read = settings.getBoolean("is_possible_read", false);
         if(!is_possible_read){
             Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("for",0);
             startActivity(intent);
         }else{
             Intent intent = new Intent(this, storyCreateActivity.class);

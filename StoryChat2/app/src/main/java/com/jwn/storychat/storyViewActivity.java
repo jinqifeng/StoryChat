@@ -434,9 +434,6 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                     }
                 });
             }
-
-
-
             l++;
         }
 

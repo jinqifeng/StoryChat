@@ -31,13 +31,25 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_login) Button _loginButton;
     @Bind(R.id.link_signup) TextView _signupLink;
+    @Bind(R.id.link_back) TextView _backLink;
     private FirebaseAuth auth;
+
+    Integer flag_login;
+    String titlename;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if(bundle != null){
+            flag_login = bundle.getInt("for");
+            if(flag_login==1)
+                titlename = bundle.getString("titlename");
+        }
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -55,6 +67,15 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+        });
+        _backLink.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Start the Signup activity
+                LoginActivity.super.onBackPressed();
+             onBackPressed();
             }
         });
         auth = FirebaseAuth.getInstance();
@@ -100,8 +121,15 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("is_possible_read", true);
                             editor.commit();
-                            Intent intent = new Intent(LoginActivity.this, storyCreateActivity.class);
-                            startActivity(intent);
+                            if(flag_login==0) {
+                                Intent intent = new Intent(LoginActivity.this, storyCreateActivity.class);
+                                startActivity(intent);
+                            }else if(flag_login==1){
+                              /*  Intent intent = new Intent(LoginActivity.this, storyOneViewActivity.class);
+                                intent.putExtra("titlename",titlename);
+                                startActivity(intent);*/
+
+                            }
                             finish();
                         }
                     }

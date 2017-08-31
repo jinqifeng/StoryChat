@@ -1,7 +1,10 @@
 package com.jwn.storychat;
 
+import android.app.Activity;
 import android.content.Context;
 
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,11 +26,11 @@ public class TinderCard {
     @View(R.id.profileImageView)
     private ImageView profileImageView;
 
-    @View(R.id.nameAgeTxt)
-    private TextView nameAgeTxt;
+    @View(R.id.nameDateTxt)
+    private TextView nameDateTxt;
 
-    @View(R.id.locationNameTxt)
-    private TextView locationNameTxt;
+    @View(R.id.titleNameTxt)
+    private TextView titleNameTxt;
 
     private story mProfile;
     private Context mContext;
@@ -42,8 +45,8 @@ public class TinderCard {
     @Resolve
     private void onResolved(){
         Glide.with(mContext).load(mProfile.getPhoto()).into(profileImageView);
-        nameAgeTxt.setText(mProfile.getAuthor() + ", " + mProfile.getDate());
-        locationNameTxt.setText(mProfile.getTitle());
+        nameDateTxt.setText(mProfile.getAuthor() + ", " + mProfile.getDate());
+        titleNameTxt.setText(mProfile.getTitle());
     }
 
     @SwipeOut
@@ -59,7 +62,12 @@ public class TinderCard {
 
     @SwipeIn
     private void onSwipeIn(){
-        Log.d("EVENT", "onSwipedIn");
+        String t1 = titleNameTxt.getText().toString();
+        Intent it = new Intent(mContext.getApplicationContext(), storyOneViewActivity.class);
+        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        it.putExtra("title",t1);
+        mContext.getApplicationContext().startActivity(it);
+        Log.d("EVENT", "onSwipedAccepted");
     }
 
     @SwipeInState

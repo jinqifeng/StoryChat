@@ -57,10 +57,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/year"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:textColor="#ffffff"
             android:textSize="20dp"
             android:text="I already have subscripted plan " />
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView3"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:text="No, I will wait till recharge " />
+
     </RelativeLayout>
 
 </LinearLayout>

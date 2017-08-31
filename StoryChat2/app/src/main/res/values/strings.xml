@@ -3,6 +3,7 @@
     <string name="button">Button</string>
     <string name="name">Name</string>
     <string name="category_prompt">Choose a category</string>
+    <string name="hint_minute">Minute</string>
     <string-array name="brew_array">
         <item>love story</item>
         <item>episod</item>
