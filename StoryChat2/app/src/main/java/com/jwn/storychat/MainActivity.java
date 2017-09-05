@@ -13,6 +13,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
+
+import static android.R.attr.visibility;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SwipePlaceHolderView mSwipeView;
     private Context mContext;
-
+    ImageButton mBtCreateStoryActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +52,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("cusor", 0);
             editor.commit();
         }
-      //  RecyclerView rvStorys = (RecyclerView) findViewById(R.id.storyList);
-       // storys = new ArrayList<story>();
-        // Create adapter passing in the sample user data
-      //  adapter = new storyAdapter(this,storys);
-        // Attach the adapter to the recyclerview to populate items
-     //   rvStorys.setAdapter(adapter);
+        mBtCreateStoryActivity = (ImageButton) findViewById(R.id.myStory);
 
         mSwipeView = (SwipePlaceHolderView)findViewById(R.id.swipeView);
         mContext = getApplicationContext();
@@ -87,12 +86,13 @@ public class MainActivity extends AppCompatActivity {
                         story chat = postSnapshot.getValue(story.class);
                         chat.setTitle(name);
                         mSwipeView.addView(new TinderCard(mContext, chat, mSwipeView));
-                        //storys.add(chat);
-                        //   rvStorys.scrollToPosition(story_view.size()-1);
-                      //  adapter.notifyItemInserted(storys.size() - 1);
+
                     }
                 }
                 progressDialog.dismiss();
+                mBtCreateStoryActivity.setVisibility(View.VISIBLE);
+                FrameLayout ly = (FrameLayout) findViewById(R.id.layout);
+                ly.setBackgroundColor(123456);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -101,29 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-/*
-        findViewById(R.id.rejectBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSwipeView.doSwipe(false);
-            }
-        });
 
-        findViewById(R.id.acceptBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSwipeView.doSwipe(true);
-            }
-        });
-*/
-        // Set layout manager to position the items
-   //     StaggeredGridLayoutManager gridLayoutManager =
-    //            new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-// Attach the layout manager to the recycler view
-       // rvStorys.setLayoutManager(gridLayoutManager);
-
-
-        Button mBtCreateStoryActivity = (Button) findViewById(R.id.myStory);
 
         mBtCreateStoryActivity.setOnClickListener(new View.OnClickListener() {
             @Override
