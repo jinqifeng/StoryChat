@@ -137,9 +137,9 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
         story_view = new ArrayList<chatContents>();
         story_temp = new ArrayList<chatContents>();
 
-        Button mBtBack = (Button) findViewById(R.id.button3);
+
         Button mBtNext = (Button) findViewById(R.id.button2);
-        mBtBack.setOnClickListener(this);
+
         mBtNext.setOnClickListener(this);
 
         rvStorys = (RecyclerView) findViewById(R.id.rvStory_one);
@@ -438,11 +438,6 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
         switch (v.getId()) {
 
 
-            case R.id.button3:
-
-                onBackPressed();
-
-                break;
             case R.id.button2:
 
                 onNext();

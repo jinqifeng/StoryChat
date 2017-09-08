@@ -17,22 +17,13 @@
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_blue" style="@style/ButtonText"
+        android:layout_height="120dp"
+        android:background="@drawable/btn_white" style="@style/ButtonText"
         android:layout_below="@+id/rvStory_one"
         android:textColor="#ffffff"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:text="Next" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_blue" style="@style/ButtonText"
-        android:textColor="#ffffff"
-        android:layout_below="@+id/button2"
-        android:layout_marginLeft="10dp"
-        android:text="Back" />
+
 </RelativeLayout>
