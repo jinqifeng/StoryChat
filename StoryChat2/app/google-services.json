@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "281905068570",
-    "firebase_url": "https://themejob-168403.firebaseio.com",
-    "project_id": "themejob-168403",
-    "storage_bucket": "themejob-168403.appspot.com"
+    "project_number": "349987843375",
+    "firebase_url": "https://tjob-168403.firebaseio.com",
+    "project_id": "tjob-168403",
+    "storage_bucket": "tjob-168403.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:281905068570:android:1d4a395602f5d6ce",
+        "mobilesdk_app_id": "1:349987843375:android:d21b848d45786785",
         "android_client_info": {
-          "package_name": "com.jwn.storychat"
+          "package_name": "com.ids.storychat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "281905068570-e5n6gisdcb3c70ldir7bmrilt2vjuofi.apps.googleusercontent.com",
+          "client_id": "349987843375-en8s4eqia6p3lhdj07kv1c58egsr5nit.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ids.storychat",
+            "certificate_hash": "3467db1c553184d89d571442c2fa85d245c25c05"
+          }
+        },
+        {
+          "client_id": "349987843375-f47skknsjpctdir3gbljrmge5l67a8uc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA4riS4Iw2zra34RRRk7FdjBlqMvYXIVCU"
+          "current_key": "AIzaSyBrf3BUw258YcXz1fadM_OFBLhe9BXtUMM"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349987843375-f47skknsjpctdir3gbljrmge5l67a8uc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
