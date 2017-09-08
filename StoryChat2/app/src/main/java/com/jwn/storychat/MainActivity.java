@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
+import android.widget.FrameLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<story> storys;
     FirebaseDatabase database;
+    Button mBtCreateStoryActivity;
   //  storyAdapter adapter;
     public static final String PREFS_NAME = "Prefs";
 
@@ -93,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 progressDialog.dismiss();
+                mBtCreateStoryActivity.setVisibility(View.VISIBLE);
+                FrameLayout ly = (FrameLayout) findViewById(R.id.background);
+                ly.setBackgroundColor(123456);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -123,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
        // rvStorys.setLayoutManager(gridLayoutManager);
 
 
-        Button mBtCreateStoryActivity = (Button) findViewById(R.id.myStory);
+        mBtCreateStoryActivity = (Button) findViewById(R.id.myStory);
 
         mBtCreateStoryActivity.setOnClickListener(new View.OnClickListener() {
             @Override

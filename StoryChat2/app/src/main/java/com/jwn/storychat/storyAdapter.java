@@ -161,8 +161,8 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
            }
         else
         {
-            holder.story1.setImageResource(R.drawable.book1);
-            holder.story2.setImageResource(R.drawable.story2);
+         //   holder.story1.setImageResource(R.drawable.book1);
+         //   holder.story2.setImageResource(R.drawable.story2);
         }
          holder.setItemClickListener(new ItemClickListener(){
 
