@@ -12,18 +12,31 @@
             android:layout_height="480dp"
             android:scrollbars="vertical" />
 
-
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="480dp"
+        android:paddingLeft="24dp"
+        android:paddingBottom="14dp"
+        android:paddingRight="24dp">
 
     <Button
         android:id="@+id/button2"
+
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+
         android:layout_width="match_parent"
         android:layout_height="120dp"
+
         android:background="@drawable/btn_white" style="@style/ButtonText"
         android:layout_below="@+id/rvStory_one"
         android:textColor="#ffffff"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+
         android:text="Next" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

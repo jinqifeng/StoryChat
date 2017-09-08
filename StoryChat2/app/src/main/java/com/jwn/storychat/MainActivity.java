@@ -3,6 +3,7 @@ package com.jwn.storychat;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<story> storys;
     FirebaseDatabase database;
-    Button mBtCreateStoryActivity;
+    FloatingActionButton mBtCreateStoryActivity;
   //  storyAdapter adapter;
     public static final String PREFS_NAME = "Prefs";
 
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
        // rvStorys.setLayoutManager(gridLayoutManager);
 
 
-        mBtCreateStoryActivity = (Button) findViewById(R.id.myStory);
+        mBtCreateStoryActivity = (FloatingActionButton) findViewById(R.id.myStory);
 
         mBtCreateStoryActivity.setOnClickListener(new View.OnClickListener() {
             @Override

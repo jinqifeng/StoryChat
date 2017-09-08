@@ -185,7 +185,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onDismiss() {
-                         changeEmojiKeyboardIcon(mBtEmoji, R.drawable.emoji1);
+                         changeEmojiKeyboardIcon(mBtEmoji, R.drawable.ic_insert_emoticon_white_24dp);
             }
         });
 
@@ -319,19 +319,20 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Uri image = data.getData();
-        ImageView ivGif = (ImageView) findViewById(R.id.ivImg);
-        Glide.with(this)
-             .load(image)
-             .asBitmap()
-             .thumbnail(0.5f)
-             .centerCrop()
-             .placeholder(R.drawable.ic_loading_thumb)
-             .diskCacheStrategy(DiskCacheStrategy.ALL)
-             .into(ivGif);
-        TextView t = (TextView) findViewById(R.id.imagesource);
-        t.setText(image.toString());
+        if(data!=null) {
+            Uri image = data.getData();
+            ImageView ivGif = (ImageView) findViewById(R.id.ivImg);
+            Glide.with(this)
+                    .load(image)
+                    .asBitmap()
+                    .thumbnail(0.5f)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_loading_thumb)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(ivGif);
+            TextView t = (TextView) findViewById(R.id.imagesource);
+            t.setText(image.toString());
+        }
     }
 
     private void addEmoji(){
@@ -342,7 +343,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             //If keyboard is visible, simply show the emoji popup
             if (popup.isKeyBoardOpen()) {
                 popup.showAtBottom();
-                changeEmojiKeyboardIcon(mBtEmoji, R.drawable.key);
+                changeEmojiKeyboardIcon(mBtEmoji, R.drawable.ic_keyboard_hide_white_24dp);
             }
 
             //else, open the text keyboard first and immediately after that show the emoji popup
@@ -352,7 +353,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
                 popup.showAtBottomPending();
                 final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.showSoftInput(emojiconEditText, InputMethodManager.SHOW_IMPLICIT);
-                changeEmojiKeyboardIcon(mBtEmoji, R.drawable.key);
+                changeEmojiKeyboardIcon(mBtEmoji, R.drawable.ic_keyboard_hide_white_24dp);
             }
         }
 

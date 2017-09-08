@@ -257,25 +257,8 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         EditText date = (EditText) popupView.findViewById(R.id.editDate);
         final String datestr = date.getText().toString();
         Spinner categr = (Spinner) popupView.findViewById(R.id.spinner);
-        categr.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int pos, long id) {
+        categr.setOnItemSelectedListener(new CustomOnItemSelectedListener() {
 
-                String workRequestType = arg0.getItemAtPosition(pos)
-                        .toString();
-
-                if (pos != 0)
-                    Toast.makeText(getApplicationContext(), "dsds",
-                            Toast.LENGTH_LONG).show();
-            }
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
         });
         final String catstr = categr.getSelectedItem().toString();
         if (titstr.isEmpty()) {
