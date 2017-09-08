@@ -91,7 +91,8 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     Integer cusor_num;
     Boolean b ;
 
-    InputStream is;
+    Spinner categr;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story_view);
@@ -256,10 +257,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         final String autstr = author.getText().toString();
         EditText date = (EditText) popupView.findViewById(R.id.editDate);
         final String datestr = date.getText().toString();
-        Spinner categr = (Spinner) popupView.findViewById(R.id.spinner);
-        categr.setOnItemSelectedListener(new CustomOnItemSelectedListener() {
 
-        });
         final String catstr = categr.getSelectedItem().toString();
         if (titstr.isEmpty()) {
             Toast toast = Toast.makeText(getApplicationContext(), "Please Input Title!", Toast.LENGTH_SHORT);
@@ -433,6 +431,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         popupWindow.setFocusable(true);
         popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
 
+        categr = (Spinner) popupView.findViewById(R.id.spinner);
+        categr.setOnItemSelectedListener(new CustomOnItemSelectedListener() {
+
+        });
         final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.button);
 
         btnOpenPopup1.setOnClickListener(new Button.OnClickListener() {
