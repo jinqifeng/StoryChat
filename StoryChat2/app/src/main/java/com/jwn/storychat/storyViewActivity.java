@@ -432,8 +432,25 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
 
         categr = (Spinner) popupView.findViewById(R.id.spinner);
-        categr.setOnItemSelectedListener(new CustomOnItemSelectedListener() {
+        categr.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected (AdapterView < ? > arg0, View arg1,
+                                        int pos, long id){
 
+                String workRequestType = arg0.getItemAtPosition(pos)
+                        .toString();
+
+                if (pos != 0)
+                    Toast.makeText(getApplicationContext(), "dsds",
+                            Toast.LENGTH_LONG).show();
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
         });
         final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.button);
 
