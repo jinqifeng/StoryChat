@@ -7,20 +7,32 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
+import static android.R.attr.data;
 import static com.jwn.storychat.MainActivity.PREFS_NAME;
 
 public class LoginActivity extends AppCompatActivity {
@@ -33,14 +45,21 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.link_signup) TextView _signupLink;
     @Bind(R.id.link_back) TextView _backLink;
     private FirebaseAuth auth;
-
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
     Integer flag_login;
     String titlename;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+
+        callbackManager = CallbackManager.Factory.create();
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -79,7 +98,49 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         auth = FirebaseAuth.getInstance();
+
+        loginButton = (LoginButton) findViewById(R.id.facebook_button);
+        loginButton.setReadPermissions("email");
+        // If using in a fragment
+        //loginButton.setFragment(this);
+        // Other app specific specialization
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("is_possible_read", true);
+                editor.commit();
+                if(flag_login==0) {
+                    Intent intent = new Intent(LoginActivity.this, storyCreateActivity.class);
+                    startActivity(intent);
+                }else if(flag_login==1){
+                              /*  Intent intent = new Intent(LoginActivity.this, storyOneViewActivity.class);
+                                intent.putExtra("titlename",titlename);
+                                startActivity(intent);*/
+
+                }
+                finish();
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+
     }
+
 
     public void login() {
         Log.d(TAG, "Login");
@@ -139,6 +200,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
 

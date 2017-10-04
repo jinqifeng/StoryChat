@@ -11,5 +11,8 @@
         <item>Caffè Americano</item>
         <item>Cafe Zorro</item>
     </string-array>
-    
+    <string name="facebook_app_id">1512352532156476</string>
+    <string name="fb_login_protocol_scheme">fb1512352532156476</string>
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
 </resources>
