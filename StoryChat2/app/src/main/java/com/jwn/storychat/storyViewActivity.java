@@ -91,7 +91,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     Integer cusor_num;
     Boolean b ;
 
-    Spinner categr;
+  //  Spinner categr;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -258,7 +258,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         EditText date = (EditText) popupView.findViewById(R.id.editDate);
         final String datestr = date.getText().toString();
 
-        final String catstr = categr.getSelectedItem().toString();
+    //    final String catstr = categr.getSelectedItem().toString();
         if (titstr.isEmpty()) {
             Toast toast = Toast.makeText(getApplicationContext(), "Please Input Title!", Toast.LENGTH_SHORT);
             toast.setMargin(50, 180);
@@ -302,7 +302,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                 summary.put("author", autstr);
                 summary.put("date", datestr);
                 summary.put("photo", photoUri);
-                summary.put("category", catstr);
+             //   summary.put("category", catstr);
                 myRef.setValue(summary);
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -431,7 +431,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         popupWindow.setFocusable(true);
         popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 0, 0);
 
-        categr = (Spinner) popupView.findViewById(R.id.spinner);
+      /*  categr = (Spinner) popupView.findViewById(R.id.spinner);
         categr.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected (AdapterView < ? > arg0, View arg1,
@@ -451,7 +451,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                 // TODO Auto-generated method stub
 
             }
-        });
+        });*/
         final Button btnOpenPopup1 = (Button) popupView.findViewById(R.id.button);
 
         btnOpenPopup1.setOnClickListener(new Button.OnClickListener() {

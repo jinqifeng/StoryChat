@@ -237,7 +237,7 @@ public class IabHelper {
                     logDebug("Checking for in-app billing 3 support.");
 
                     // check for in-app billing v3 support
-                    int response = mService.isBillingSupported(3, packageName, ITEM_TYPE_INAPP);
+                    int response = mService.isBillingSupported(3, packageName, ITEM_TYPE_SUBS);
                     if (response != BILLING_RESPONSE_RESULT_OK) {
                         if (listener != null) listener.onIabSetupFinished(new IabResult(response,
                                 "Error checking for billing v3 support."));

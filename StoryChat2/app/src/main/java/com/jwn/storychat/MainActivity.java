@@ -69,9 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         .setSwipeInMsgLayoutId(R.layout.tinder_swipe_in_msg_view)
                         .setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
 
-       /* final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("loading");
-        progressDialog.show();*/
+
         final ProgressDialog progressDialog = new ProgressDialog(this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);

@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "281905068570",
-    "firebase_url": "https://themejob-168403.firebaseio.com",
-    "project_id": "themejob-168403",
-    "storage_bucket": "themejob-168403.appspot.com"
+    "project_number": "700114408288",
+    "firebase_url": "https://storychat-4d760.firebaseio.com",
+    "project_id": "storychat-4d760",
+    "storage_bucket": "storychat-4d760.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:281905068570:android:1d4a395602f5d6ce",
+        "mobilesdk_app_id": "1:700114408288:android:1d4a395602f5d6ce",
         "android_client_info": {
           "package_name": "com.jwn.storychat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "281905068570-e5n6gisdcb3c70ldir7bmrilt2vjuofi.apps.googleusercontent.com",
+          "client_id": "700114408288-v171637evu77jnldafhp6t8dpo4fft23.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA4riS4Iw2zra34RRRk7FdjBlqMvYXIVCU"
+          "current_key": "AIzaSyCMAY770lZuJgEZQMerSKOvLl21lu94Ly4"
         }
       ],
       "services": {

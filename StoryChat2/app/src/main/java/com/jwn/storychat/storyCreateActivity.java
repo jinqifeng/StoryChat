@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -27,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 
 import static com.jwn.storychat.MainActivity.PREFS_NAME;
+import static java.util.Objects.isNull;
 
 
 public class storyCreateActivity extends AppCompatActivity implements View.OnClickListener  {
@@ -57,7 +61,9 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     private EmojiconsPopup popup;
 
     private static int userNumber=0;
-
+    private View popupView;
+    private PopupWindow popupWindow;
+    private int userNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,14 +130,17 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         Button  mBtSendMsg = (Button) findViewById(R.id.previewButton);
         mBtSendMsg.setOnClickListener(this);
 
-        Button  mBtUser3 = (Button) findViewById(R.id.commant);
-        mBtUser3.setOnClickListener(this);
+ //       Button  mBtUser3 = (Button) findViewById(R.id.commant);
+ //       mBtUser3.setOnClickListener(this);
 
         mBtEmoji = (Button) findViewById(R.id.addEmoji);
         mBtEmoji.setOnClickListener(this);
 
         Button mBtphoto = (Button) findViewById(R.id.addPhoto);
         mBtphoto.setOnClickListener(this);
+
+        TextView userName = (TextView) findViewById(R.id.messageUserName);
+        userName.setOnClickListener(this);
 
         rootView = findViewById(R.id.root_view);
 
@@ -150,7 +159,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
                 mBtUser1.setEnabled(true);
                 userNumber++;
                 mBtUser1.setText(user1);
-                mBtUser3.setEnabled(true);
+        //        mBtUser3.setEnabled(true);
 
         }
         if(!user2.equals(" ")) {
@@ -164,9 +173,9 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             mBtUser2.setEnabled(true);
             userNumber++;
             mBtUser2.setText(user2);
-            mBtUser3.setEnabled(true);
+      //      mBtUser3.setEnabled(true);
         }
-
+        userNum = 3;
 
     }
 
@@ -282,14 +291,17 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
                 createUserName();
                 break;
             case R.id.user1Button:
+                userNum = 1;
                 inputText(1);
                 break;
             case R.id.user2Button:
+                userNum = 2;
                 inputText(2);
                 break;
-            case R.id.commant:
+   /*        case R.id.commant:
+                userNum = 3;
                 inputText(3);
-                break;
+                break;*/
             case R.id.previewButton:
                 previewStory();
                 break;
@@ -301,14 +313,81 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             case R.id.addPhoto:
                 addPhoto();// do your code
                 break;
-
+            case R.id.messageUserName:
+                changeUserName();
+                break;
             default:
 
                 break;
         }
 
     }
+  private void changeUserName(){
+      if(userNum==3)return;
+      RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.root_view);
+      LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
+      popupView = layoutInflater.inflate(R.layout.changename, null);
+      Integer heigit = relativeLayout.getHeight()/2;
+      popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+      popupWindow.setFocusable(true);
+      //
+      //popupWindow.setAnimationStyle(R.style.AppTheme_popup);
+      popupWindow.showAtLocation(relativeLayout, Gravity.CENTER, 0, -250);
+
+      final Button ib_ok = (Button) popupView.findViewById(R.id.ok);
+      final Button ib_cancel = (Button) popupView.findViewById(R.id.cancel);
+      ib_ok.setOnClickListener(new View.OnClickListener() {
+
+          @Override
+          public void onClick(View arg0) {
+              String temp_name = "";
+              String name_new = ((EditText)popupView.findViewById(R.id.new_username)).getText().toString();
+              if(name_new==null){
+                  Toast.makeText(storyCreateActivity.this, "Plz input username!!", Toast.LENGTH_SHORT).show();
+                  return;
+              }else{
+
+                  TextView txtView = (TextView) findViewById(R.id.messageUserName);
+                  txtView.setText(name_new);
+                  if(userNum==1){
+                      Button mBtUser1 = (Button) findViewById(R.id.user1Button);
+                      temp_name = mBtUser1.getText().toString();
+                      mBtUser1.setText(name_new);
+
+                  }else if(userNum==2){
+                      Button mBtUser2 = (Button) findViewById(R.id.user2Button);
+                      temp_name = mBtUser2.getText().toString();
+                      mBtUser2.setText(name_new);
+                  }
+
+                  datab=openOrCreateDatabase("S_DB", Context.MODE_PRIVATE, null);
+                  Cursor cursor = datab.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name ='chattable'" , null);
+                  cursor.moveToFirst();
+                  int k = cursor.getCount();
+                  if(cursor.getCount()>0){
+                      Cursor cursor2 = datab.rawQuery("SELECT count(*) FROM chattable WHERE name ='"+temp_name+" ';",null);
+                      cursor2.moveToFirst();
+                      k = cursor2.getCount();
+                      if(cursor2.getCount()>0)
+                        datab.execSQL("UPDATE chattable SET name = '"+name_new+"' WHERE name ='"+temp_name+" ';");
+                      datab.close();
+              }
+
+                  popupWindow.dismiss();
+              }
+
+          }
+      });
+      ib_cancel.setOnClickListener(new View.OnClickListener() {
+
+          @Override
+          public void onClick(View arg0) {
+              popupWindow.dismiss();
+          }
+      });
+
+  }
     private void addPhoto(){
 
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -391,11 +470,11 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         String username = txtView.getText().toString();
         String str = txt.getText().toString();
         String str1 = t.getText().toString();
-        if(no==3){
+  /*      if(no==3){
             txtcolor = Color.parseColor("#FFC40A0A");
             username = " ";
             txtView.setText(" ");
-        }
+        }*/
 
         if(!txt.isEnabled()){
             txt.setEnabled(true);
@@ -421,10 +500,10 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         if(no==1){
             Button mBtUser1 = (Button) findViewById(R.id.user1Button);
             Button mBtUser2 = (Button) findViewById(R.id.user2Button);
-            Button mBtUser3 = (Button) findViewById(R.id.commant);
+    //        Button mBtUser3 = (Button) findViewById(R.id.commant);
             mBtUser1.setAlpha((float)1);
             mBtUser2.setAlpha((float)0.3);
-            mBtUser3.setAlpha((float)0.3);
+    //        mBtUser3.setAlpha((float)0.3);
             txtView.setText(mBtUser1.getText().toString());
             txtView.setTextColor(Color.parseColor("#33bcfc"));
             txtView.setGravity(Gravity.LEFT);
@@ -432,9 +511,9 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         }else if(no==2){
             Button mBtUser2 = (Button) findViewById(R.id.user2Button);
             Button mBtUser1 = (Button) findViewById(R.id.user1Button);
-            Button mBtUser3 = (Button) findViewById(R.id.commant);
+      //      Button mBtUser3 = (Button) findViewById(R.id.commant);
             mBtUser1.setAlpha((float)0.3);
-            mBtUser3.setAlpha((float)0.3);
+      //      mBtUser3.setAlpha((float)0.3);
             mBtUser2.setAlpha((float)1);
             txtView.setText(mBtUser2.getText().toString());
             txtView.setTextColor(Color.parseColor("#6e3e0b"));
@@ -443,11 +522,11 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         }else{
             Button mBtUser = (Button) findViewById(R.id.user1Button);
             Button mBtUser2 = (Button) findViewById(R.id.user2Button);
-            Button mBtUser3 = (Button) findViewById(R.id.commant);
+     //       Button mBtUser3 = (Button) findViewById(R.id.commant);
             mBtUser.setAlpha((float)0.3);
             mBtUser2.setAlpha((float)0.3);
-            mBtUser3.setAlpha((float)1);
-            txtView.setText(mBtUser3.getText().toString());
+     //       mBtUser3.setAlpha((float)1);
+    //        txtView.setText(mBtUser3.getText().toString());
             txtView.setTextColor(Color.parseColor("#ef6b6b"));
             txtView.setGravity(Gravity.LEFT);
         }
@@ -539,8 +618,8 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         txt = (EditText) findViewById(R.id.messageEditText);
         txt.setHint("Please Selcet User!");
 
-        mBtUser3 = (Button) findViewById(R.id.commant);
+    /*    mBtUser3 = (Button) findViewById(R.id.commant);
         mBtUser3.setVisibility(View.VISIBLE);
-        mBtUser3.setEnabled(true);
+        mBtUser3.setEnabled(true);*/
     }
 }

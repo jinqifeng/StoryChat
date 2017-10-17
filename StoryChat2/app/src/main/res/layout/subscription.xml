@@ -20,15 +20,15 @@
             android:layout_marginTop="150dp"
             android:background="#10a4f4"
             android:textColor="#ffffff"
-            android:text="7 Days Free" />
+            android:text="$0.99/week" />
 
-        <TextView
+    <!--    <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/free"
             android:gravity="center_horizontal"
-            android:text="then $2.99/week" />
+            android:text="then $2.99/week" />-->
 
         <Button
             android:id="@+id/month"
@@ -39,7 +39,7 @@
             android:layout_marginTop="250dp"
             android:background="#10a4f4"
             android:textColor="#ffffff"
-            android:text="1 month for $7.99" />
+            android:text="1 month for $2.49" />
 
         <Button
             android:id="@+id/year"
@@ -50,7 +50,7 @@
             android:layout_marginTop="350dp"
             android:background="#10a4f4"
             android:textColor="#ffffff"
-            android:text="1 year for $39.99" />
+            android:text="1 year for $11.99" />
 
         <TextView
             android:id="@+id/textView3"

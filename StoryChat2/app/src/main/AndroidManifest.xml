@@ -25,7 +25,7 @@
         <activity android:name="com.jwn.storychat.storyOneViewActivity"></activity>
         <activity android:name="com.jwn.storychat.LoginActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="com.jwn.storychat.SignupActivity" android:theme="@style/AppTheme.Dark" />
-        <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+        <!--<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>-->
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
 
