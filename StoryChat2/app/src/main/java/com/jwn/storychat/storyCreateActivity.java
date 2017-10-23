@@ -106,12 +106,12 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
 
         userNumber = 0;
-        datab=openOrCreateDatabase("S_DB", Context.MODE_PRIVATE, null);
+        datab=openOrCreateDatabase("C_DB", Context.MODE_PRIVATE, null);
         //OPEN DB
         //db.openDB();
         //COMMIT
         //datab.execSQL("DELETE TABLE  a_TB;");
-        datab.execSQL("CREATE TABLE IF NOT EXISTS chattable (name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
+        datab.execSQL("CREATE TABLE IF NOT EXISTS chat_able (name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
         datab.close();
 
 
@@ -361,16 +361,16 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
                       mBtUser2.setText(name_new);
                   }
 
-                  datab=openOrCreateDatabase("S_DB", Context.MODE_PRIVATE, null);
-                  Cursor cursor = datab.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name ='chattable'" , null);
+                  datab=openOrCreateDatabase("C_DB", Context.MODE_PRIVATE, null);
+                  Cursor cursor = datab.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name ='chat_table'" , null);
                   cursor.moveToFirst();
                   int k = cursor.getCount();
                   if(cursor.getCount()>0){
-                      Cursor cursor2 = datab.rawQuery("SELECT count(*) FROM chattable WHERE name ='"+temp_name+" ';",null);
+                      Cursor cursor2 = datab.rawQuery("SELECT count(*) FROM chat_table WHERE name ='"+temp_name+" ';",null);
                       cursor2.moveToFirst();
                       k = cursor2.getCount();
                       if(cursor2.getCount()>0)
-                        datab.execSQL("UPDATE chattable SET name = '"+name_new+"' WHERE name ='"+temp_name+" ';");
+                        datab.execSQL("UPDATE chat_table SET name = '"+name_new+"' WHERE name ='"+temp_name+" ';");
                       datab.close();
               }
 
@@ -485,15 +485,15 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
            // chatContents itm = new chatContents(txtView.getText().toString(),Integer.toString(txtView.getCurrentTextColor()), txt.getText().toString(),t.getText().toString());
            // DBHelper db=new DBHelper(this);
-            datab=openOrCreateDatabase("S_DB", Context.MODE_PRIVATE, null);
-            datab.execSQL("CREATE TABLE IF NOT EXISTS chattable (name TEXT DEFAULT ' ',words TEXT DEFAULT ' ',url TEXT,clr Integer DEFAULT 0);");
-            datab.execSQL("INSERT INTO chattable (name, words, url, clr) VALUES('"+txtcolor+"','"+txt.getText().toString()+"','"+username+"','"+t.getText().toString()+"');");
+            datab=openOrCreateDatabase("C_DB", Context.MODE_PRIVATE, null);
+            datab.execSQL("CREATE TABLE IF NOT EXISTS chat_table (name TEXT DEFAULT ' ', speech TEXT DEFAULT ' ', color Integer DEFAULT 0, photo TEXT DEFAULT ' ');");
+            datab.execSQL("INSERT INTO chat_table (name, speech, color, photo) VALUES('"+username+"','"+txt.getText().toString()+"','"+txtcolor+"','"+t.getText().toString()+"');");
             datab.close();
 
             txt.setText(" ");
             txt.setHint(" ");
             im.setImageDrawable(null);
-            t.setText("d");
+            t.setText(" ");
 
         }
 

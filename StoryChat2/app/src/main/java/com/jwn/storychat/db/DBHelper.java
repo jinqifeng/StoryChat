@@ -70,7 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<chatContents> array_list = new ArrayList<chatContents>();
 
         //hp = new HashMap();
-        SQLiteDatabase db = this.getReadableDatabase();
+ /*       SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from d_TB", null);
         res.moveToFirst();
         while(res.moveToNext())
@@ -82,12 +82,12 @@ public class DBHelper extends SQLiteOpenHelper {
             chatContents p = new chatContents(clr,words,name,url);
             //ADD TO ARRAYLIS
             array_list.add(p);
-        }
+        }*/
         return array_list;
     }
     // Getting single contact
     public chatContents getContents(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
+  /*      SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery( "select * from d_TB where id="+id+"", null );
         if (cursor != null)
@@ -96,7 +96,8 @@ public class DBHelper extends SQLiteOpenHelper {
         chatContents contents = new chatContents(Integer.parseInt(cursor.getString(4)),
                 cursor.getString(2),cursor.getString(1), cursor.getString(3));
         // return contact
-        return contents;
+        return contents;*/
+        return null;
     }
 
 

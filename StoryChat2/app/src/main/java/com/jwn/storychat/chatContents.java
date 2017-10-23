@@ -9,20 +9,20 @@ import android.os.Parcel;
 
 public class chatContents implements Parcelable {
 
-    private String person;
-    private String conv;
-    private String url;
-    private Integer color;
+    private String name;
+    private String speech;
+    private Integer speech_color;
+    private String with_photo;
 
 
     public chatContents(){}
 
-    public chatContents(Integer clr_in, String cnt,String name,String picin )
+    public chatContents(String name_in, String cnt,Integer clr_in,String picin )
     {
-        color = clr_in;
-        conv = cnt;
-        person = name;
-        url = picin;
+        name = name_in;
+        speech = cnt;
+        speech_color = clr_in;
+        with_photo = picin;
 
 
     }
@@ -61,17 +61,17 @@ public class chatContents implements Parcelable {
 
     // all get , set method
     public String getPerson(){
-        return person;
+        return name;
     }
     public String getConv(){
-        return conv;
+        return speech;
     }
-    public String getUrl(){ return url;}
-    public Integer getColor(){return color;}
+    public String getUrl(){ return with_photo;}
+    public Integer getColor(){return speech_color;}
     public void setConv(String s){
-        conv = s;
+        speech = s;
     }
     public void setUrl(String in_url){
-        url=in_url;
+        with_photo=in_url;
     }
 }

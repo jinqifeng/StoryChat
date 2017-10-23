@@ -72,7 +72,7 @@ public class storyViewAdapter extends RecyclerView.Adapter<storyViewAdapter.View
         // - replace the contents of the view with that element
         // holder.tvEmail.setText(nStory.get(position).getTitle());
         chatContents item = nStory.get(position);
-        if((!item.getUrl().isEmpty()) && (!item.getUrl().equals("d")) ) {
+        if((!item.getUrl().isEmpty()) && (!item.getUrl().equals(" ")) ) {
             Glide.with(context)
                     .load(item.getUrl())
                     .asBitmap()

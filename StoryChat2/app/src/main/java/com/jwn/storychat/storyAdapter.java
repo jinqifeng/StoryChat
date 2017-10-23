@@ -128,7 +128,7 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        if((!nStory.get(position).getPhoto().isEmpty()) && (!nStory.get(position).getPhoto().equals("d")) ) {
+        if((!nStory.get(position).getPhoto().isEmpty()) && (!nStory.get(position).getPhoto().equals(" ")) ) {
             if( (position % 2)==0) {
                 Glide.with(context)
                         .load(nStory.get(position).getPhoto())

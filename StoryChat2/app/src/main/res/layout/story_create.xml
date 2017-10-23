@@ -70,7 +70,7 @@
                     android:id="@+id/imagesource"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
-                    android:text="d"
+                    android:text=" "
                     android:visibility="invisible"/>
 
             </LinearLayout>

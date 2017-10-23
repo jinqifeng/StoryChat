@@ -116,24 +116,24 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         cusor_num = settings.getInt("cusor", 0);
 
-        datab=openOrCreateDatabase("S_DB", Context.MODE_PRIVATE, null);
-        res = datab.rawQuery("SELECT * FROM chattable ",null);
+        datab=openOrCreateDatabase("C_DB", Context.MODE_PRIVATE, null);
+        res = datab.rawQuery("SELECT * FROM chat_table ",null);
 
         Integer k=0;
-       // res.moveToFirst();
-        while(k<=cusor_num && res.moveToNext())
-        {
-            Integer clr = res.getInt(0);
+        res.moveToFirst();
+
+        do{
+            String name = res.getString(0);
             String words = res.getString(1);
-            String name = res.getString(2);
+            Integer clr = res.getInt(2);
             String url = res.getString(3);
 
-            chatContents p = new chatContents(clr,words,name,url);
+            chatContents p = new chatContents(name,words,clr,url);
             //ADD TO ARRAYLIS
             story_view.add(p);
-            res.moveToNext();
+            //res.moveToNext();
             k++;
-        }
+        }while(k<=cusor_num && res.moveToNext());
 
 
         rvStorys = (RecyclerView) findViewById(R.id.storycnt);
@@ -224,13 +224,12 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
         if(res.moveToNext())
         {
-            Integer clr = res.getInt(0);
+            String name = res.getString(0);
             String words = res.getString(1);
-            String name = res.getString(2);
+            Integer clr = res.getInt(2);
             String url = res.getString(3);
 
-
-            chatContents p = new chatContents(clr,words,name,url);
+            chatContents p = new chatContents(name,words,clr,url);
             //ADD TO ARRAYLIS
             story_view.add(p);
 
@@ -265,7 +264,22 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             toast.show();
             return ;
         }
+        if (autstr.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Please Input Auther name!", Toast.LENGTH_SHORT);
+            toast.setMargin(50, 180);
+            toast.show();
+            return ;
+        }
+        if (datestr.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Please Input date!", Toast.LENGTH_SHORT);
+            toast.setMargin(50, 180);
+            toast.show();
+            return ;
+        }
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading");
+        progressDialog.show();
 
         StorageReference mref = mStorageRef.child("cover");
         StorageReference mountainsRef = mref.child(titstr);
@@ -335,17 +349,14 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     }
     public void upload() {
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading");
-        progressDialog.show();
 
         EditText title = (EditText) popupView.findViewById(R.id.editTextTitle);
         titstr = title.getText().toString();// in order to do first contentupload.
         mStorageRef = storage.getReference();
 
-        contentUpload();
-        titleUpload(); // upload title after success uploading content
 
+        titleUpload(); // upload title after success uploading content
+        contentUpload();
 
 
         Toast.makeText(getApplicationContext(), "Ok, Publish succeced ", Toast.LENGTH_SHORT).show();
@@ -355,9 +366,9 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         editor.commit();
         b = true;
         cusor_num = 0;
-        datab.execSQL("DROP TABLE IF EXISTS chattable");
+        datab.execSQL("DROP TABLE IF EXISTS chat_table");
         story_view.clear();
-        getApplicationContext().deleteDatabase("S_DB");
+        getApplicationContext().deleteDatabase("C_DB");
         popupWindow.dismiss();
 
     }
@@ -365,21 +376,37 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
         l = 0;
         myRef2 = database.getReference("story").child(titstr);
-        while (l < story_view.size()) {
+        DatabaseReference child = myRef2.child("conversation");
+        res.moveToFirst();
+       // while (l < story_view.size()) {
+          do{
 
-            String str3 = story_view.get(l).getUrl();
-            Uri imageuri = Uri.parse(str3);
+              String name = res.getString(0);
+              String words = res.getString(1);
+              Integer clr = res.getInt(2);
+              String url = res.getString(3);
+              chatContents p = new chatContents(name,words,clr,url);
 
-            chatContents cnt = story_view.get(l);
-           // cnt.setUrl("d");
+          //  String str3 = story_view.get(l).getUrl();
+              //Uri imageuri = Uri.parse(str3);
+              Uri imageuri = Uri.parse(url);
+
+         /*   chatContents cnt = story_view.get(l);
+
             DatabaseReference child = myRef2.push();
             child.setValue(cnt);
-            String key = child.getKey();
-            if (!str3.equals("d")) {
+            String key = child.getKey();*/
+            String key = Integer.toString(l);
+            child.child(key).child("name").setValue(name);
+            child.child(key).child("speech").setValue(words);
+            child.child(key).child("speech_color").setValue(clr);
+            child.child(key).child("with_photo").setValue(url);
+            if (!url.equals(" ")) {
 
                 imageurl2.add(key);
-                story_temp.add(story_view.get(l));
-                StorageReference imageRef = mStorageRef.child("image").child(titstr).child(Integer.toString(l) + ".jpg");
+              //  story_temp.add(p);
+                StorageReference imageReftitle = mStorageRef.child("image").child(titstr);
+                StorageReference imageRef = imageReftitle.child(key);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 Bitmap bitmap = null;
                 try {
@@ -404,10 +431,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                         // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
                         String photoUri = String.valueOf(downloadUrl);
-                        chatContents tmp = story_temp.get(index);
-                        tmp.setUrl(photoUri);
+                       // chatContents tmp = story_temp.get(index);
+                       // tmp.setUrl(photoUri);
                         String read_key = imageurl2.get(index);
-                        myRef2.child(read_key).setValue(tmp);
+                        myRef2.child("conversation").child(read_key).child("with_photo").setValue(photoUri);
                         index++;
                         if(imageurl2.size()==index){
                             progressDialog.dismiss();
@@ -416,7 +443,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                 });
             }
             l++;
-        }
+        }while (res.moveToNext());
 
     }
     public void publish(){
