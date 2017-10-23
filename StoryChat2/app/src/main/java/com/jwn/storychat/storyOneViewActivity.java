@@ -309,7 +309,13 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
                     || (Yearly != null && verifyDeveloperPayload(Yearly)) || (Weekly != null && verifyDeveloperPayload(Weekly));
             Log.d(TAG, "User " + (mSubscribedToInfinite ? "HAS" : "DOES NOT HAVE")
                     + " infinite read subscription.");
-            if (mSubscribedToInfinite) is_possible_read = true;
+            if (mSubscribedToInfinite){
+                is_possible_read = true;
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("is_possible_read", true);
+                editor.commit();
+            }
 
             // Check for gas delivery -- if we own gas, we should fill up the tank immediately
      /*       Purchase gasPurchase = inventory.getPurchase(SKU_GAS);
@@ -378,6 +384,10 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
                 mAutoRenewEnabled = purchase.isAutoRenewing();
                 mInfiniteSku = purchase.getSku();
                 is_possible_read = true;
+                  SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                  SharedPreferences.Editor editor = settings.edit();
+                  editor.putBoolean("is_possible_read", true);
+                  editor.commit();
                 updateUi();
                 setWaitScreen(false);
             }
@@ -701,7 +711,7 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
 
     }
     public void subscript(){
-        setPaymentSystem();
+      //  setPaymentSystem();
         relativeLayout = (RelativeLayout) findViewById(R.id.publish_layout);
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         popupView = layoutInflater.inflate(R.layout.subscription, null);
@@ -725,7 +735,7 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
              *        verifyDeveloperPayload() for more info. Since this is a SAMPLE, we just use
              *        an empty string, but on a production app you should carefully generate
              *        this. */
-                String payload = "";
+      /*          String payload = "";
                 mSelectedSubscriptionPeriod = SKU_INFINITE_WEEKLY;
                 List<String> oldSkus = null;
                 if (!TextUtils.isEmpty(mInfiniteSku)
@@ -744,7 +754,14 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
                 } catch (IabAsyncInProgressException e) {
                     complain("Error launching purchase flow. Another async operation in progress.");
                     setWaitScreen(false);
-                }
+                }*/
+                Toast.makeText(getApplicationContext(), "ITS FREE! You don't need to pay anything now", Toast.LENGTH_LONG).show();
+                popupWindow.dismiss();
+                is_possible_read = true;
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("is_possible_read", true);
+                editor.commit();
             }
 
         });
@@ -755,7 +772,7 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
              *        verifyDeveloperPayload() for more info. Since this is a SAMPLE, we just use
              *        an empty string, but on a production app you should carefully generate
              *        this. */
-                String payload = "";
+       /*         String payload = "";
                 mSelectedSubscriptionPeriod = SKU_INFINITE_MONTHLY;
                 List<String> oldSkus = null;
                 if (!TextUtils.isEmpty(mInfiniteSku)
@@ -774,7 +791,14 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
                 } catch (IabAsyncInProgressException e) {
                     complain("Error launching purchase flow. Another async operation in progress.");
                     setWaitScreen(false);
-                }
+                }*/
+                Toast.makeText(getApplicationContext(), "ITS FREE! You don't need to pay anything now", Toast.LENGTH_LONG).show();
+                popupWindow.dismiss();
+                is_possible_read = true;
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("is_possible_read", true);
+                editor.commit();
             }
 
 
@@ -787,7 +811,7 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
              *        verifyDeveloperPayload() for more info. Since this is a SAMPLE, we just use
              *        an empty string, but on a production app you should carefully generate
              *        this. */
-                String payload = "";
+        /*        String payload = "";
                 mSelectedSubscriptionPeriod = SKU_INFINITE_YEARLY;
                 List<String> oldSkus = null;
                 if (!TextUtils.isEmpty(mInfiniteSku)
@@ -806,7 +830,14 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
                 } catch (IabAsyncInProgressException e) {
                     complain("Error launching purchase flow. Another async operation in progress.");
                     setWaitScreen(false);
-                }
+                }*/
+                Toast.makeText(getApplicationContext(), "ITS FREE! You don't need to pay anything now", Toast.LENGTH_LONG).show();
+                popupWindow.dismiss();
+                is_possible_read = true;
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("is_possible_read", true);
+                editor.commit();
             }
         });
         tvLogin.setOnClickListener(new View.OnClickListener() {
