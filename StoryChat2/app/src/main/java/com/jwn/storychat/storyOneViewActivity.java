@@ -160,17 +160,20 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
 
 
         database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("story").child(titlename);
+        DatabaseReference myRef = database.getReference("story").child(titlename).child("conversation");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                        // TODO: handle the post
-
-                        chatContents chat = postSnapshot.getValue(chatContents.class);
+                     // TODO: handle the post
+                     //   chatContents chat = postSnapshot.getValue(chatContents.class);
+                        String name = postSnapshot.child("name").getValue(String.class);
+                        String speech = postSnapshot.child("speech").getValue(String.class);
+                        String with_photo = postSnapshot.child("with_photo").getValue(String.class);
+                        chatContents chat = new chatContents(name,speech,with_photo);
                         story_temp.add(chat);
-                      //  adapter.notifyItemInserted(story_temp.size()-1);
+                     //  adapter.notifyItemInserted(story_temp.size()-1);
                      //   rvStorys.scrollToPosition(story_view.size()-1);
 
                     }
@@ -187,7 +190,7 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e("ddddd", "Not found: " );
             }
 
         });

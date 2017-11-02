@@ -11,17 +11,17 @@ public class chatContents implements Parcelable {
 
     private String name;
     private String speech;
-    private Integer speech_color;
+ //   private Integer speech_color;
     private String with_photo;
 
 
     public chatContents(){}
 
-    public chatContents(String name_in, String cnt,Integer clr_in,String picin )
+    public chatContents(String name_in, String cnt,String picin )
     {
         name = name_in;
         speech = cnt;
-        speech_color = clr_in;
+   //     speech_color = clr_in;
         with_photo = picin;
 
 
@@ -67,7 +67,7 @@ public class chatContents implements Parcelable {
         return speech;
     }
     public String getUrl(){ return with_photo;}
-    public Integer getColor(){return speech_color;}
+  //  public Integer getColor(){return speech_color;}
     public void setConv(String s){
         speech = s;
     }

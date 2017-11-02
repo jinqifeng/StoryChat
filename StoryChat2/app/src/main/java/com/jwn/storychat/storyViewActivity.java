@@ -39,6 +39,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 //import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.FirebaseStorage;
@@ -55,7 +56,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -72,7 +77,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     ArrayList<chatContents> story_view;
     ArrayList<chatContents> story_temp;
     private RecyclerView rvStorys;
-    String user1,user2;
+    String user1,user2,color1,color2;
     private RelativeLayout relativeLayout;
     private PopupWindow popupWindow;
     View popupView;
@@ -103,6 +108,8 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         Intent intent = getIntent();
         user1 = intent.getExtras().getString("user1");
         user2 = intent.getExtras().getString("user2");
+        color1 = intent.getExtras().getString("color1");
+        color2 = intent.getExtras().getString("color2");
 
 
         b = false;
@@ -128,7 +135,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             Integer clr = res.getInt(2);
             String url = res.getString(3);
 
-            chatContents p = new chatContents(name,words,clr,url);
+            chatContents p = new chatContents(name,words,url);
             //ADD TO ARRAYLIS
             story_view.add(p);
             //res.moveToNext();
@@ -186,6 +193,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         editor.commit();
         editor.putString("user2", user2);
         editor.commit();
+        editor.putString("color1", color1);
+        editor.commit();
+        editor.putString("color2", color2);
+        editor.commit();
        // editor.putInt("user3", cusor_num);
         editor.commit();
     }
@@ -229,7 +240,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             Integer clr = res.getInt(2);
             String url = res.getString(3);
 
-            chatContents p = new chatContents(name,words,clr,url);
+            chatContents p = new chatContents(name,words,url);
             //ADD TO ARRAYLIS
             story_view.add(p);
 
@@ -316,7 +327,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                 summary.put("author", autstr);
                 summary.put("date", datestr);
                 summary.put("photo", photoUri);
-             //   summary.put("category", catstr);
+                summary.put("user_1", user1);
+         //       summary.put("user_1_color", color1);
+                summary.put("user_2", user2);
+         //         summary.put("user_1_color", color2);
                 myRef.setValue(summary);
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -358,24 +372,12 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         titleUpload(); // upload title after success uploading content
         contentUpload();
 
-
-        Toast.makeText(getApplicationContext(), "Ok, Publish succeced ", Toast.LENGTH_SHORT).show();
-        SharedPreferences pref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.clear();
-        editor.commit();
-        b = true;
-        cusor_num = 0;
-        datab.execSQL("DROP TABLE IF EXISTS chat_table");
-        story_view.clear();
-        getApplicationContext().deleteDatabase("C_DB");
-        popupWindow.dismiss();
-
     }
     public void contentUpload() {
 
         l = 0;
         myRef2 = database.getReference("story").child(titstr);
+
         DatabaseReference child = myRef2.child("conversation");
         res.moveToFirst();
        // while (l < story_view.size()) {
@@ -383,9 +385,9 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
               String name = res.getString(0);
               String words = res.getString(1);
-              Integer clr = res.getInt(2);
+             // Integer clr = res.getInt(2);
               String url = res.getString(3);
-              chatContents p = new chatContents(name,words,clr,url);
+        //      chatContents p = new chatContents(name,words,url);
 
           //  String str3 = story_view.get(l).getUrl();
               //Uri imageuri = Uri.parse(str3);
@@ -396,11 +398,30 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             DatabaseReference child = myRef2.push();
             child.setValue(cnt);
             String key = child.getKey();*/
-            String key = Integer.toString(l);
-            child.child(key).child("name").setValue(name);
-            child.child(key).child("speech").setValue(words);
-            child.child(key).child("speech_color").setValue(clr);
-            child.child(key).child("with_photo").setValue(url);
+
+            //  long now = System.currentTimeMillis();
+              String key = Integer.toString(l);
+              if(l<10){
+                  key = "-event0000"+key;
+              }else if(l<100){
+                  key = "-event000"+key;
+              }else if(l<1000){
+                  key = "-event00"+key;
+              }else if(l<10000){
+                  key = "-event0"+key;
+              }else{
+                  key = "-event0"+key;
+              }
+
+
+          //  String push_key = myRef2.push().getKey();
+
+              DatabaseReference myRef =  child.child(key);
+         //     myRef.setValue(p);
+         //     child.setValue(p);
+              myRef.child("name").setValue(name);
+              myRef.child("speech").setValue(words);
+              myRef.child("with_photo").setValue(url);
             if (!url.equals(" ")) {
 
                 imageurl2.add(key);
@@ -437,14 +458,40 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                         myRef2.child("conversation").child(read_key).child("with_photo").setValue(photoUri);
                         index++;
                         if(imageurl2.size()==index){
+                            Toast.makeText(getApplicationContext(), "Ok, Publish succeced ", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
+
+                            SharedPreferences pref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.clear();
+                            editor.commit();
+                            b = true;
+                            cusor_num = 0;
+                            datab.execSQL("DROP TABLE IF EXISTS chat_table");
+                            story_view.clear();
+                            getApplicationContext().deleteDatabase("C_DB");
+                            popupWindow.dismiss();
                         }
                     }
                 });
             }
             l++;
         }while (res.moveToNext());
+        if(imageurl2.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Ok, Publish succeced ", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
 
+            SharedPreferences pref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.clear();
+            editor.commit();
+            b = true;
+            cusor_num = 0;
+            datab.execSQL("DROP TABLE IF EXISTS chat_table");
+            story_view.clear();
+            getApplicationContext().deleteDatabase("C_DB");
+            popupWindow.dismiss();
+        }
     }
     public void publish(){
         if(story_view.isEmpty()){

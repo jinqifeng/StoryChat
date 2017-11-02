@@ -1,6 +1,7 @@
 package com.jwn.storychat;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -84,9 +85,11 @@ public class chatContentsAdapter extends RecyclerView.Adapter<chatContentsAdapte
         }
         holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
         holder.person.setText(nStory.get(position).getPerson());
-        Integer d = nStory.get(position).getColor();
-        //int ff = Integer.parseInt(d);
-        holder.person.setTextColor(d);
+        if((position%2)==0) {
+            holder.person.setTextColor(Color.parseColor("#33bcfc"));
+        }else{
+            holder.person.setTextColor(Color.parseColor("#ef6b6b"));
+        }
         holder.contents.setText(nStory.get(holder.getAdapterPosition()).getConv());
 
     }

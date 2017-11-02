@@ -16,13 +16,17 @@ import android.view.View;
 import android.content.Intent;
 import android.widget.FrameLayout;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SwipePlaceHolderView mSwipeView;
     private Context mContext;
-
+    /**
+     * The {@link Tracker} used to record screen views.
+     */
+    private Tracker mTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +58,23 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("cusor", 0);
             editor.commit();
         }
-      //  RecyclerView rvStorys = (RecyclerView) findViewById(R.id.storyList);
+
+        // [START shared_tracker]
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        // [END shared_tracker]
+        // [START screen_view_hit]
+        mTracker.setScreenName("Image~");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // [END screen_view_hit]
+        //  RecyclerView rvStorys = (RecyclerView) findViewById(R.id.storyList);
        // storys = new ArrayList<story>();
         // Create adapter passing in the sample user data
       //  adapter = new storyAdapter(this,storys);
         // Attach the adapter to the recyclerview to populate items
      //   rvStorys.setAdapter(adapter);
-
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
         mSwipeView = (SwipePlaceHolderView)findViewById(R.id.swipeView);
         mContext = getApplicationContext();
 

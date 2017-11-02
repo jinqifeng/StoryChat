@@ -13,16 +13,20 @@ public class story {
     private String photo;
     private String date;
     private String author;
-    private String category;
+    private String user1,user2;
+ //   private String color1,color2;
     private String title;
     public story(){
 
     }
-    public story(String author_in, String category_in, String date_in, String photo_in ){
+    public story(String author_in, String user1_in, String user2_in,String color1_in, String color2_in, String date_in, String photo_in ){
         author = author_in;
-        category = category_in;
+        user1 = user1_in;
+        user2 = user2_in;
         date = date_in;
         photo = photo_in;
+    //    color1 = color1_in;
+    //    color2 = color2_in;
 
     }
 
@@ -52,10 +56,22 @@ public class story {
 
         return date;
     }
-    public String getCategory() {
+    public String getUser1() {
 
-        return category;
+        return user1;
     }
+    public String getUser2() {
+
+        return user2;
+    }
+ /*   public String getColor2() {
+
+        return color2;
+    }
+    public String getColor1() {
+
+        return color1;
+    }*/
     public void setTitle(String in) {
         title = in;
     }

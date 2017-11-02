@@ -53,7 +53,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     private Button mBtEmoji;
     SQLiteDatabase datab;
 
-
+    String color1,color2;
 
     private EmojiconEditText emojiconEditText;
     private View rootView;
@@ -64,6 +64,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     private View popupView;
     private PopupWindow popupWindow;
     private int userNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -455,6 +456,8 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         Intent intent = new Intent(this,storyViewActivity.class);
         intent.putExtra("user1",mBtUser1.getText().toString());
         intent.putExtra("user2",mBtUser2.getText().toString());
+        intent.putExtra("color1",mBtUser1.getText().toString());
+        intent.putExtra("color2",mBtUser2.getText().toString());
         startActivity(intent);
 
     }
@@ -486,8 +489,11 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
            // chatContents itm = new chatContents(txtView.getText().toString(),Integer.toString(txtView.getCurrentTextColor()), txt.getText().toString(),t.getText().toString());
            // DBHelper db=new DBHelper(this);
             datab=openOrCreateDatabase("C_DB", Context.MODE_PRIVATE, null);
+            str = str.replaceAll("\n"," ");
+            str = str.replaceAll("'","");
             datab.execSQL("CREATE TABLE IF NOT EXISTS chat_table (name TEXT DEFAULT ' ', speech TEXT DEFAULT ' ', color Integer DEFAULT 0, photo TEXT DEFAULT ' ');");
-            datab.execSQL("INSERT INTO chat_table (name, speech, color, photo) VALUES('"+username+"','"+txt.getText().toString()+"','"+txtcolor+"','"+t.getText().toString()+"');");
+            datab.execSQL("INSERT INTO chat_table (name, speech, color, photo) VALUES('"+username+"','"+str+"','"+txtcolor+"','"+str1+"');");
+
             datab.close();
 
             txt.setText(" ");
@@ -506,6 +512,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     //        mBtUser3.setAlpha((float)0.3);
             txtView.setText(mBtUser1.getText().toString());
             txtView.setTextColor(Color.parseColor("#33bcfc"));
+            color1 = Integer.toString(txtView.getCurrentTextColor());
             txtView.setGravity(Gravity.LEFT);
 
         }else if(no==2){
@@ -517,6 +524,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             mBtUser2.setAlpha((float)1);
             txtView.setText(mBtUser2.getText().toString());
             txtView.setTextColor(Color.parseColor("#6e3e0b"));
+            color2 = Integer.toString(txtView.getCurrentTextColor());
             txtView.setGravity(Gravity.RIGHT);
 
         }else{
@@ -543,6 +551,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         imBtn = (Button) findViewById(R.id.addPhoto);
         imBtn.setEnabled(true);
         imBtn.setAlpha(1);
+
 
     }
 
@@ -597,6 +606,10 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             mBtUser = (Button) findViewById(R.id.user1Button);
             mBtUser.setVisibility(View.VISIBLE);
             mBtUser.setEnabled(true);
+   /*         datab=openOrCreateDatabase("C_DB", Context.MODE_PRIVATE, null);
+            datab.execSQL("CREATE TABLE IF NOT EXISTS chat_table (name TEXT DEFAULT ' ', speech TEXT DEFAULT ' ', color Integer DEFAULT 0, photo TEXT DEFAULT ' ');");
+            datab.execSQL("INSERT INTO chat_table (name, speech, color, photo) VALUES('"+username+"','"+txt.getText().toString()+"','"+txtcolor+"','"+t.getText().toString()+"');");
+*/
             userNumber++;
         }else{
             mBtUser = (Button) findViewById(R.id.user2Button);
