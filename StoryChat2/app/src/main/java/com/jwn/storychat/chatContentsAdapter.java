@@ -77,6 +77,7 @@ public class chatContentsAdapter extends RecyclerView.Adapter<chatContentsAdapte
             Glide.with(context)
                     .load(item.getUrl())
                     .asBitmap()
+                    .override(400, 300)
                     .thumbnail(0.5f)
                     .centerCrop()
                     .placeholder(R.drawable.ic_loading_thumb)

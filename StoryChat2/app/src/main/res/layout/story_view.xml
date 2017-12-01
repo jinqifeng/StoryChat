@@ -3,14 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:id="@+id/view_layout"
-    android:background="#223365"
+
     android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/layoutrecycle"
-        android:layout_marginBottom="230dp"
+        android:layout_marginBottom="160dp"
         >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/storycnt"
@@ -19,62 +19,53 @@
             android:scrollbars="vertical" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:id="@+id/buttons"
-        android:layout_marginTop="380dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-        <Button
-            android:id="@+id/next_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            android:background="@drawable/btn_blue" style="@style/ButtonText"
-            android:textColor="#ffffff"
-            android:textSize="20dp"
-            android:layout_marginTop="10dp"
-             />
+        android:layout_marginTop="550dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="25dp"
+        android:layout_gravity="center"
+       >
+
         <Button
             android:id="@+id/publish_button"
-            android:layout_width="match_parent"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="Publish"
             android:background="@drawable/btn_blue" style="@style/ButtonText"
             android:textColor="#ffffff"
             android:textSize="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/next_view"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+
+            />
+        <Button
+            android:id="@+id/next_view"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:background="@drawable/btn_blue" style="@style/ButtonText"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:layout_gravity="center"
             />
         <Button
             android:id="@+id/view_save"
-            android:layout_width="match_parent"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="Save"
             android:background="@drawable/btn_blue" style="@style/ButtonText"
             android:textColor="#ffffff"
             android:textSize="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/publish_button"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center"
+
             />
 
-        <Button
-            android:id="@+id/view_backbutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:background="@drawable/btn_blue" style="@style/ButtonText"
-            android:textColor="#ffffff"
-            android:textSize="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_below="@+id/view_save"
-           />
-    </RelativeLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

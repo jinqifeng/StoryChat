@@ -405,6 +405,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             Glide.with(this)
                     .load(image)
                     .asBitmap()
+                    .override(400, 300)
                     .thumbnail(0.5f)
                     .centerCrop()
                     .placeholder(R.drawable.ic_loading_thumb)

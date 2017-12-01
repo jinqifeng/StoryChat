@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("loading storys...");
+        progressDialog.setMessage("Loading Stories...");
         progressDialog.show();
         database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("search");

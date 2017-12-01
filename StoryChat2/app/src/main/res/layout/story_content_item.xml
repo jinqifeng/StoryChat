@@ -49,7 +49,7 @@
             emojicon:emojiconSize="15dp" />
     </LinearLayout>
         <ImageView
-            android:layout_width="300dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:id="@+id/ivImgt"
             android:layout_centerHorizontal="true"

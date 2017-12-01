@@ -49,14 +49,15 @@
                 emojicon:emojiconSize="15dp" />
         </LinearLayout>
         <ImageView
-            android:layout_width="300dp"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:id="@+id/ivImgt"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_below="@+id/cntitem"
             android:layout_marginTop="5dp"
-            android:background="#eeeeee"/>
+            android:layout_marginBottom="5dp"
+            android:background="#ffffff"/>
 
     </RelativeLayout>
 

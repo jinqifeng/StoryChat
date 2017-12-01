@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'key0'
             keyPassword '123456'
-            storeFile file('F:/work/git/StorySecond/key0.jks')
+            storeFile file('F:/work/git/StorySecond/release_key1.jks')
             storePassword '123456'
         }
     }
@@ -15,13 +15,13 @@ android {
         applicationId "com.jwn.storychat"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 3
+        versionCode 6
         versionName "1.01"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
 

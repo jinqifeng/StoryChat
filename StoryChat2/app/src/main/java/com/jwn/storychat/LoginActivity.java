@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_password) EditText _passwordText;
+    @Bind(R.id.btn_reset_password) TextView btnResetPassword;
     @Bind(R.id.btn_login) Button _loginButton;
     @Bind(R.id.link_signup) TextView _signupLink;
     @Bind(R.id.link_back) TextView _backLink;
@@ -95,6 +97,31 @@ public class LoginActivity extends AppCompatActivity {
                 // Start the Signup activity
                 LoginActivity.super.onBackPressed();
              onBackPressed();
+            }
+        });
+        btnResetPassword.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String email = _emailText.getText().toString().trim();
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Enter your email!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                auth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(LoginActivity.this, "Check email to reset your password!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Fail to send reset password email!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
             }
         });
         auth = FirebaseAuth.getInstance();
@@ -175,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             // there was an error
 
-                                Toast.makeText(LoginActivity.this, "wow! failied!!!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Login failied!!! please check email or password. ", Toast.LENGTH_LONG).show();
                                 _loginButton.setEnabled(true);
                         } else {
                             SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);

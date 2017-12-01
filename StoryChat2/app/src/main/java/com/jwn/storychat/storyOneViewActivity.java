@@ -679,7 +679,7 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
     public void onNext(){
 
         if(next_num >= 5 && !is_possible_read){
-            limitdialog();
+          //  limitdialog(); for free NOw fronm ratanpal need
         }
         if(read_num<story_temp.size())
         {

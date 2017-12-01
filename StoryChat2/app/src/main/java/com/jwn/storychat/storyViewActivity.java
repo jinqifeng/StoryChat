@@ -158,8 +158,8 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
         Button mBtStoryPublish = (Button) findViewById(R.id.publish_button);
         mBtStoryPublish.setOnClickListener(this);
-        Button mBtBack= (Button) findViewById(R.id.view_backbutton);
-        mBtBack.setOnClickListener(this);
+     //   Button mBtBack= (Button) findViewById(R.id.view_backbutton);
+     //   mBtBack.setOnClickListener(this);
         Button mBtNext= (Button) findViewById(R.id.next_view);
         mBtNext.setOnClickListener(this);
         Button mBtSave= (Button) findViewById(R.id.view_save);
@@ -173,9 +173,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             case R.id.publish_button:
                 publish();
                 break;
-            case R.id.view_backbutton:
-                onBackPressed();
-                break;
+
             case R.id.next_view:
                 onNext();
                 break;

@@ -135,6 +135,7 @@ public class storyAdapter extends RecyclerView.Adapter<storyAdapter.ViewHolder> 
                         .asBitmap()
                         .thumbnail(0.5f)
                         .centerCrop()
+                        .override(400, 300)
                         .placeholder(R.drawable.ic_loading_thumb)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(holder.story1);
