@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import java.io.FileNotFoundException;
 import java.util.*;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -29,11 +32,13 @@ import com.mindorks.placeholderview.SwipePlaceHolderView;
 
 
 
+
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<story> storys;
     FirebaseDatabase database;
     FloatingActionButton mBtCreateStoryActivity;
+    FloatingActionButton mBtShareActivity;
   //  storyAdapter adapter;
     public static final String PREFS_NAME = "Prefs";
 
@@ -43,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
      * The {@link Tracker} used to record screen views.
      */
     private Tracker mTracker;
+
+    String shareStory;
+    String shareUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +119,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 progressDialog.dismiss();
-                mBtCreateStoryActivity.setVisibility(View.VISIBLE);
+          //      mBtCreateStoryActivity.setVisibility(View.VISIBLE);
+          //      mBtShareActivity.setVisibility(View.VISIBLE);
                 FrameLayout ly = (FrameLayout) findViewById(R.id.background);
                 ly.setBackgroundColor(123456);
             }
@@ -144,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
        // rvStorys.setLayoutManager(gridLayoutManager);
 
 
-        mBtCreateStoryActivity = (FloatingActionButton) findViewById(R.id.myStory);
+   /*     mBtCreateStoryActivity = (FloatingActionButton) findViewById(R.id.myStory);
 
         mBtCreateStoryActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,9 +161,18 @@ public class MainActivity extends AppCompatActivity {
 
                 launchActivity();
             }
-        });
+        });*/
 
+    /*    mBtShareActivity = (FloatingActionButton) findViewById(R.id.share);
 
+        mBtShareActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                userTappedShare();
+            }
+        });*/
+        // Initialize the Branch object
 
     }
 
@@ -171,4 +189,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    void userTappedShare() {
+        try {
+            ShareUtils.shareLove2048(MainActivity.this);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

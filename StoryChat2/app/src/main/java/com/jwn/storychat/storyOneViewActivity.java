@@ -30,6 +30,9 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -58,7 +61,7 @@ import com.jwn.storychat.util.Purchase;
 import android.os.CountDownTimer;
 
 import static com.jwn.storychat.MainActivity.PREFS_NAME;
-
+import com.google.android.gms.ads.InterstitialAd;
 
 /**
  * Created by JongWN-D on 8/4/2017.
@@ -97,8 +100,8 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
     static final int RC_REQUEST = 10001;
     // Tracks the currently owned infinite gas SKU, and the options in the Manage dialog
     String mInfiniteSku = "";
-
-
+    private InterstitialAd mInterstitialAd;
+    private AdView mAdView;
     // Will the subscription auto-renew?
     boolean mAutoRenewEnabled = false;
     // Does the user have the premium upgrade?
@@ -204,6 +207,82 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
         is_possible_read = settings.getBoolean("is_possible_read", false);
         next_num = 0;
 
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-4204560235490989/8834395037");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+
+        });
+   /*
+        mAdView = (AdView) findViewById(R.id.adView);
+
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                // Check the LogCat to get your test device ID
+                //.addTestDevice("0841BECA2000604F7CF1CE30BC2B1280")
+                .build();
+
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+            }
+
+            @Override
+            public void onAdClosed() {
+                Toast.makeText(getApplicationContext(), "Welcome Back", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                //Toast.makeText(getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                //Toast.makeText(getApplicationContext(), "Ad left application!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+        });
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+            }
+
+            @Override
+            public void onAdClosed() {
+                Toast.makeText(getApplicationContext(), "Welcome Back", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                //Toast.makeText(getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                //Toast.makeText(getApplicationContext(), "Ad left application!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+        });
+
+        mAdView.loadAd(adRequest);
+        */
     }
     public void setPaymentSystem(){
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnDkfW8C/BvFMjkGC03fynmkAYjnudLdc16Ynfv8qfClX3ajR3zRwC8rDuReAjKziOgHmrftvL7L8qi04RtA604XRtk219U8WCDYVGv2t1pqP9qQ5+hEjZwtPfJXm9SR42gYrUw0NWL5GOd0ncj71GPE2cXmofcpvFc/ceJOYSL7OYmIFNtIcZJxpEsyzh5rn+1friWU+vqh0SAYBksjFUqXB+pq+zN/378nggpYURWuuuCTz+qv1tFz9xN/G1bt0mq0lCSKmUYONEFPDKCZPp9k9TxqiOAXKpzABZaynUQEsOVDgDweUSMH2M2yzaMW+RqxoHjFSWCLCOtmIslNrzQIDAQAB";
@@ -261,6 +340,17 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
             }
         });
     }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+
+
     // Listener that's called when we finish querying the items and subscriptions we own
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
@@ -510,6 +600,9 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
 
     @Override
     public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
         super.onDestroy();
    //     if (mHelper != null) mHelper.dispose();
         mHelper = null;
@@ -677,7 +770,9 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
         startStop();
     }
     public void onNext(){
-
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
         if(next_num >= 5 && !is_possible_read){
           //  limitdialog(); for free NOw fronm ratanpal need
         }
@@ -711,7 +806,9 @@ public class storyOneViewActivity extends AppCompatActivity implements IabBroadc
         super.onResume();
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         is_possible_read = settings.getBoolean("is_possible_read", false);
-
+        if (mAdView != null) {
+            mAdView.resume();
+        }
     }
     public void subscript(){
       //  setPaymentSystem();

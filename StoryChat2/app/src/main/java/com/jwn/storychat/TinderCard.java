@@ -29,13 +29,20 @@ public class TinderCard {
     @View(R.id.nameDateTxt)
     private TextView nameDateTxt;
 
+    @View(R.id.imgURL)
+    private TextView imgURL;
+
     @View(R.id.titleNameTxt)
     private TextView titleNameTxt;
 
     private story mProfile;
     private Context mContext;
     private SwipePlaceHolderView mSwipeView;
+    public String imgurl;
 
+    public String getImgurl(){
+        return imgurl;
+    }
     public TinderCard(Context context, story profile, SwipePlaceHolderView swipeView) {
         mContext = context;
         mProfile = profile;
@@ -47,6 +54,9 @@ public class TinderCard {
         Glide.with(mContext).load(mProfile.getPhoto()).into(profileImageView);
         nameDateTxt.setText(mProfile.getAuthor() + ", " + mProfile.getDate());
         titleNameTxt.setText(mProfile.getTitle());
+        imgURL.setText(mProfile.getPhoto());
+        imgURL.setVisibility(TextView.INVISIBLE);
+
     }
 
     @SwipeOut

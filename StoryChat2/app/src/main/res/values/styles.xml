@@ -43,7 +43,7 @@
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">2</item>
     </style>
-    <style name="AppmAtTheme" parent="android:Theme.Material">
+    <style name="AppmATheme." parent="android:Theme.Material"></style>
         <!-- theme customizations -->
-    </style>
+
 </resources>

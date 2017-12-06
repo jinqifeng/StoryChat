@@ -202,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             // there was an error
 
-                                Toast.makeText(LoginActivity.this, "Login failied!!! please check email or password. ", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Login failed! Please check email or password.", Toast.LENGTH_LONG).show();
                                 _loginButton.setEnabled(true);
                         } else {
                             SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);

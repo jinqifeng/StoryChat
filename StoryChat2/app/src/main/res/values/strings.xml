@@ -4,6 +4,7 @@
     <string name="name">Name</string>
     <string name="category_prompt">Choose a category</string>
     <string name="hint_minute">Minute</string>
+    <string name="record">Here is my new chat story </string>
     <string-array name="brew_array">
         <item>love story</item>
         <item>episod</item>
@@ -15,4 +16,6 @@
     <string name="fb_login_protocol_scheme">fb1512352532156476</string>
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
+    <string name="banner_home_footer">ca-app-pub-4204560235490989/2716653754</string>
+    <string name="interstitial_full_screen">ca-app-pub-4204560235490989/8834395037</string>
 </resources>

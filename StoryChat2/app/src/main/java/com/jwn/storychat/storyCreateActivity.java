@@ -60,7 +60,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
    // Give the topmost view of your activity layout hierarchy. This will be used to measure soft keyboard height
     private EmojiconsPopup popup;
 
-    private static int userNumber=0;
+    private int userCount=0;
     private View popupView;
     private PopupWindow popupWindow;
     private int userNum;
@@ -106,7 +106,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
     public void init(){
 
 
-        userNumber = 0;
+        userCount = 0;
         datab=openOrCreateDatabase("C_DB", Context.MODE_PRIVATE, null);
         //OPEN DB
         //db.openDB();
@@ -149,7 +149,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
         String user1 = settings.getString("user1", " ");
         String user2 = settings.getString("user2", " ");
 
-        if(!user1.equals(" ")){
+        if((!user1.equals(" ")) && (!user1.isEmpty()) && (!user1.equals(""))){
             LinearLayout ll = (LinearLayout) findViewById(R.id.edit);
             ll.setVisibility(View.VISIBLE);
 
@@ -158,12 +158,12 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
                 mBtUser1.setVisibility(View.VISIBLE);
                 mBtUser1.setEnabled(true);
-                userNumber++;
+            userCount++;
                 mBtUser1.setText(user1);
         //        mBtUser3.setEnabled(true);
 
         }
-        if(!user2.equals(" ")) {
+        if((!user2.equals(" ")) && (!user2.isEmpty()) && (!user2.equals("")) ) {
             LinearLayout ll = (LinearLayout) findViewById(R.id.edit);
             ll.setVisibility(View.VISIBLE);
 
@@ -172,7 +172,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
             mBtUser2.setVisibility(View.VISIBLE);
             mBtUser2.setEnabled(true);
-            userNumber++;
+            userCount++;
             mBtUser2.setText(user2);
       //      mBtUser3.setEnabled(true);
         }
@@ -559,7 +559,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
 
     private void addUserName() {
 
-        if(userNumber>=2){
+        if(userCount>=2){
             Toast.makeText(this, "Can not add user more two", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -603,7 +603,7 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             toast.show();
             return;
         }
-        if((userNumber%2)==0) {
+        if(userCount==0) {
             mBtUser = (Button) findViewById(R.id.user1Button);
             mBtUser.setVisibility(View.VISIBLE);
             mBtUser.setEnabled(true);
@@ -611,12 +611,15 @@ public class storyCreateActivity extends AppCompatActivity implements View.OnCli
             datab.execSQL("CREATE TABLE IF NOT EXISTS chat_table (name TEXT DEFAULT ' ', speech TEXT DEFAULT ' ', color Integer DEFAULT 0, photo TEXT DEFAULT ' ');");
             datab.execSQL("INSERT INTO chat_table (name, speech, color, photo) VALUES('"+username+"','"+txt.getText().toString()+"','"+txtcolor+"','"+t.getText().toString()+"');");
 */
-            userNumber++;
-        }else{
+            userCount++;
+        }else if(userCount==1){
             mBtUser = (Button) findViewById(R.id.user2Button);
             mBtUser.setVisibility(View.VISIBLE);
             mBtUser.setEnabled(true);
-            userNumber++;
+            userCount++;
+        }else{
+            Toast.makeText(this, "Can not add user more two", Toast.LENGTH_SHORT).show();
+            return;
         }
 
 

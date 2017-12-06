@@ -35,6 +35,9 @@ import android.database.Cursor;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -95,7 +98,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     String titstr;
     Integer cusor_num;
     Boolean b ;
-
+    private AdView mAdView;
   //  Spinner categr;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +168,68 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         Button mBtSave= (Button) findViewById(R.id.view_save);
         mBtSave.setOnClickListener(this);
 
+       // mAdView = (AdView) findViewById(R.id.adView);
+
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                // Check the LogCat to get your test device ID
+                //.addTestDevice("0841BECA2000604F7CF1CE30BC2B1280")
+                .build();
+
+/*
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+            }
+
+            @Override
+            public void onAdClosed() {
+                Toast.makeText(getApplicationContext(), "Welcome Back", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                //Toast.makeText(getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                //Toast.makeText(getApplicationContext(), "Ad left application!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+        });
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+            }
+
+            @Override
+            public void onAdClosed() {
+                Toast.makeText(getApplicationContext(), "Welcome Back", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                //Toast.makeText(getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                //Toast.makeText(getApplicationContext(), "Ad left application!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+        });
+
+        mAdView.loadAd(adRequest);*/
     }
     @Override
     public void onClick(View v) {
@@ -196,7 +261,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         editor.putString("color2", color2);
         editor.commit();
        // editor.putInt("user3", cusor_num);
-        editor.commit();
+        //editor.commit();
     }
     @Override
     public void onBackPressed(){
@@ -207,6 +272,14 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("cusor", cusor_num);
+        editor.commit();
+        editor.putString("user1", user1);
+        editor.commit();
+        editor.putString("user2", user2);
+        editor.commit();
+        editor.putString("color1", color1);
+        editor.commit();
+        editor.putString("color2", color2);
         editor.commit();
 
         if(res!=null)
@@ -226,10 +299,10 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
 
     }
     public void onNext(){
-        if(story_view.isEmpty()){
+      /*  if(story_view.isEmpty()){
             Toast.makeText(this, "There is not story to view", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
         if(res.moveToNext())
         {
@@ -258,7 +331,29 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             cusor_num++;
         }
     }
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
     public void titleUpload(){
 
         EditText author = (EditText) popupView.findViewById(R.id.editTextAuthor);
@@ -353,7 +448,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
 
-                Toast.makeText(getApplicationContext(), "Wow??, Publish failed. network is busy ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Publish failed. network is busy ", Toast.LENGTH_SHORT).show();
                 return ;
             }
         });
@@ -465,6 +560,11 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
                             editor.commit();
                             b = true;
                             cusor_num = 0;
+                            user1 = " ";
+                            user2 = " ";
+                            color1 = " ";
+                            color2 = " ";
+
                             datab.execSQL("DROP TABLE IF EXISTS chat_table");
                             story_view.clear();
                             getApplicationContext().deleteDatabase("C_DB");
@@ -476,7 +576,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
             l++;
         }while (res.moveToNext());
         if(imageurl2.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Ok, Publish succeced ", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getApplicationContext(), "Ok, Publish succeced ", Toast.LENGTH_SHORT).show();
             progressDialog.dismiss();
 
             SharedPreferences pref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -493,7 +593,7 @@ public class storyViewActivity extends AppCompatActivity implements View.OnClick
     }
     public void publish(){
         if(story_view.isEmpty()){
-            Toast.makeText(this, "There is not story to publish", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "There is not story to publish", Toast.LENGTH_SHORT).show();
             return;
         }
         relativeLayout = (RelativeLayout) findViewById(R.id.view_layout);
