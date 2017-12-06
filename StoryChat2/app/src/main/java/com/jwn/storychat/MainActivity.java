@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 progressDialog.dismiss();
-          //      mBtCreateStoryActivity.setVisibility(View.VISIBLE);
-          //      mBtShareActivity.setVisibility(View.VISIBLE);
+                mBtCreateStoryActivity.setVisibility(View.VISIBLE);
+                mBtShareActivity.setVisibility(View.VISIBLE);
                 FrameLayout ly = (FrameLayout) findViewById(R.id.background);
                 ly.setBackgroundColor(123456);
             }
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
        // rvStorys.setLayoutManager(gridLayoutManager);
 
 
-   /*     mBtCreateStoryActivity = (FloatingActionButton) findViewById(R.id.myStory);
+        mBtCreateStoryActivity = (FloatingActionButton) findViewById(R.id.myStory);
 
         mBtCreateStoryActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,9 +161,9 @@ public class MainActivity extends AppCompatActivity {
 
                 launchActivity();
             }
-        });*/
+        });
 
-    /*    mBtShareActivity = (FloatingActionButton) findViewById(R.id.share);
+        mBtShareActivity = (FloatingActionButton) findViewById(R.id.share);
 
         mBtShareActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
                 userTappedShare();
             }
-        });*/
+        });
         // Initialize the Branch object
 
     }

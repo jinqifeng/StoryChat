@@ -30,7 +30,7 @@
                  android:src="@drawable/ic_add"
                  android:visibility="invisible"
                  /> <!-- -->
-        <!--    <android.support.design.widget.FloatingActionButton
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                 app:layout_anchor="@+id/swipeView"
                 android:src="@drawable/ic_share"
                 android:visibility="invisible"
-                />-->
+                />
 
     </FrameLayout>
 
