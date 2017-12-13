@@ -1,17 +1,11 @@
-<resources>
+<resources xmlns:https="http://schemas.android.com/tools">
     <string name="app_name">StoryChat</string>
     <string name="button">Button</string>
     <string name="name">Name</string>
     <string name="category_prompt">Choose a category</string>
     <string name="hint_minute">Minute</string>
-    <string name="record">Here is my new chat story </string>
-    <string-array name="brew_array">
-        <item>love story</item>
-        <item>episod</item>
-        <item>Mocha</item>
-        <item>Caffè Americano</item>
-        <item>Cafe Zorro</item>
-    </string-array>
+    <string name="record">http://play.google.com/store/apps/details?id=com.jwn.storychat</string>
+
     <string name="facebook_app_id">1512352532156476</string>
     <string name="fb_login_protocol_scheme">fb1512352532156476</string>
     <item name="visible" type="id"/>

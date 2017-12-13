@@ -19,7 +19,75 @@
             android:id="@+id/swipeView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="top"
+            android:id="@+id/toplayout"
+            android:visibility="invisible"
+            android:layout_height="60dp">
 
+            <ImageView
+                android:id="@+id/left"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                app:layout_anchor="@+id/swipeView"
+                android:src="@drawable/reject"
+                android:visibility="visible"
+                android:layout_weight="1"
+                /> <!-- -->
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|left"
+                android:layout_weight="1"
+                app:layout_anchor="@+id/swipeView"
+                android:text="Reject"
+                android:textSize="24sp"
+                android:textStyle="bold"
+
+                android:textColor="@android:color/holo_red_light"
+                android:visibility="visible"
+                /> <!-- -->
+            <TextView
+
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center|right"
+                android:layout_weight="1"
+                app:layout_anchor="@+id/swipeView"
+                android:text=" "
+                android:visibility="visible"
+                /> <!-- -->
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|right"
+                android:layout_weight="1"
+                app:layout_anchor="@+id/swipeView"
+                android:text="Read"
+                android:textSize="22sp"
+                android:textStyle="bold"
+
+                android:textColor="@android:color/holo_green_light"
+                android:visibility="visible"
+                /> <!-- -->
+            <ImageView
+                android:id="@+id/right"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="2dp"
+               android:layout_gravity="right"
+                app:layout_anchor="@+id/swipeView"
+                android:src="@drawable/read12"
+                android:visibility="visible"
+                android:layout_weight="1"
+                /> <!-- -->
+
+        </LinearLayout>
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:orientation="horizontal"

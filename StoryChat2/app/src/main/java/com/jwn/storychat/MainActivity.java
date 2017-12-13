@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -122,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 mBtCreateStoryActivity.setVisibility(View.VISIBLE);
                 mBtShareActivity.setVisibility(View.VISIBLE);
+                LinearLayout ln = (LinearLayout) findViewById(R.id.toplayout);
+                ln.setVisibility(View.VISIBLE);
                 FrameLayout ly = (FrameLayout) findViewById(R.id.background);
                 ly.setBackgroundColor(123456);
             }

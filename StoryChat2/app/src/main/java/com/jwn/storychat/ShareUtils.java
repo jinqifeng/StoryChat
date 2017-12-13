@@ -40,6 +40,7 @@ public class ShareUtils {
         }
         intent.putExtra(Intent.EXTRA_SUBJECT, "StoryChat");
         intent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.record));
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(Intent.createChooser(intent,"StoryChat"));
     }

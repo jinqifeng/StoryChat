@@ -15,7 +15,7 @@ android {
         applicationId "com.jwn.storychat"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 6
+        versionCode 8
         versionName "1.01"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
