@@ -123,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 mBtCreateStoryActivity.setVisibility(View.VISIBLE);
                 mBtShareActivity.setVisibility(View.VISIBLE);
-          //      LinearLayout ln = (LinearLayout) findViewById(R.id.toplayout);
-          //      ln.setVisibility(View.VISIBLE);
+                LinearLayout ln = (LinearLayout) findViewById(R.id.toplayout);
+                ln.setVisibility(View.VISIBLE);
                 FrameLayout ly = (FrameLayout) findViewById(R.id.background);
                 ly.setBackgroundColor(123456);
             }
